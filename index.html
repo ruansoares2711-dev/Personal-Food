@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Food | Encontre o Chef Ideal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* =========================================
            VARIÁVEIS DE COR E ESTILOS GLOBAIS
@@ -14,10 +14,10 @@
             --nav-bg: #0D4F0A;
             --green-highlight: #6FAF2C;
             --green-light: #9DBF2D;
-            --gray-card: #2E2E2E;
-            --gray-border: #5C5C5C;
+            --gray-card: #333333;
             --gray-light: #888888;
-            --red-cta: #E1121B;
+            --gray-bar: #5c5c5c;
+            --red-cta: #D30018;
             --text-white: #FFFFFF;
             --font-main: 'Poppins', sans-serif;
             --transition: all 0.3s ease;
@@ -33,79 +33,44 @@
             background-color: var(--bg-main);
             color: var(--text-white);
             font-family: var(--font-main);
-            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        ul {
-            list-style: none;
-        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        button { font-family: var(--font-main); cursor: pointer; }
 
         /* =========================================
-           COMPONENTES REUTILIZÁVEIS
+           COMPONENTES GLOBAIS
         ========================================= */
-        .btn {
-            display: inline-block;
-            padding: 10px 24px;
+        .btn-green {
+            background-color: var(--green-light);
+            color: #000;
+            padding: 8px 30px;
             border-radius: 30px;
             font-weight: 600;
-            text-align: center;
-            cursor: pointer;
             border: none;
             transition: var(--transition);
         }
-
-        .btn-green-light {
-            background-color: var(--green-light);
-            color: #000;
-        }
-
-        .btn-green-light:hover {
-            background-color: var(--green-highlight);
-            transform: scale(1.05);
-        }
+        .btn-green:hover { background-color: var(--green-highlight); color: #fff; }
 
         .btn-red {
             background-color: var(--red-cta);
             color: var(--text-white);
-            padding: 8px 20px;
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            border: none;
+            transition: var(--transition);
         }
-
-        .btn-red:hover {
-            background-color: #c00f16;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(225, 18, 27, 0.4);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--gray-border);
-            color: var(--text-white);
-        }
-
-        .btn-outline:hover, .btn-outline.active {
-            border-color: var(--green-light);
-            color: var(--green-light);
-        }
+        .btn-red:hover { background-color: #a30012; }
 
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 20px;
             text-transform: uppercase;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.1rem;
-            color: #ccc;
-            margin-bottom: 40px;
         }
 
         /* =========================================
@@ -113,736 +78,253 @@
         ========================================= */
         .navbar {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+            top: 0; left: 0; width: 100%;
             background-color: var(--nav-bg);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 60px;
             z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--green-light);
-            cursor: pointer;
+            display: flex; align-items: center; gap: 10px; cursor: pointer;
         }
 
-        .logo svg {
-            width: 40px;
-            height: 40px;
-            fill: var(--green-light);
-        }
+        .logo img { height: 45px; } /* Ajuste caso use imagem da logo */
+        .logo-text { font-weight: 800; font-size: 1.4rem; line-height: 1.1; color: #fff;}
+        .logo-text b { color: var(--green-light); font-size: 1.6rem; display: block;}
 
-        .logo span {
-            color: var(--text-white);
-            font-size: 1.2rem;
-            display: flex;
-            flex-direction: column;
-            line-height: 1;
-        }
-
-        .logo span b {
-            color: var(--green-light);
-            font-size: 1.4rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-
-        .nav-links li a {
-            font-weight: 500;
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .nav-links li a:hover, .nav-links li a.active {
-            color: var(--green-light);
-        }
+        .nav-links { display: flex; gap: 35px; align-items: center; }
+        .nav-links li a { font-weight: 600; font-size: 1rem; color: #fff; transition: var(--transition); }
+        .nav-links li a:hover, .nav-links li a.active { color: var(--green-light); }
 
         /* =========================================
-           GERENCIAMENTO DE SEÇÕES (SPA)
+           GERENCIAMENTO SPA
         ========================================= */
         .page-section {
             display: none;
-            padding: 120px 50px 60px;
+            padding: 120px 60px 80px;
             min-height: 100vh;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.4s ease;
         }
-
-        .page-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* =========================================
-           HERO SECTION (HOME)
+           HOME / HERO
         ========================================= */
         #home {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            padding-top: 180px;
         }
 
-        #home h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            margin-top: 40px;
+        .hero-title { font-size: 3.5rem; font-weight: 800; margin-bottom: 5px; }
+        .hero-subtitle { font-size: 1.3rem; font-weight: 400; margin-bottom: 40px; }
+
+        .search-bar {
+            display: flex; align-items: center;
+            background: #fff; border-radius: 40px;
+            padding: 5px; width: 100%; max-width: 800px;
+            margin-bottom: 60px;
+        }
+        .search-icon-wrapper {
+            background-color: var(--nav-bg);
+            border-radius: 50%; width: 45px; height: 45px;
+            display: flex; align-items: center; justify-content: center;
+            margin-left: 5px;
+        }
+        .search-bar input {
+            flex: 1; border: none; outline: none;
+            padding: 15px 20px; font-size: 1.1rem;
+            color: #333; font-family: var(--font-main);
+            border-radius: 40px;
         }
 
-        .search-container {
-            position: relative;
-            width: 100%;
-            max-width: 700px;
-            margin: 40px 0;
+        .home-cards-wrapper {
+            display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;
         }
 
-        .search-container input {
-            width: 100%;
-            padding: 18px 25px 18px 55px;
-            border-radius: 30px;
-            border: none;
-            font-size: 1.1rem;
-            font-family: var(--font-main);
-            outline: none;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            stroke: var(--green-highlight);
-            stroke-width: 3;
-            fill: none;
-        }
-
-        .home-cards {
-            display: flex;
-            gap: 30px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .home-card {
-            background-color: #12330a;
-            border: 2px solid var(--green-highlight);
+        .card-home {
+            background-color: #113610; /* Fundo verde escuro igual ao design */
             border-radius: 20px;
-            padding: 30px 40px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            width: 300px;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .home-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(111, 175, 44, 0.2);
-        }
-
-        .home-card-content h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .home-card img {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-        }
-
-        /* Mascote Tomatito */
-        .mascot-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            z-index: 100;
-            animation: bounce 3s infinite;
-        }
-
-        .speech-bubble {
-            background: var(--bg-main);
-            border: 2px solid var(--red-cta);
-            border-radius: 50%;
-            padding: 20px;
-            font-size: 0.85rem;
-            text-align: center;
-            margin-bottom: 15px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 20px 30px; width: 320px;
             position: relative;
-            width: 140px;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
+        .card-home-info h3 { font-size: 1.8rem; margin-bottom: 10px; text-align: left; }
+        .card-home .btn-green { background-color: #7b9c2a; color: #fff; padding: 6px 25px;} /* Tom especifico do botão veja */
+        .card-home img { width: 100px; height: auto; object-fit: contain; }
 
-        .speech-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            right: 30px;
-            border-width: 10px 10px 0;
-            border-style: solid;
+        .tomatito-help {
+            position: fixed; bottom: 30px; right: 40px;
+            display: flex; flex-direction: column; align-items: center;
+            z-index: 100;
+        }
+        .bubble {
+            background: #000; border: 2px solid var(--red-cta);
+            border-radius: 50%; width: 140px; height: 140px;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 20px; font-size: 0.85rem; font-weight: 600;
+            position: relative; margin-bottom: 15px;
+        }
+        .bubble::after {
+            content: ''; position: absolute; bottom: -10px; right: 40px;
+            border-width: 15px 10px 0; border-style: solid;
             border-color: var(--red-cta) transparent transparent transparent;
         }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
+        .tomatito-help img { width: 100px; }
 
         /* =========================================
-           SEÇÃO CHEFS
+           CHEFS
         ========================================= */
-        .filters {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-            background: var(--gray-card);
-            padding: 15px;
-            border-radius: 40px;
-            max-width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
+        .filter-bar-bg {
+            background: var(--gray-bar); padding: 10px; border-radius: 40px;
+            display: flex; justify-content: center; gap: 15px; max-width: 900px; margin: 0 auto 50px;
         }
-
-        .filters button {
-            background: transparent;
-            border: 1px solid var(--gray-border);
-            color: var(--text-white);
-            padding: 8px 24px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: var(--transition);
+        .filter-btn {
+            background: transparent; color: #000; border: none; font-weight: 600;
+            padding: 8px 25px; border-radius: 30px; font-size: 1rem;
+            border: 1px solid #000;
         }
+        .filter-btn.active { background: var(--nav-bg); color: #fff; border-color: var(--nav-bg); }
 
-        .filters button.active, .filters button:hover {
-            background: var(--nav-bg);
-            border-color: var(--green-highlight);
+        .grid-chefs {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
+            max-width: 1400px; margin: 0 auto;
         }
-
-        .grid-4 {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 30px;
-        }
-
         .chef-card {
-            background: var(--gray-card);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid var(--gray-border);
-            text-align: center;
-            padding-bottom: 25px;
-            transition: var(--transition);
+            background: var(--gray-card); border-radius: 10px; border: 2px solid #555;
+            text-align: center; padding-bottom: 25px; overflow: hidden;
         }
-
-        .chef-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-
-        .chef-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-
-        .chef-card h4 {
-            margin: 15px 0 5px;
-            font-size: 1.2rem;
-        }
-
-        .stars {
-            color: #FFD700;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-
-        .specialty-badge {
-            background: var(--green-light);
-            color: #000;
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
+        .chef-card img { width: 100%; height: 200px; object-fit: cover; }
+        .chef-card h4 { margin: 15px 0 5px; font-size: 1.2rem; font-weight: 700; }
+        .stars { color: #FFD700; font-size: 1.3rem; margin-bottom: 10px; }
+        .badge-green { background: var(--green-light); color: #000; padding: 5px 20px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; display: inline-block; margin-bottom: 20px;}
 
         /* =========================================
-           PÁGINA CONTRATAÇÃO (HIRE CHEF)
+           CONTRATAR CHEF
         ========================================= */
-        .hire-container {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
+        .hire-layout {
+            display: grid; grid-template-columns: 350px 1fr; gap: 50px; max-width: 1200px; margin: 0 auto;
+        }
+        .chef-profile-col { background: var(--gray-card); border-radius: 15px; padding: 30px; text-align: center; border: 1px solid #555; height: fit-content; }
+        .chef-profile-col img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 4px solid var(--gray-bar);}
+        .chef-profile-col p { font-size: 0.9rem; text-align: left; margin-top: 15px; color: #ddd; }
+
+        .form-section h2 { font-size: 2.2rem; margin-bottom: 20px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-group label { font-size: 0.95rem; }
+        .form-input {
+            background: transparent; border: 1px solid #fff; border-radius: 5px;
+            padding: 12px; color: #fff; outline: none; font-family: var(--font-main);
         }
 
-        .profile-side .chef-card {
-            padding-bottom: 30px;
-            cursor: default;
+        .kitchen-slots { display: flex; gap: 15px; margin-top: 10px; margin-bottom: 20px; }
+        .slot { width: 80px; height: 80px; background: #555; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #333; cursor: pointer; }
+        .btn-enviar-sol { background: transparent; border: 2px solid #fff; color: #fff; padding: 10px 30px; border-radius: 30px; font-weight: bold; margin-bottom: 40px;}
+
+        .flow-steps {
+            display: flex; align-items: center; justify-content: space-between;
+            border: 1px dashed #fff; border-radius: 40px; padding: 15px 30px; margin-bottom: 50px; position: relative;
+        }
+        .flow-steps span { background: #000; padding: 0 10px; font-size: 0.9rem; z-index: 2; font-weight: bold; }
+        .flow-steps::before {
+            content: ''; position: absolute; top: 50%; left: 30px; right: 30px;
+            border-bottom: 1px dashed #fff; z-index: 1;
         }
 
-        .profile-side .chef-card:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
-        .profile-desc {
-            padding: 0 20px;
-            font-size: 0.9rem;
-            color: #ddd;
-            margin-top: 15px;
-        }
-
-        .details-side h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .form-group label {
-            font-size: 0.9rem;
-            color: #ccc;
-        }
-
-        .form-group input, .form-group select {
-            background: transparent;
-            border: 1px solid var(--text-white);
-            color: var(--text-white);
-            padding: 12px;
-            border-radius: 8px;
-            font-family: var(--font-main);
-            outline: none;
-        }
-
-        .kitchen-photos {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-            margin-bottom: 30px;
-        }
-
-        .photo-slot {
-            width: 80px;
-            height: 80px;
-            background: var(--gray-card);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: var(--gray-border);
-            cursor: pointer;
-            border: 2px dashed var(--gray-border);
-        }
-
-        .timeline {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 50px 0;
-            padding: 20px;
-            border: 1px dashed var(--text-white);
-            border-radius: 30px;
-            position: relative;
-        }
-
-        .timeline-step {
-            font-size: 0.9rem;
-            background: var(--bg-main);
-            padding: 5px 10px;
-            z-index: 2;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 5%;
-            right: 5%;
-            height: 1px;
-            background: dashed var(--text-white);
-            z-index: 1;
-        }
-
-        .bottom-actions {
-            display: flex;
-            gap: 30px;
-        }
-
-        .action-card {
-            background: var(--gray-card);
-            padding: 25px;
-            border-radius: 15px;
-            flex: 1;
-            text-align: center;
-        }
-
-        .action-card h3 {
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-
-        .price-val {
-            font-size: 1.5rem;
-            border-bottom: 1px solid var(--text-white);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
+        .bottom-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .b-card { background: var(--gray-card); border-radius: 15px; padding: 30px; text-align: center; border: 1px solid #555;}
+        .b-card h3 { margin-bottom: 20px; font-size: 1.3rem; }
+        .price-display { font-size: 1.5rem; border-bottom: 1px solid #fff; padding-bottom: 5px; margin-bottom: 25px; width: 80%; margin-left: auto; margin-right: auto;}
+        .b-card button { background: transparent; border: 1px solid #fff; color: #fff; padding: 8px 25px; border-radius: 30px; margin: 0 5px;}
+        .b-card button:hover { background: #fff; color: #000;}
 
         /* =========================================
-           PÁGINA CURSOS
+           CURSOS
         ========================================= */
-        .courses-container {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 40px;
+        .cursos-header {
+            background: var(--gray-bar); padding: 30px 40px; border-radius: 15px;
+            margin-bottom: 40px; position: relative; overflow: hidden;
+            display: flex; align-items: center;
         }
+        .cursos-header h2 { font-size: 2.2rem; line-height: 1.2; z-index: 2; position: relative;}
+        .cursos-header span { display: block; font-size: 1.2rem; font-weight: 400; color: #ddd; }
+        .cursos-header img { position: absolute; top: 0; right: 0; width: 300px; height: 100%; object-fit: cover; mix-blend-mode: overlay; opacity: 0.5;}
 
-        .sidebar h3 {
-            margin: 20px 0 10px;
-            border-bottom: 1px solid var(--gray-border);
-            padding-bottom: 5px;
-        }
+        .cursos-layout { display: grid; grid-template-columns: 250px 1fr; gap: 40px; }
+        .sidebar-filter h3 { border-bottom: 1px solid #555; padding-bottom: 10px; margin: 20px 0 15px; font-size: 1.1rem; }
+        .sidebar-filter label { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; cursor: pointer; color: #ccc;}
+        .sidebar-filter input[type="radio"] { appearance: none; width: 16px; height: 16px; border: 2px solid #aaa; border-radius: 50%; }
+        .sidebar-filter input[type="radio"]:checked { border-color: var(--green-light); box-shadow: inset 0 0 0 4px #000; background: var(--green-light); }
+        .tomatito-sidebar { width: 120px; margin-top: 30px; }
 
-        .filter-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .filter-options label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            color: #ddd;
-        }
-
-        .filter-options input[type="radio"] {
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            border: 2px solid var(--gray-border);
-            border-radius: 50%;
-            outline: none;
-        }
-
-        .filter-options input[type="radio"]:checked {
-            border-color: var(--green-light);
-            background: var(--green-light);
-            box-shadow: inset 0 0 0 3px var(--bg-main);
-        }
-
-        .course-card {
-            background: var(--gray-card);
-            border-radius: 15px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .course-card img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-        }
-
-        .course-info {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .course-info h4 {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-        }
-
-        .course-info p {
-            font-size: 0.85rem;
-            color: #ccc;
-            margin-bottom: 5px;
-        }
-
-        .course-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-            padding-top: 15px;
-        }
-
-        .course-price {
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .course-price.free {
-            color: var(--text-white);
-        }
+        .grid-cursos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .curso-card { background: var(--gray-card); border-radius: 10px; border: 1px solid #444; overflow: hidden; display: flex; flex-direction: column; }
+        .curso-card img { width: 100%; height: 180px; object-fit: cover; }
+        .curso-info { padding: 20px; display: flex; flex-direction: column; flex: 1; text-align: center;}
+        .curso-info h4 { font-size: 1.1rem; margin-bottom: 10px; font-weight: bold; }
+        .curso-info p { font-size: 0.9rem; color: #ccc; margin-bottom: 5px; }
+        .curso-price-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 20px; }
+        .curso-price { font-weight: bold; font-size: 1.1rem; }
 
         /* =========================================
-           PÁGINA RECEITAS
+           RECEITAS
         ========================================= */
-        .recipe-header-box {
-            background: var(--gray-card);
-            border-radius: 20px;
-            padding: 40px;
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            margin-bottom: 40px;
+        .receitas-header {
+            background: var(--gray-bar); border-radius: 15px; display: flex; align-items: center;
+            padding: 20px; gap: 30px; margin-bottom: 30px;
         }
+        .receitas-header img { width: 250px; height: 150px; object-fit: cover; border-radius: 10px; }
+        .receitas-header h2 { font-size: 2.2rem; margin-bottom: 5px; }
 
-        .recipe-header-box img {
-            width: 250px;
-            border-radius: 15px;
+        .receitas-menu {
+            background: #113610; border-radius: 10px; padding: 15px; display: flex; justify-content: center; gap: 40px; margin-bottom: 40px;
         }
+        .receitas-menu button {
+            background: transparent; border: none; color: #fff; font-size: 0.9rem; font-weight: 600;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        }
+        .receitas-menu button.active { color: var(--green-light); }
+        .receitas-menu button img { width: 30px; height: 30px; filter: invert(1); }
+        .receitas-menu button.active img { filter: invert(70%) sepia(80%) saturate(400%) hue-rotate(40deg); } /* Aproximação do verde claro */
 
-        .recipe-menu {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            background: var(--nav-bg);
-            padding: 15px;
-            border-radius: 30px;
-            margin-bottom: 40px;
+        .list-receitas { display: flex; flex-direction: column; gap: 20px; }
+        .receita-item {
+            background: var(--gray-bar); border-radius: 10px; display: flex; align-items: center; padding-right: 30px;
         }
-
-        .recipe-menu button {
-            background: transparent;
-            border: none;
-            color: var(--text-white);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 15px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .recipe-menu button:hover, .recipe-menu button.active {
-            color: var(--green-light);
-        }
-
-        .recipe-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .recipe-item {
-            display: flex;
-            align-items: center;
-            background: var(--gray-card);
-            border-radius: 15px;
-            overflow: hidden;
-            padding-right: 25px;
-            transition: var(--transition);
-        }
-
-        .recipe-item:hover {
-            transform: translateX(10px);
-            background: #3a3a3a;
-        }
-
-        .recipe-item img {
-            width: 200px;
-            height: 120px;
-            object-fit: cover;
-        }
-
-        .recipe-content {
-            padding: 0 25px;
-            flex: 1;
-        }
-
-        .recipe-content h4 {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-        }
-
-        .recipe-meta {
-            display: flex;
-            gap: 20px;
-            color: #aaa;
-            font-size: 0.9rem;
-            align-items: center;
-        }
+        .receita-item img { width: 250px; height: 140px; object-fit: cover; border-radius: 10px 0 0 10px; }
+        .receita-content { flex: 1; padding: 0 30px; }
+        .receita-content h4 { font-size: 1.3rem; margin-bottom: 10px; }
+        .receita-meta { display: flex; gap: 20px; color: #ccc; font-size: 0.9rem; align-items: center;}
 
         /* =========================================
-           SEÇÃO PF IMPACTA
+           PF IMPACTA
         ========================================= */
-        .impact-header {
-            background: var(--gray-card);
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            margin-bottom: 50px;
-            display: flex;
-            align-items: center;
-            gap: 30px;
+        .impacta-header {
+            background: var(--gray-bar); border-radius: 15px; padding: 30px;
+            display: flex; align-items: center; gap: 40px; margin-bottom: 50px;
         }
-        
-        .impact-header img {
-            width: 300px;
-            border-radius: 15px;
-        }
+        .impacta-header img { width: 350px; height: 150px; object-fit: cover; border-radius: 10px;}
+        .impacta-header h2 { font-size: 2.2rem; text-transform: uppercase; margin-bottom: 5px;}
 
-        .impact-header h2 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-
-        .impact-card {
-            background: var(--gray-card);
-            border-radius: 15px;
-            overflow: hidden;
-            text-align: center;
-            padding-bottom: 25px;
-        }
-
-        .impact-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .impact-card-body {
-            padding: 20px;
-        }
-
-        .impact-card h4 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-
-        .impact-card p {
-            font-size: 0.9rem;
-            color: #ccc;
-            margin-bottom: 15px;
-            min-height: 40px;
-        }
-
-        .impact-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 15px 0 5px;
-        }
-
-        .impact-date {
-            font-size: 0.9rem;
-            color: #aaa;
-            margin-bottom: 20px;
-        }
+        .grid-impacta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1100px; margin: 0 auto;}
+        .impacta-card { background: var(--gray-bar); border-radius: 10px; text-align: center; padding: 20px; padding-top: 0; overflow: hidden;}
+        .impacta-card img { width: calc(100% + 40px); margin-left: -20px; height: 180px; object-fit: cover; margin-bottom: 20px; }
+        .impacta-card h4 { font-size: 1.3rem; margin-bottom: 15px; }
+        .impacta-card p { font-size: 0.85rem; color: #ddd; margin-bottom: 10px; min-height: 40px;}
+        .impacta-card .gratuito { font-size: 1.5rem; font-weight: bold; margin: 15px 0 5px; }
 
         /* =========================================
-           PÁGINA SOBRE NÓS
+           SOBRE NÓS
         ========================================= */
-        .about-container {
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-        }
+        .sobre-container { max-width: 900px; margin: 0 auto; text-align: center; }
+        .sobre-container p { font-size: 1.2rem; line-height: 1.8; margin-bottom: 50px; text-transform: uppercase;}
+        .box-verde { background: var(--green-light); color: #000; padding: 40px 60px; border-radius: 30px; text-align: left; display: inline-block;}
+        .box-verde h3 { font-size: 1.3rem; margin-bottom: 15px; text-align: center;}
+        .box-verde ul { list-style: disc; padding-left: 20px; font-size: 1.1rem; line-height: 1.8;}
 
-        .about-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 50px;
-            color: #eee;
-        }
-
-        .about-box {
-            background: var(--green-light);
-            color: #000;
-            padding: 40px;
-            border-radius: 30px;
-            text-align: left;
-            display: inline-block;
-        }
-
-        .about-box h3 {
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .about-box ul {
-            list-style: disc;
-            padding-left: 20px;
-            font-size: 1.1rem;
-        }
-
-        .about-box ul li {
-            margin-bottom: 10px;
-        }
-
-        /* =========================================
-           RESPONSIVIDADE
-        ========================================= */
-        @media (max-width: 992px) {
-            .navbar { padding: 15px 20px; }
-            .nav-links { display: none; /* Em um app real, teria um menu hambúrguer */ }
-            .hire-container, .courses-container { grid-template-columns: 1fr; }
-            .recipe-header-box, .impact-header { flex-direction: column; text-align: center; }
-            .recipe-item { flex-direction: column; padding-bottom: 20px; padding-right: 0;}
-            .recipe-item img { width: 100%; height: 200px; margin-bottom: 15px;}
-            .recipe-content { text-align: center; margin-bottom: 15px; }
-            .recipe-meta { justify-content: center; margin-bottom: 15px;}
-            .bottom-actions { flex-direction: column; }
-            .timeline { flex-direction: column; gap: 20px; border: none; }
-            .timeline::before { display: none; }
-        }
     </style>
 </head>
 <body>
@@ -850,11 +332,9 @@
     <!-- NAVBAR FIXA -->
     <nav class="navbar">
         <div class="logo" onclick="navigateTo('home')">
-            <!-- Icone de Chapéu de Chef Simplificado -->
-            <svg viewBox="0 0 24 24">
-                <path d="M18.89 12.36c.07-.36.11-.74.11-1.11 0-2.9-2.35-5.25-5.25-5.25-1.04 0-2.01.3-2.83.82-.82-.52-1.79-.82-2.83-.82-2.9 0-5.25 2.35-5.25 5.25 0 .37.04.75.11 1.11C1.22 12.98 0 14.59 0 16.5 0 18.99 2.01 21 4.5 21h15c2.49 0 4.5-2.01 4.5-4.5 0-1.91-1.22-3.52-2.89-4.14zM13.75 8c1.38 0 2.5 1.12 2.5 2.5 0 .28-.05.55-.14.81-1.03-.49-2.18-.78-3.39-.81-.62-.01-1.22.08-1.78.25.32-.9.84-1.7 1.5-2.3.38-.28.83-.45 1.31-.45z"/>
-            </svg>
-            <span><b>PERSONAL</b> FOOD</span>
+            <!-- Asset Logo. Fallback para ícone padrão em caso de erro -->
+            <img src="assets/tomatito/logo.png" alt="Logo" onerror="this.src='https://api.iconify.design/noto:man-cook.svg'">
+            <div class="logo-text"><b>PERSONAL</b> FOOD</div>
         </div>
         <ul class="nav-links">
             <li><a href="#" onclick="navigateTo('chefs')" id="nav-chefs">Chef's</a></li>
@@ -862,58 +342,53 @@
             <li><a href="#" onclick="navigateTo('receitas')" id="nav-receitas">Receitas</a></li>
             <li><a href="#" onclick="navigateTo('impacta')" id="nav-impacta">PF Impacta</a></li>
             <li><a href="#" onclick="navigateTo('sobre')" id="nav-sobre">Sobre nós</a></li>
+            <li><button class="btn-green">Entrar</button></li>
         </ul>
-        <button class="btn btn-green-light">Entrar</button>
     </nav>
 
     <main>
         <!-- 1. HERO SECTION -->
         <section id="home" class="page-section active">
-            <h1>Nós temos o chefe certo para você!</h1>
-            <p class="section-subtitle" style="font-size: 1.4rem; color: #fff;">Você descreve, a gente entende, o chefe ideal aparece!</p>
+            <h1 class="hero-title">Nós temos o chefe certo para você!</h1>
+            <p class="hero-subtitle">Você descreve, a gente entende, o chefe ideal aparece!</p>
             
-            <div class="search-container">
-                <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <div class="search-bar">
+                <div class="search-icon-wrapper">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6FAF2C" stroke-width="3"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
                 <input type="text" placeholder="Ex: Atendimento domiciliar, 4 pessoas...">
             </div>
 
-            <div class="home-cards">
-                <div class="home-card" onclick="navigateTo('chefs')">
-                    <div class="home-card-content">
-                        <h3>Chef's</h3>
-                        <button class="btn btn-green-light">Veja!</button>
+            <div class="home-cards-wrapper">
+                <!-- Cards usando os caminhos assets/tomatito/... -->
+                <div class="card-home">
+                    <div class="card-home-info">
+                        <h3>Chef 's</h3>
+                        <button class="btn-green" onclick="navigateTo('chefs')">Veja!</button>
                     </div>
-                    <img src="https://api.iconify.design/noto:man-cook.svg" alt="Chef Icon">
+                    <img src="assets/tomatito/chef-card.png" alt="Chef Icon" onerror="this.src='https://api.iconify.design/noto:tomato.svg'">
                 </div>
-                <div class="home-card" onclick="navigateTo('cursos')">
-                    <div class="home-card-content">
+                
+                <div class="card-home">
+                    <div class="card-home-info">
                         <h3>Cursos</h3>
-                        <button class="btn btn-green-light">Veja!</button>
+                        <button class="btn-green" onclick="navigateTo('cursos')">Veja!</button>
                     </div>
-                    <img src="https://api.iconify.design/noto:books.svg" alt="Cursos Icon">
+                    <img src="assets/tomatito/cursos-card.png" alt="Cursos Icon" onerror="this.src='https://api.iconify.design/noto:books.svg'">
                 </div>
-                <div class="home-card" onclick="navigateTo('receitas')">
-                    <div class="home-card-content">
+                
+                <div class="card-home">
+                    <div class="card-home-info">
                         <h3>Receitas</h3>
-                        <button class="btn btn-green-light">Veja!</button>
+                        <button class="btn-green" onclick="navigateTo('receitas')">Veja!</button>
                     </div>
-                    <img src="https://api.iconify.design/noto:shallow-pan-of-food.svg" alt="Receitas Icon">
+                    <img src="assets/tomatito/receitas-card.png" alt="Receitas Icon" onerror="this.src='https://api.iconify.design/noto:cooking.svg'">
                 </div>
             </div>
 
-            <!-- Mascote -->
-            <div class="mascot-container">
-                <div class="speech-bubble"><b>Oi eu sou o Tomatito.</b><br>Precisa de ajuda?</div>
-                <svg width="80" height="80" viewBox="0 0 100 100">
-                    <circle cx="50" cy="60" r="35" fill="#E1121B" />
-                    <path d="M 50 20 C 35 15, 20 30, 35 40 Z" fill="#6FAF2C" />
-                    <path d="M 50 20 C 65 15, 80 30, 65 40 Z" fill="#6FAF2C" />
-                    <circle cx="35" cy="55" r="5" fill="white" />
-                    <circle cx="65" cy="55" r="5" fill="white" />
-                    <circle cx="35" cy="55" r="2" fill="black" />
-                    <circle cx="65" cy="55" r="2" fill="black" />
-                    <path d="M 40 70 Q 50 80 60 70" stroke="white" stroke-width="3" fill="transparent" stroke-linecap="round" />
-                </svg>
+            <div class="tomatito-help">
+                <div class="bubble">Oi eu sou o Tomatito.<br>Precisa de ajuda?</div>
+                <img src="assets/tomatito/tomatito-ajuda.png" alt="Tomatito Ajuda" onerror="this.src='https://api.iconify.design/noto:tomato.svg'">
             </div>
         </section>
 
@@ -921,381 +396,384 @@
         <section id="chefs" class="page-section">
             <h2 class="section-title">ENCONTRE O CHEF IDEAL PARA VOCÊ!</h2>
             
-            <div class="filters">
-                <button class="active">TODOS</button>
-                <button>EVENTOS</button>
-                <button>PARTICULAR</button>
-                <button>VEGANO</button>
-                <button>CORPORATIVO</button>
+            <div class="filter-bar-bg">
+                <button class="filter-btn active">TODOS</button>
+                <button class="filter-btn">EVENTOS</button>
+                <button class="filter-btn">PARTICULAR</button>
+                <button class="filter-btn">VEGANO</button>
+                <button class="filter-btn">CORPORATIVO</button>
             </div>
 
-            <div class="grid-4">
-                <!-- Chef 1 -->
+            <div class="grid-chefs">
+                <!-- Usando fotos de placeholder gerais para manter visual rico -->
                 <div class="chef-card">
                     <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Lorenzo">
                     <h4>Chef Lorenzo Bianchi</h4>
                     <div class="stars">★★★★☆</div>
-                    <div class="specialty-badge">Culinária Italiana</div><br>
-                    <button class="btn btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
+                    <div class="badge-green">Culinária Italiana</div><br>
+                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
                 </div>
-                <!-- Chef 2 -->
                 <div class="chef-card">
                     <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Akira">
                     <h4>Chef Akira Tanaka</h4>
                     <div class="stars">★★★★★</div>
-                    <div class="specialty-badge">Culinária Japonesa</div><br>
-                    <button class="btn btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
+                    <div class="badge-green">Culinária Japonesa</div><br>
+                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
                 </div>
-                <!-- Chef 3 -->
                 <div class="chef-card">
                     <img src="https://images.unsplash.com/photo-1566554273541-37a9ca77b91f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Maria">
                     <h4>Chef Maria do Carmo</h4>
                     <div class="stars">★★★★☆</div>
-                    <div class="specialty-badge">Culinária Brasileira</div><br>
-                    <button class="btn btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
+                    <div class="badge-green">Culinária Brasileira</div><br>
+                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
                 </div>
-                <!-- Chef 4 -->
                 <div class="chef-card">
                     <img src="https://images.unsplash.com/photo-1595273670150-bd0c3c392e46?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Helena">
                     <h4>Chef Helena Martins</h4>
                     <div class="stars">★★★★★</div>
-                    <div class="specialty-badge">Buffet executivo saudável</div><br>
-                    <button class="btn btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
+                    <div class="badge-green">Buffet executivo saudável</div><br>
+                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
+                </div>
+                <div class="chef-card">
+                    <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef André">
+                    <h4>Chef André Vasconcelos</h4>
+                    <div class="stars">★★★★★</div>
+                    <div class="badge-green">Eventos e Finger Foods</div><br>
+                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
+                </div>
+                <div class="chef-card">
+                    <img src="https://images.unsplash.com/photo-1581299894007-aaa50297cf16?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Valentina">
+                    <h4>Chef Valentina Rossi</h4>
+                    <div class="stars">★★★★☆</div>
+                    <div class="badge-green">Culinária Vegana</div><br>
+                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
+                </div>
+                <div class="chef-card">
+                    <img src="https://images.unsplash.com/photo-1615671524827-c1fe3973b648?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Isabella">
+                    <h4>Chef Isabella Costa</h4>
+                    <div class="stars">★★★★★</div>
+                    <div class="badge-green">Gastronomia Francesa</div><br>
+                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
+                </div>
+                <div class="chef-card">
+                    <img src="https://images.unsplash.com/photo-1587595431973-160d0d94add1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Eduardo">
+                    <h4>Chef Eduardo Monteiro</h4>
+                    <div class="stars">★★★★☆</div>
+                    <div class="badge-green">Churrasco Premium</div><br>
+                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
                 </div>
             </div>
         </section>
 
-        <!-- 3. PÁGINA DE CONTRATAÇÃO (HIRE) -->
+        <!-- 3. CONTRATAÇÃO (HIRE) -->
         <section id="hire-chef" class="page-section">
-            <div class="hire-container">
-                <div class="profile-side">
-                    <div class="chef-card">
-                        <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Lorenzo" style="border-radius: 50%; width: 150px; height: 150px; margin: 20px auto 10px; display: block;">
-                        <h4>Chef Lorenzo Bianchi</h4>
-                        <div class="stars">★★★★☆</div>
-                        <p class="profile-desc">
-                            Sou especialista em culinária italiana, trazendo receitas tradicionais com técnicas autênticas e ingredientes selecionados.<br><br>
-                            Combino massas artesanais, molhos clássicos e pratos regionais que valorizam sabor, tradição e sofisticação à mesa.
-                        </p>
-                    </div>
+            <div class="hire-layout">
+                <div class="chef-profile-col">
+                    <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef">
+                    <h4>Chef Lorenzo Bianchi</h4>
+                    <div class="stars">★★★★☆</div>
+                    <p>Sou especialista em culinária italiana, trazendo receitas tradicionais com técnicas autênticas e ingredientes selecionados.<br><br>Combino massas artesanais, molhos clássicos e pratos regionais que valorizam sabor, tradição e sofisticação à mesa.</p>
                 </div>
 
-                <div class="details-side">
+                <div class="form-section">
                     <h2>DETALHES DO EVENTO</h2>
-                    
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Data do evento</label>
-                            <input type="date">
+                            <input type="date" class="form-input">
                         </div>
                         <div class="form-group">
                             <label>Número de pessoas</label>
-                            <input type="number" placeholder="0">
+                            <input type="number" class="form-input">
                         </div>
                         <div class="form-group">
                             <label>Tipo de serviço</label>
-                            <select>
-                                <option>Selecione...</option>
+                            <select class="form-input">
+                                <option></option>
                                 <option>Jantar Particular</option>
-                                <option>Buffet</option>
-                                <option>Aula Show</option>
                             </select>
                         </div>
-                        <div class="form-group full-width">
+                        <div class="form-group full">
                             <label>Endereço</label>
-                            <input type="text" placeholder="Rua, Número, Bairro, Cidade">
+                            <input type="text" class="form-input" placeholder="Endereço">
                         </div>
                     </div>
 
                     <h2>COZINHA</h2>
-                    <p style="color: #ccc; font-size: 0.9rem;">Adicione fotos da cozinha do local. Mostre onde o chefe vai trabalhar</p>
-                    <div class="kitchen-photos">
-                        <div class="photo-slot">+</div>
-                        <div class="photo-slot">+</div>
-                        <div class="photo-slot">+</div>
-                        <div class="photo-slot">+</div>
+                    <p style="color: #ccc; font-size: 0.9rem;">Adicione fotos da cozinha do local<br>Mostre onde o chefe vai trabalhar</p>
+                    <div class="kitchen-slots">
+                        <div class="slot">+</div><div class="slot">+</div><div class="slot">+</div><div class="slot">+</div>
                     </div>
 
-                    <button class="btn btn-outline active" style="padding: 12px 30px; font-size: 1.1rem; border-radius: 30px;">ENVIAR SOLICITAÇÃO</button>
-
-                    <div class="timeline">
-                        <span class="timeline-step">Escolha o chef</span>
-                        <span class="timeline-step">Envio do orçamento</span>
-                        <span class="timeline-step">Aprovação do orçamento</span>
-                        <span class="timeline-step">Assinar contrato</span>
-                        <span class="timeline-step">Aproveite seu evento</span>
+                    <div style="text-align: right;">
+                        <button class="btn-enviar-sol">ENVIAR SOLICITAÇÃO</button>
                     </div>
 
-                    <div class="bottom-actions">
-                        <div class="action-card">
+                    <div class="flow-steps">
+                        <span style="border: 1px solid var(--green-light); border-radius: 20px; padding: 5px 15px; color: var(--green-light);">Escolha o chef</span>
+                        <span>Envio do orçamento</span>
+                        <span>Aprovação do orçamento</span>
+                        <span>Assinar contrato</span>
+                        <span>Aproveite seu evento</span>
+                    </div>
+
+                    <div class="bottom-cards">
+                        <div class="b-card">
                             <h3>VALOR DO SERVIÇO</h3>
-                            <div class="price-val">R$ xxx,xx</div>
-                            <button class="btn btn-outline" style="margin-right: 10px;">Aceitar</button>
-                            <button class="btn btn-outline">Recusar</button>
+                            <div class="price-display">R$xxx,xx</div>
+                            <button>Aceitar</button>
+                            <button>Recusar</button>
                         </div>
-                        <div class="action-card">
+                        <div class="b-card">
                             <h3>CONTRATO DE SERVIÇO</h3>
-                            <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 20px;">
-                                <svg width="40" height="40" viewBox="0 0 24 24" fill="white"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z"/></svg>
-                                <span style="border-bottom: 1px solid #ccc; padding-bottom: 5px;">ASSINE AQUI</span>
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px;">
+                                <!-- Asset PDF -->
+                                <img src="assets/tomatito/icon-pdf.png" alt="PDF" style="width: 40px;" onerror="this.src='https://api.iconify.design/vscode-icons:file-type-pdf2.svg'">
+                                <span style="border-bottom: 1px solid #ccc; font-size: 0.9rem;">ASSINE AQUI</span>
                             </div>
-                            <button class="btn btn-outline active" style="width: 100%;">FINALIZAR CONTRATO</button>
+                            <button style="border-radius: 30px; border: 2px solid var(--green-highlight); color: #fff; font-weight: bold; width: 100%;">FINALIZAR CONTRATO</button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. PÁGINA CURSOS -->
+        <!-- 4. CURSOS -->
         <section id="cursos" class="page-section">
-            <h2 class="section-title" style="text-align: left; background: var(--gray-card); padding: 20px 40px; border-radius: 15px; margin-bottom: 40px; font-size: 2rem;">
-                Nossos Cursos de Culinária
-                <div style="font-size: 1rem; font-weight: 400; color: #ccc; text-transform: none; margin-top: 5px;">Aprenda com os melhores chefs e domine a arte da cozinha</div>
-            </h2>
+            <div class="cursos-header">
+                <div>
+                    <h2>Nossos Cursos de Culinária</h2>
+                    <span>Aprenda com os melhores chefs e domine a arte da cozinha</span>
+                </div>
+                <!-- Imagem lateral no header (chef cortando) -->
+                <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Chef fundo">
+            </div>
 
-            <div class="courses-container">
+            <div class="cursos-layout">
                 <div class="sidebar">
-                    <h3>Categorias</h3>
-                    <div class="filter-options">
+                    <div class="sidebar-filter">
+                        <h3>Categorias</h3>
                         <label><input type="radio" name="cat"> Nacionalidades</label>
                         <label><input type="radio" name="cat"> Comidas Saudáveis</label>
                         <label><input type="radio" name="cat"> Doces</label>
                     </div>
-
-                    <h3>Nível</h3>
-                    <div class="filter-options">
+                    <div class="sidebar-filter">
+                        <h3>Nível</h3>
                         <label><input type="radio" name="lvl"> Iniciante</label>
                         <label><input type="radio" name="lvl"> Intermediário</label>
                         <label><input type="radio" name="lvl"> Avançado</label>
                     </div>
-
-                    <h3>Preço</h3>
-                    <div class="filter-options">
+                    <div class="sidebar-filter">
+                        <h3>Preço</h3>
                         <label><input type="radio" name="price"> Pago</label>
                         <label><input type="radio" name="price"> Grátis</label>
                     </div>
+                    <!-- Mascote Tomatito lendo na Sidebar -->
+                    <img src="assets/tomatito/tomatito-lendo.png" alt="Tomatito Lendo" class="tomatito-sidebar" onerror="this.src='https://api.iconify.design/noto:books.svg'">
                 </div>
 
-                <div class="grid-4" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));">
-                    <!-- Curso 1 -->
-                    <div class="course-card">
+                <div class="grid-cursos">
+                    <div class="curso-card">
                         <img src="https://images.unsplash.com/photo-1484723091791-001c9b88410d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Doces do Bem">
-                        <div class="course-info">
-                            <h4>Doces do Bem: Sobremesas Saudáveis</h4>
-                            <p>Chef Mariana Lopes</p>
-                            <p>Nível: Iniciante</p>
-                            <div class="course-footer">
-                                <span class="course-price free">GRÁTIS</span>
-                                <button class="btn btn-red">Saiba Mais</button>
+                        <div class="curso-info">
+                            <h4>Doces do Bem:<br>Sobremesas Saudáveis Sem Culpa</h4>
+                            <p>Chef Mariana Lopes<br>Nível: Iniciante</p>
+                            <div class="curso-price-row">
+                                <span>Preço:</span>
+                                <span class="curso-price" style="color: #fff;">GRÁTIS</span>
                             </div>
+                            <button class="btn-red" style="margin-top: 15px; width: 100%;">Saiba Mais</button>
                         </div>
                     </div>
-                    <!-- Curso 2 -->
-                    <div class="course-card">
+                    <div class="curso-card">
                         <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Brasil Natural">
-                        <div class="course-info">
-                            <h4>Brasil Natural: Sabores Brasileiros</h4>
-                            <p>Chef João Ferreira</p>
-                            <p>Nível: Intermediário</p>
-                            <div class="course-footer">
-                                <span class="course-price">R$ 220,00</span>
-                                <button class="btn btn-red">Saiba Mais</button>
+                        <div class="curso-info">
+                            <h4>Brasil Natural: Sabores Brasileiros em Versões Saudáveis</h4>
+                            <p>Chef João Ferreira<br>Nível: Intermediário</p>
+                            <div class="curso-price-row">
+                                <span>Preço:</span>
+                                <span class="curso-price">R$ 220,00</span>
                             </div>
+                            <button class="btn-red" style="margin-top: 15px; width: 100%;">Saiba Mais</button>
                         </div>
                     </div>
-                    <!-- Curso 3 -->
-                    <div class="course-card">
-                        <img src="https://images.unsplash.com/photo-1547496502-affa22d38842?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Mundo Fit">
-                        <div class="course-info">
+                    <div class="curso-card">
+                        <img src="https://images.unsplash.com/photo-1547496502-affa22d38842?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Cozinha do Mundo">
+                        <div class="curso-info">
                             <h4>Cozinha do Mundo Fit</h4>
-                            <p>Chef Lucas Moretti</p>
-                            <p>Nível: Avançado</p>
-                            <div class="course-footer">
-                                <span class="course-price">R$ 120,00</span>
-                                <button class="btn btn-red">Saiba Mais</button>
+                            <p>Chef Lucas Moretti<br>Nível: Avançado</p>
+                            <div class="curso-price-row">
+                                <span>Preço:</span>
+                                <span class="curso-price">R$ 120,00</span>
                             </div>
+                            <button class="btn-red" style="margin-top: 15px; width: 100%;">Saiba Mais</button>
                         </div>
                     </div>
-                    <!-- Curso 4 -->
-                    <div class="course-card">
+                    <div class="curso-card">
                         <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Cozinha Verde">
-                        <div class="course-info">
-                            <h4>Cozinha Verde: Alimentação Saudável</h4>
-                            <p>Chef Renata Alves</p>
-                            <p>Nível: Iniciante</p>
-                            <div class="course-footer">
-                                <span class="course-price free">GRÁTIS</span>
-                                <button class="btn btn-red">Saiba Mais</button>
+                        <div class="curso-info">
+                            <h4>Cozinha Verde: Alimentação Saudável para o Dia a Dia</h4>
+                            <p>Chef Renata Alves<br>Nível: Iniciante</p>
+                            <div class="curso-price-row">
+                                <span>Preço:</span>
+                                <span class="curso-price" style="color: #fff;">GRÁTIS</span>
                             </div>
+                            <button class="btn-red" style="margin-top: 15px; width: 100%;">Saiba Mais</button>
                         </div>
                     </div>
-                    <!-- Curso 5 -->
-                    <div class="course-card">
+                    <div class="curso-card">
                         <img src="https://images.unsplash.com/photo-1511381939415-e440c9c40a6b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chocolatria">
-                        <div class="course-info">
-                            <h4>Chocolatria Saudável: Cacau Funcional</h4>
-                            <p>Chef Paula Nogueira</p>
-                            <p>Nível: Intermediário</p>
-                            <div class="course-footer">
-                                <span class="course-price">R$ 150,00</span>
-                                <button class="btn btn-red">Saiba Mais</button>
+                        <div class="curso-info">
+                            <h4>Chocolatria Saudável: Doces com Cacau Funcional</h4>
+                            <p>Chef Paula Nogueira<br>Nível: Intermediário</p>
+                            <div class="curso-price-row">
+                                <span>Preço:</span>
+                                <span class="curso-price">R$ 150,00</span>
                             </div>
+                            <button class="btn-red" style="margin-top: 15px; width: 100%;">Saiba Mais</button>
                         </div>
                     </div>
-                    <!-- Curso 6 -->
-                    <div class="course-card">
+                    <div class="curso-card">
                         <img src="https://images.unsplash.com/photo-1543362906-acfc16c67564?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Marmitas Fit">
-                        <div class="course-info">
+                        <div class="curso-info">
                             <h4>Marmitas Fit & Criativas</h4>
-                            <p>Chef Diego Rocha</p>
-                            <p>Nível: Intermediário</p>
-                            <div class="course-footer">
-                                <span class="course-price">R$ 190,00</span>
-                                <button class="btn btn-red">Saiba Mais</button>
+                            <p>Chef Diego Rocha<br>Nível: Intermediário</p>
+                            <div class="curso-price-row">
+                                <span>Preço:</span>
+                                <span class="curso-price">R$ 190,00</span>
                             </div>
+                            <button class="btn-red" style="margin-top: 15px; width: 100%;">Saiba Mais</button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 5. PÁGINA RECEITAS -->
+        <!-- 5. RECEITAS -->
         <section id="receitas" class="page-section">
-            
-            <div class="recipe-header-box">
+            <div class="receitas-header">
                 <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Cozinhando">
                 <div>
-                    <h2 style="font-size: 2.5rem; margin-bottom: 5px;">Cozinha sem mistérios</h2>
+                    <h2>Cozinha sem mistérios</h2>
                     <p style="color: #ccc; font-size: 1.2rem;">Descubra o chef que existe em você!</p>
                 </div>
             </div>
 
-            <div class="recipe-menu">
+            <!-- Ícones das categorias usando assets -->
+            <div class="receitas-menu">
                 <button class="active">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4z"/></svg> Todas
+                    <img src="assets/tomatito/icon-todas.png" alt="Todas" onerror="this.src='https://api.iconify.design/bx:grid-alt.svg'"> Todas
                 </button>
                 <button>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L4 9v12h16V9l-8-6zm0 2.5l6 4.5v9h-12v-9l6-4.5z"/></svg> Fáceis
+                    <img src="assets/tomatito/icon-faceis.png" alt="Fáceis" onerror="this.src='https://api.iconify.design/mdi:chef-hat.svg'"> Fáceis
                 </button>
                 <button>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg> Médias
+                    <img src="assets/tomatito/icon-medias.png" alt="Médias" onerror="this.src='https://api.iconify.design/mdi:thermometer-lines.svg'"> Médias
                 </button>
                 <button>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.48 12.35c-1.57-4.08-7.16-4.3-5.81-10.23-.1-.1-.36-.05-.4.14-1.12 5.09-8.54 3.96-6.42 10.09h12.63zM12.01 14c-.65 0-1.18-.54-1.18-1.2s.53-1.2 1.18-1.2 1.18.54 1.18 1.2-.53 1.2-1.18 1.2z"/></svg> Difíceis
+                    <img src="assets/tomatito/icon-dificeis.png" alt="Difíceis" onerror="this.src='https://api.iconify.design/mdi:fire.svg'"> Difíceis
                 </button>
                 <button>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg> Rápidas
+                    <img src="assets/tomatito/icon-rapidas.png" alt="Rápidas" onerror="this.src='https://api.iconify.design/mdi:timer-outline.svg'"> Rápidas
                 </button>
                 <button>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> Para Impressionar
+                    <img src="assets/tomatito/icon-impressionar.png" alt="Para Impressionar" onerror="this.src='https://api.iconify.design/mdi:creation.svg'"> Para Impressionar
                 </button>
             </div>
 
-            <div class="recipe-list">
-                <!-- Receita 1 -->
-                <div class="recipe-item">
-                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Wrap Verde">
-                    <div class="recipe-content">
+            <div class="list-receitas">
+                <div class="receita-item">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Wrap">
+                    <div class="receita-content">
                         <h4>Wrap Verde Nutritivo de Frango Grelhado</h4>
-                        <div class="recipe-meta">
+                        <div class="receita-meta">
                             <span>Chef Lucas Andrades</span>
                             <span>⏱ 15 minutos</span>
                             <span>🔥 Fácil</span>
                         </div>
                     </div>
-                    <button class="btn btn-red">Acessar receita</button>
+                    <button class="btn-red">Acessar receita</button>
                 </div>
-                <!-- Receita 2 -->
-                <div class="recipe-item">
+                <div class="receita-item">
                     <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Risoto">
-                    <div class="recipe-content">
+                    <div class="receita-content">
                         <h4>Risoto Integral de Cogumelos e Alho-poró</h4>
-                        <div class="recipe-meta">
+                        <div class="receita-meta">
                             <span>Chef Helena Martins</span>
                             <span>⏱ 35 minutos</span>
                             <span>🔥 Média</span>
                         </div>
                     </div>
-                    <button class="btn btn-red">Acessar receita</button>
+                    <button class="btn-red">Acessar receita</button>
                 </div>
-                <!-- Receita 3 -->
-                <div class="recipe-item">
+                <div class="receita-item">
                     <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Salmão">
-                    <div class="recipe-content">
+                    <div class="receita-content">
                         <h4>Salmão em Crosta de Ervas com Purê de Couve-flor ✨</h4>
-                        <div class="recipe-meta">
+                        <div class="receita-meta">
                             <span>Chef Eduardo Monteiro</span>
                             <span>⏱ 50 minutos</span>
                             <span>🔥 Difícil</span>
                         </div>
                     </div>
-                    <button class="btn btn-red">Acessar receita</button>
+                    <button class="btn-red">Acessar receita</button>
                 </div>
             </div>
         </section>
 
-        <!-- 6. SEÇÃO PF IMPACTA -->
+        <!-- 6. PF IMPACTA -->
         <section id="impacta" class="page-section">
-            <div class="impact-header">
-                <img src="https://images.unsplash.com/photo-1593113565694-c681716244bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Comunidade">
-                <div style="text-align: left;">
+            <div class="impacta-header">
+                <img src="https://images.unsplash.com/photo-1593113565694-c681716244bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Ação Social">
+                <div>
                     <h2>MISSÃO PF IMPACTA</h2>
-                    <p style="font-size: 1.2rem; text-transform: uppercase;">Formar, incluir e gerar conhecimento através da gastronomia</p>
+                    <p>FORMAR, INCLUIR E GERAR CONHECIMENTO ATRAVÉS DA GASTRONOMIA</p>
                 </div>
             </div>
 
-            <div class="grid-4" style="grid-template-columns: repeat(3, 1fr);">
-                <!-- Impacto 1 -->
-                <div class="impact-card">
+            <div class="grid-impacta">
+                <div class="impacta-card">
                     <img src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Paraisópolis">
-                    <div class="impact-card-body">
-                        <h4>PF IMPACTA<br>PARAISÓPOLIS</h4>
-                        <p>Cozinha Verde: Alimentação Saudável para o Dia a Dia</p>
-                        <span style="display: block; font-size: 0.9rem; color: #aaa;">Chef Renata Alves</span>
-                        <div class="impact-price">GRATUITO</div>
-                        <div class="impact-date">04/08 - 12h</div>
-                        <button class="btn btn-red">Inscreva-se</button>
-                    </div>
+                    <h4>PF IMPACTA<br>PARAISÓPOLIS</h4>
+                    <p>Cozinha Verde: Alimentação<br>Saudável para o Dia a Dia</p>
+                    <span style="font-size: 0.9rem; color: #ccc;">Chef Renata Alves</span>
+                    <div class="gratuito">GRATUITO</div>
+                    <div style="color: #aaa; margin-bottom: 15px; font-size: 0.9rem;">04/08 - 12h</div>
+                    <button class="btn-red" style="width: 100%;">Inscreva-se</button>
                 </div>
-                <!-- Impacto 2 -->
-                <div class="impact-card">
+                <div class="impacta-card">
                     <img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Heliópolis">
-                    <div class="impact-card-body">
-                        <h4>PF IMPACTA<br>HELIÓPOLIS</h4>
-                        <p>Aproveitamento integral de alimentos populares</p>
-                        <span style="display: block; font-size: 0.9rem; color: #aaa;">Chef Diego Silva</span>
-                        <div class="impact-price">GRATUITO</div>
-                        <div class="impact-date">29/10 - 16h</div>
-                        <button class="btn btn-red">Inscreva-se</button>
-                    </div>
+                    <h4>PF IMPACTA<br>HELIÓPOLIS</h4>
+                    <p>Aproveitamento integral de<br>alimentos populares</p>
+                    <span style="font-size: 0.9rem; color: #ccc;">Chef Diego Silva</span>
+                    <div class="gratuito">GRATUITO</div>
+                    <div style="color: #aaa; margin-bottom: 15px; font-size: 0.9rem;">29/10 - 16h</div>
+                    <button class="btn-red" style="width: 100%;">Inscreva-se</button>
                 </div>
-                <!-- Impacto 3 -->
-                <div class="impact-card">
+                <div class="impacta-card">
                     <img src="https://images.unsplash.com/photo-1541888043697-36e2f1710972?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Jardim Peri">
-                    <div class="impact-card-body">
-                        <h4>PF IMPACTA<br>JARDIM PERI</h4>
-                        <p>Na ponta do lápis: economia, uso consciente e criatividade na cozinha</p>
-                        <span style="display: block; font-size: 0.9rem; color: #aaa;">Chef Paula Santos</span>
-                        <div class="impact-price">GRATUITO</div>
-                        <div class="impact-date">16/08 - 12h</div>
-                        <button class="btn btn-red">Inscreva-se</button>
-                    </div>
+                    <h4>PF IMPACTA<br>JARDIM PERI</h4>
+                    <p>Na ponta do lápis: economia, uso<br>consciente e criatividade na cozinha</p>
+                    <span style="font-size: 0.9rem; color: #ccc;">Chef Paula Santos</span>
+                    <div class="gratuito">GRATUITO</div>
+                    <div style="color: #aaa; margin-bottom: 15px; font-size: 0.9rem;">16/08 - 12h</div>
+                    <button class="btn-red" style="width: 100%;">Inscreva-se</button>
                 </div>
             </div>
         </section>
 
-        <!-- 7. PÁGINA SOBRE NÓS -->
+        <!-- 7. SOBRE NÓS -->
         <section id="sobre" class="page-section">
             <h2 class="section-title">Bem-vindo à Personal Food!</h2>
             
-            <div class="about-container">
-                <p class="about-text">
-                    A PF é uma plataforma inovadora que conecta clientes a chef profissionais especializados em alimentação personalizada, oferecendo uma experiência culinária sob medida no conforto da sua casa. Nosso serviço funciona como um "iFood de Chefs", proporcionando praticidade com um toque humano e personalizado.<br><br>
-                    Seja você um atleta com metas nutricionais específicas, alguém buscando reeducação alimentar, uma família com restrições alimentares ou simplesmente alguém que quer comer melhor sem ter que cozinhar.<br>
-                    <strong>Nós temos o chef certo para você.</strong>
+            <div class="sobre-container">
+                <p>
+                    A PF é uma plataforma inovadora que conecta clientes a chef profissionais especializados em alimentação personalizada, oferecendo uma experiências culinárias sob medida no conforto da sua casa. Nosso serviço funciona como um "iFood de Chefs", proporcionando praticidade com um toque humano e personalizado.<br><br>
+                    Seja você um atleta com metas nutricionais específicas. Alguém buscando reeducação alimentar, uma família com restrições alimentares ou simplesmente alguém que quer comer melhor sem ter que cozinhar.<br>
+                    <strong>Nós temos o chef certo pra você.</strong>
                 </p>
 
-                <div class="about-box">
+                <div class="box-verde">
                     <h3>O que você encontra aqui:</h3>
                     <ul>
                         <li>Pratos prontos e saudáveis, para todos os gostos e estilos de vida</li>
@@ -1309,44 +787,33 @@
     </main>
 
     <!-- =========================================
-         SCRIPT DE NAVEGAÇÃO E INTERAÇÕES
+         SCRIPT SPA
     ========================================= -->
     <script>
-        // Função para simular navegação estilo SPA
         function navigateTo(sectionId) {
-            // Esconde todas as seções
-            const sections = document.querySelectorAll('.page-section');
-            sections.forEach(sec => {
-                sec.classList.remove('active');
-            });
-
-            // Mostra a seção desejada
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-
-            // Atualiza status ativo nos links da navbar
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-            });
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
             
+            document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
             const activeLink = document.getElementById('nav-' + sectionId);
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
+            if (activeLink) activeLink.classList.add('active');
 
-            // Rola suavemente para o topo da página
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Adiciona interatividade visual aos menus das Receitas
         document.addEventListener('DOMContentLoaded', () => {
-            const recipeBtns = document.querySelectorAll('.recipe-menu button');
+            const recipeBtns = document.querySelectorAll('.receitas-menu button');
             recipeBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     recipeBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
+
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                 });
             });

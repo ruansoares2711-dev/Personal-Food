@@ -346,444 +346,8 @@
         </ul>
     </nav>
 
-    <main>
-        <!-- 1. HERO SECTION -->
-        <section id="home" class="page-section active">
-            <h1 class="hero-title">Nós temos o chefe certo para você!</h1>
-            <p class="hero-subtitle">Você descreve, a gente entende, o chefe ideal aparece!</p>
-            
-            <div class="search-bar">
-                <div class="search-icon-wrapper">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6FAF2C" stroke-width="3"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </div>
-                <input type="text" placeholder="Ex: Atendimento domiciliar, 4 pessoas...">
-            </div>
-
-            <div class="home-cards-wrapper">
-                <!-- Cards usando os caminhos assets/tomatito/... -->
-                <div class="card-home">
-                    <div class="card-home-info">
-                        <h3>Chef 's</h3>
-                        <button class="btn-green" onclick="navigateTo('chefs')">Veja!</button>
-                    </div>
-                    <img src="assets/tomatito/chef-card.png" alt="Chef Icon" onerror="this.src='https://api.iconify.design/noto:tomato.svg'">
-                </div>
-                
-                <div class="card-home">
-                    <div class="card-home-info">
-                        <h3>Cursos</h3>
-                        <button class="btn-green" onclick="navigateTo('cursos')">Veja!</button>
-                    </div>
-                    <img src="assets/tomatito/cursos-card.png" alt="Cursos Icon" onerror="this.src='https://api.iconify.design/noto:books.svg'">
-                </div>
-                
-                <div class="card-home">
-                    <div class="card-home-info">
-                        <h3>Receitas</h3>
-                        <button class="btn-green" onclick="navigateTo('receitas')">Veja!</button>
-                    </div>
-                    <img src="assets/tomatito/receitas-card.png" alt="Receitas Icon" onerror="this.src='https://api.iconify.design/noto:cooking.svg'">
-                </div>
-            </div>
-
-            <div class="tomatito-help">
-                <div class="bubble">Oi eu sou o Tomatito.<br>Precisa de ajuda?</div>
-                <img src="assets/tomatito/tomatito-ajuda.png" alt="Tomatito Ajuda" onerror="this.src='https://api.iconify.design/noto:tomato.svg'">
-            </div>
-        </section>
-
-        <!-- 2. SEÇÃO CHEFS -->
-        <section id="chefs" class="page-section">
-            <h2 class="section-title">ENCONTRE O CHEF IDEAL PARA VOCÊ!</h2>
-            
-            <div class="filter-bar-bg">
-                <button class="filter-btn active">TODOS</button>
-                <button class="filter-btn">EVENTOS</button>
-                <button class="filter-btn">PARTICULAR</button>
-                <button class="filter-btn">VEGANO</button>
-                <button class="filter-btn">CORPORATIVO</button>
-            </div>
-
-            <div class="grid-chefs">
-                <!-- Usando fotos de placeholder gerais para manter visual rico -->
-                <div class="chef-card">
-                    <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Lorenzo">
-                    <h4>Chef Lorenzo Bianchi</h4>
-                    <div class="stars">★★★★☆</div>
-                    <div class="badge-green">Culinária Italiana</div><br>
-                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
-                </div>
-                <div class="chef-card">
-                    <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Akira">
-                    <h4>Chef Akira Tanaka</h4>
-                    <div class="stars">★★★★★</div>
-                    <div class="badge-green">Culinária Japonesa</div><br>
-                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
-                </div>
-                <div class="chef-card">
-                    <img src="https://images.unsplash.com/photo-1566554273541-37a9ca77b91f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Maria">
-                    <h4>Chef Maria do Carmo</h4>
-                    <div class="stars">★★★★☆</div>
-                    <div class="badge-green">Culinária Brasileira</div><br>
-                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
-                </div>
-                <div class="chef-card">
-                    <img src="https://images.unsplash.com/photo-1595273670150-bd0c3c392e46?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Helena">
-                    <h4>Chef Helena Martins</h4>
-                    <div class="stars">★★★★★</div>
-                    <div class="badge-green">Buffet executivo saudável</div><br>
-                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
-                </div>
-                <div class="chef-card">
-                    <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef André">
-                    <h4>Chef André Vasconcelos</h4>
-                    <div class="stars">★★★★★</div>
-                    <div class="badge-green">Eventos e Finger Foods</div><br>
-                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
-                </div>
-                <div class="chef-card">
-                    <img src="https://images.unsplash.com/photo-1581299894007-aaa50297cf16?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Valentina">
-                    <h4>Chef Valentina Rossi</h4>
-                    <div class="stars">★★★★☆</div>
-                    <div class="badge-green">Culinária Vegana</div><br>
-                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
-                </div>
-                <div class="chef-card">
-                    <img src="https://images.unsplash.com/photo-1615671524827-c1fe3973b648?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Isabella">
-                    <h4>Chef Isabella Costa</h4>
-                    <div class="stars">★★★★★</div>
-                    <div class="badge-green">Gastronomia Francesa</div><br>
-                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
-                </div>
-                <div class="chef-card">
-                    <img src="https://images.unsplash.com/photo-1587595431973-160d0d94add1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Eduardo">
-                    <h4>Chef Eduardo Monteiro</h4>
-                    <div class="stars">★★★★☆</div>
-                    <div class="badge-green">Churrasco Premium</div><br>
-                    <button class="btn-red" onclick="navigateTo('hire-chef')">Ver Perfil</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. CONTRATAÇÃO (HIRE) -->
-        <section id="hire-chef" class="page-section">
-            <div class="hire-layout">
-                <div class="chef-profile-col">
-                    <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef">
-                    <h4>Chef Lorenzo Bianchi</h4>
-                    <div class="stars">★★★★☆</div>
-                    <p>Sou especialista em culinária italiana, trazendo receitas tradicionais com técnicas autênticas e ingredientes selecionados.<br><br>Combino massas artesanais, molhos clássicos e pratos regionais que valorizam sabor, tradição e sofisticação à mesa.</p>
-                </div>
-
-                <div class="form-section">
-                    <h2>DETALHES DO EVENTO</h2>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Data do evento</label>
-                            <input type="date" class="form-input">
-                        </div>
-                        <div class="form-group">
-                            <label>Número de pessoas</label>
-                            <input type="number" class="form-input">
-                        </div>
-                        <div class="form-group">
-                            <label>Tipo de serviço</label>
-                            <select class="form-input">
-                                <option></option>
-                                <option>Jantar Particular</option>
-                            </select>
-                        </div>
-                        <div class="form-group full">
-                            <label>Endereço</label>
-                            <input type="text" class="form-input" placeholder="Endereço">
-                        </div>
-                    </div>
-
-                    <h2>COZINHA</h2>
-                    <p style="color: #ccc; font-size: 0.9rem;">Adicione fotos da cozinha do local<br>Mostre onde o chefe vai trabalhar</p>
-                    <div class="kitchen-slots">
-                        <div class="slot">+</div><div class="slot">+</div><div class="slot">+</div><div class="slot">+</div>
-                    </div>
-
-                    <div style="text-align: right;">
-                        <button class="btn-enviar-sol">ENVIAR SOLICITAÇÃO</button>
-                    </div>
-
-                    <div class="flow-steps">
-                        <span style="border: 1px solid var(--green-light); border-radius: 20px; padding: 5px 15px; color: var(--green-light);">Escolha o chef</span>
-                        <span>Envio do orçamento</span>
-                        <span>Aprovação do orçamento</span>
-                        <span>Assinar contrato</span>
-                        <span>Aproveite seu evento</span>
-                    </div>
-
-                    <div class="bottom-cards">
-                        <div class="b-card">
-                            <h3>VALOR DO SERVIÇO</h3>
-                            <div class="price-display">R$xxx,xx</div>
-                            <button>Aceitar</button>
-                            <button>Recusar</button>
-                        </div>
-                        <div class="b-card">
-                            <h3>CONTRATO DE SERVIÇO</h3>
-                            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px;">
-                                <!-- Asset PDF -->
-                                <img src="assets/tomatito/icon-pdf.png" alt="PDF" style="width: 40px;" onerror="this.src='https://api.iconify.design/vscode-icons:file-type-pdf2.svg'">
-                                <span style="border-bottom: 1px solid #ccc; font-size: 0.9rem;">ASSINE AQUI</span>
-                            </div>
-                            <button style="border-radius: 30px; border: 2px solid var(--green-highlight); color: #fff; font-weight: bold; width: 100%;">FINALIZAR CONTRATO</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 4. CURSOS -->
-        <section id="cursos" class="page-section">
-            <div class="cursos-header">
-                <div>
-                    <h2>Nossos Cursos de Culinária</h2>
-                    <span>Aprenda com os melhores chefs e domine a arte da cozinha</span>
-                </div>
-                <!-- Imagem lateral no header (chef cortando) -->
-                <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Chef fundo">
-            </div>
-
-            <div class="cursos-layout">
-                <div class="sidebar">
-                    <div class="sidebar-filter">
-                        <h3>Categorias</h3>
-                        <label><input type="radio" name="cat"> Nacionalidades</label>
-                        <label><input type="radio" name="cat"> Comidas Saudáveis</label>
-                        <label><input type="radio" name="cat"> Doces</label>
-                    </div>
-                    <div class="sidebar-filter">
-                        <h3>Nível</h3>
-                        <label><input type="radio" name="lvl"> Iniciante</label>
-                        <label><input type="radio" name="lvl"> Intermediário</label>
-                        <label><input type="radio" name="lvl"> Avançado</label>
-                    </div>
-                    <div class="sidebar-filter">
-                        <h3>Preço</h3>
-                        <label><input type="radio" name="price"> Pago</label>
-                        <label><input type="radio" name="price"> Grátis</label>
-                    </div>
-                    <!-- Mascote Tomatito lendo na Sidebar -->
-                    <img src="assets/tomatito/tomatito-lendo.png" alt="Tomatito Lendo" class="tomatito-sidebar" onerror="this.src='https://api.iconify.design/noto:books.svg'">
-                </div>
-
-                <div class="grid-cursos">
-                    <div class="curso-card">
-                        <img src="https://images.unsplash.com/photo-1484723091791-001c9b88410d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Doces do Bem">
-                        <div class="curso-info">
-                            <h4>Doces do Bem:<br>Sobremesas Saudáveis Sem Culpa</h4>
-                            <p>Chef Mariana Lopes<br>Nível: Iniciante</p>
-                            <div class="curso-price-row">
-                                <span>Preço:</span>
-                                <span class="curso-price" style="color: #fff;">GRÁTIS</span>
-                            </div>
-                            <button class="btn-red" style="margin-top: 15px; width: 100%;">Saiba Mais</button>
-                        </div>
-                    </div>
-                    <div class="curso-card">
-                        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Brasil Natural">
-                        <div class="curso-info">
-                            <h4>Brasil Natural: Sabores Brasileiros em Versões Saudáveis</h4>
-                            <p>Chef João Ferreira<br>Nível: Intermediário</p>
-                            <div class="curso-price-row">
-                                <span>Preço:</span>
-                                <span class="curso-price">R$ 220,00</span>
-                            </div>
-                            <button class="btn-red" style="margin-top: 15px; width: 100%;">Saiba Mais</button>
-                        </div>
-                    </div>
-                    <div class="curso-card">
-                        <img src="https://images.unsplash.com/photo-1547496502-affa22d38842?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Cozinha do Mundo">
-                        <div class="curso-info">
-                            <h4>Cozinha do Mundo Fit</h4>
-                            <p>Chef Lucas Moretti<br>Nível: Avançado</p>
-                            <div class="curso-price-row">
-                                <span>Preço:</span>
-                                <span class="curso-price">R$ 120,00</span>
-                            </div>
-                            <button class="btn-red" style="margin-top: 15px; width: 100%;">Saiba Mais</button>
-                        </div>
-                    </div>
-                    <div class="curso-card">
-                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Cozinha Verde">
-                        <div class="curso-info">
-                            <h4>Cozinha Verde: Alimentação Saudável para o Dia a Dia</h4>
-                            <p>Chef Renata Alves<br>Nível: Iniciante</p>
-                            <div class="curso-price-row">
-                                <span>Preço:</span>
-                                <span class="curso-price" style="color: #fff;">GRÁTIS</span>
-                            </div>
-                            <button class="btn-red" style="margin-top: 15px; width: 100%;">Saiba Mais</button>
-                        </div>
-                    </div>
-                    <div class="curso-card">
-                        <img src="https://images.unsplash.com/photo-1511381939415-e440c9c40a6b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chocolatria">
-                        <div class="curso-info">
-                            <h4>Chocolatria Saudável: Doces com Cacau Funcional</h4>
-                            <p>Chef Paula Nogueira<br>Nível: Intermediário</p>
-                            <div class="curso-price-row">
-                                <span>Preço:</span>
-                                <span class="curso-price">R$ 150,00</span>
-                            </div>
-                            <button class="btn-red" style="margin-top: 15px; width: 100%;">Saiba Mais</button>
-                        </div>
-                    </div>
-                    <div class="curso-card">
-                        <img src="https://images.unsplash.com/photo-1543362906-acfc16c67564?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Marmitas Fit">
-                        <div class="curso-info">
-                            <h4>Marmitas Fit & Criativas</h4>
-                            <p>Chef Diego Rocha<br>Nível: Intermediário</p>
-                            <div class="curso-price-row">
-                                <span>Preço:</span>
-                                <span class="curso-price">R$ 190,00</span>
-                            </div>
-                            <button class="btn-red" style="margin-top: 15px; width: 100%;">Saiba Mais</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. RECEITAS -->
-        <section id="receitas" class="page-section">
-            <div class="receitas-header">
-                <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Cozinhando">
-                <div>
-                    <h2>Cozinha sem mistérios</h2>
-                    <p style="color: #ccc; font-size: 1.2rem;">Descubra o chef que existe em você!</p>
-                </div>
-            </div>
-
-            <!-- Ícones das categorias usando assets -->
-            <div class="receitas-menu">
-                <button class="active">
-                    <img src="assets/tomatito/icon-todas.png" alt="Todas" onerror="this.src='https://api.iconify.design/bx:grid-alt.svg'"> Todas
-                </button>
-                <button>
-                    <img src="assets/tomatito/icon-faceis.png" alt="Fáceis" onerror="this.src='https://api.iconify.design/mdi:chef-hat.svg'"> Fáceis
-                </button>
-                <button>
-                    <img src="assets/tomatito/icon-medias.png" alt="Médias" onerror="this.src='https://api.iconify.design/mdi:thermometer-lines.svg'"> Médias
-                </button>
-                <button>
-                    <img src="assets/tomatito/icon-dificeis.png" alt="Difíceis" onerror="this.src='https://api.iconify.design/mdi:fire.svg'"> Difíceis
-                </button>
-                <button>
-                    <img src="assets/tomatito/icon-rapidas.png" alt="Rápidas" onerror="this.src='https://api.iconify.design/mdi:timer-outline.svg'"> Rápidas
-                </button>
-                <button>
-                    <img src="assets/tomatito/icon-impressionar.png" alt="Para Impressionar" onerror="this.src='https://api.iconify.design/mdi:creation.svg'"> Para Impressionar
-                </button>
-            </div>
-
-            <div class="list-receitas">
-                <div class="receita-item">
-                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Wrap">
-                    <div class="receita-content">
-                        <h4>Wrap Verde Nutritivo de Frango Grelhado</h4>
-                        <div class="receita-meta">
-                            <span>Chef Lucas Andrades</span>
-                            <span>⏱ 15 minutos</span>
-                            <span>🔥 Fácil</span>
-                        </div>
-                    </div>
-                    <button class="btn-red">Acessar receita</button>
-                </div>
-                <div class="receita-item">
-                    <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Risoto">
-                    <div class="receita-content">
-                        <h4>Risoto Integral de Cogumelos e Alho-poró</h4>
-                        <div class="receita-meta">
-                            <span>Chef Helena Martins</span>
-                            <span>⏱ 35 minutos</span>
-                            <span>🔥 Média</span>
-                        </div>
-                    </div>
-                    <button class="btn-red">Acessar receita</button>
-                </div>
-                <div class="receita-item">
-                    <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Salmão">
-                    <div class="receita-content">
-                        <h4>Salmão em Crosta de Ervas com Purê de Couve-flor ✨</h4>
-                        <div class="receita-meta">
-                            <span>Chef Eduardo Monteiro</span>
-                            <span>⏱ 50 minutos</span>
-                            <span>🔥 Difícil</span>
-                        </div>
-                    </div>
-                    <button class="btn-red">Acessar receita</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 6. PF IMPACTA -->
-        <section id="impacta" class="page-section">
-            <div class="impacta-header">
-                <img src="https://images.unsplash.com/photo-1593113565694-c681716244bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Ação Social">
-                <div>
-                    <h2>MISSÃO PF IMPACTA</h2>
-                    <p>FORMAR, INCLUIR E GERAR CONHECIMENTO ATRAVÉS DA GASTRONOMIA</p>
-                </div>
-            </div>
-
-            <div class="grid-impacta">
-                <div class="impacta-card">
-                    <img src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Paraisópolis">
-                    <h4>PF IMPACTA<br>PARAISÓPOLIS</h4>
-                    <p>Cozinha Verde: Alimentação<br>Saudável para o Dia a Dia</p>
-                    <span style="font-size: 0.9rem; color: #ccc;">Chef Renata Alves</span>
-                    <div class="gratuito">GRATUITO</div>
-                    <div style="color: #aaa; margin-bottom: 15px; font-size: 0.9rem;">04/08 - 12h</div>
-                    <button class="btn-red" style="width: 100%;">Inscreva-se</button>
-                </div>
-                <div class="impacta-card">
-                    <img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Heliópolis">
-                    <h4>PF IMPACTA<br>HELIÓPOLIS</h4>
-                    <p>Aproveitamento integral de<br>alimentos populares</p>
-                    <span style="font-size: 0.9rem; color: #ccc;">Chef Diego Silva</span>
-                    <div class="gratuito">GRATUITO</div>
-                    <div style="color: #aaa; margin-bottom: 15px; font-size: 0.9rem;">29/10 - 16h</div>
-                    <button class="btn-red" style="width: 100%;">Inscreva-se</button>
-                </div>
-                <div class="impacta-card">
-                    <img src="https://images.unsplash.com/photo-1541888043697-36e2f1710972?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Jardim Peri">
-                    <h4>PF IMPACTA<br>JARDIM PERI</h4>
-                    <p>Na ponta do lápis: economia, uso<br>consciente e criatividade na cozinha</p>
-                    <span style="font-size: 0.9rem; color: #ccc;">Chef Paula Santos</span>
-                    <div class="gratuito">GRATUITO</div>
-                    <div style="color: #aaa; margin-bottom: 15px; font-size: 0.9rem;">16/08 - 12h</div>
-                    <button class="btn-red" style="width: 100%;">Inscreva-se</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 7. SOBRE NÓS -->
-        <section id="sobre" class="page-section">
-            <h2 class="section-title">Bem-vindo à Personal Food!</h2>
-            
-            <div class="sobre-container">
-                <p>
-                    A PF é uma plataforma inovadora que conecta clientes a chef profissionais especializados em alimentação personalizada, oferecendo uma experiências culinárias sob medida no conforto da sua casa. Nosso serviço funciona como um "iFood de Chefs", proporcionando praticidade com um toque humano e personalizado.<br><br>
-                    Seja você um atleta com metas nutricionais específicas. Alguém buscando reeducação alimentar, uma família com restrições alimentares ou simplesmente alguém que quer comer melhor sem ter que cozinhar.<br>
-                    <strong>Nós temos o chef certo pra você.</strong>
-                </p>
-
-                <div class="box-verde">
-                    <h3>O que você encontra aqui:</h3>
-                    <ul>
-                        <li>Pratos prontos e saudáveis, para todos os gostos e estilos de vida</li>
-                        <li>Opções veganas, low carb, sem glúten e mais</li>
-                        <li>Planos semanais e soluções personalizadas</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
+    <main id="main-content">
+        <!-- Sections are now loaded from the `sections/` folder at runtime -->
     </main>
 
     <!-- =========================================
@@ -792,8 +356,9 @@
     <script>
         function navigateTo(sectionId) {
             document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
-            
+            const el = document.getElementById(sectionId);
+            if (el) el.classList.add('active');
+
             document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
             const activeLink = document.getElementById('nav-' + sectionId);
             if (activeLink) activeLink.classList.add('active');
@@ -801,7 +366,31 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        async function loadSections() {
+            const sections = ['home','chefs','hire-chef','cursos','receitas','impacta','sobre'];
+            const main = document.getElementById('main-content');
+
+            for (const name of sections) {
+                try {
+                    const res = await fetch(`sections/${name}.html`);
+                    if (!res.ok) { console.warn('Section not found:', name); continue; }
+                    const html = await res.text();
+                    const wrapper = document.createElement('div');
+                    wrapper.innerHTML = html;
+                    const sectionEl = wrapper.querySelector('section');
+                    if (sectionEl) main.appendChild(sectionEl);
+                } catch (err) {
+                    console.error('Error loading section', name, err);
+                }
+            }
+
+            // Ensure one active section
+            if (!document.querySelector('.page-section.active')) {
+                const first = document.querySelector('.page-section');
+                if (first) first.classList.add('active');
+            }
+
+            // Re-attach UI handlers that depend on section DOM
             const recipeBtns = document.querySelectorAll('.receitas-menu button');
             recipeBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -817,7 +406,9 @@
                     btn.classList.add('active');
                 });
             });
-        });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadSections);
     </script>
 </body>
 </html>

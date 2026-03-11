@@ -337,11 +337,11 @@
             <div class="logo-text"><b>PERSONAL</b> FOOD</div>
         </div>
         <ul class="nav-links">
-            <li><a href="#" onclick="navigateTo('chefs')" id="nav-chefs">Chef's</a></li>
-            <li><a href="#" onclick="navigateTo('cursos')" id="nav-cursos">Cursos</a></li>
-            <li><a href="#" onclick="navigateTo('receitas')" id="nav-receitas">Receitas</a></li>
-            <li><a href="#" onclick="navigateTo('impacta')" id="nav-impacta">PF Impacta</a></li>
-            <li><a href="#" onclick="navigateTo('sobre')" id="nav-sobre">Sobre nós</a></li>
+            <li><a href="#chefs" id="nav-chefs">Chef's</a></li>
+            <li><a href="#cursos" id="nav-cursos">Cursos</a></li>
+            <li><a href="#receitas" id="nav-receitas">Receitas</a></li>
+            <li><a href="#impacta" id="nav-impacta">PF Impacta</a></li>
+            <li><a href="#sobre" id="nav-sobre">Sobre nós</a></li>
             <li><button class="btn-green">Entrar</button></li>
         </ul>
     </nav>
@@ -362,6 +362,9 @@
             document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
             const activeLink = document.getElementById('nav-' + sectionId);
             if (activeLink) activeLink.classList.add('active');
+
+            // update URL hash without triggering hashchange
+            try { history.replaceState(null, '', '#' + sectionId); } catch (e) { /* ignore */ }
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -390,6 +393,13 @@
                 if (first) first.classList.add('active');
             }
 
+            // If a hash exists on load, navigate to it
+            if (location.hash) {
+                const id = location.hash.replace('#', '');
+                // small timeout to ensure layout settled
+                setTimeout(() => { navigateTo(id); }, 0);
+            }
+
             // Re-attach UI handlers that depend on section DOM
             const recipeBtns = document.querySelectorAll('.receitas-menu button');
             recipeBtns.forEach(btn => {
@@ -407,6 +417,12 @@
                 });
             });
         }
+
+        // listen to hash changes (user clicking anchors or manual change)
+        window.addEventListener('hashchange', () => {
+            const id = location.hash.replace('#', '') || 'home';
+            navigateTo(id);
+        });
 
         document.addEventListener('DOMContentLoaded', loadSections);
     </script>

@@ -1,20 +1,299 @@
-<section id="sobre" class="page-section">
-    <h2 class="section-title">Bem-vindo à Personal Food!</h2>
-    
-    <div class="sobre-container">
-        <p>
-            A PF é uma plataforma inovadora que conecta clientes a chef profissionais especializados em alimentação personalizada, oferecendo uma experiências culinárias sob medida no conforto da sua casa. Nosso serviço funciona como um "iFood de Chefs", proporcionando praticidade com um toque humano e personalizado.<br><br>
-            Seja você um atleta com metas nutricionais específicas. Alguém buscando reeducação alimentar, uma família com restrições alimentares ou simplesmente alguém que quer comer melhor sem ter que cozinhar.<br>
-            <strong>Nós temos o chef certo pra você.</strong>
-        </p>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Food | Sobre Nós</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           VARIÁVEIS DE COR E ESTILOS GLOBAIS
+        ========================================= */
+        :root {
+            --bg-main: #000000; /* Fundo geral preto */
+            --nav-bg: #113c0b; /* Verde escuro da navbar */
+            --logo-bg: #d1c115; /* Amarelo do fundo do logo */
+            --btn-green: #a7c938; /* Verde claro dos botões */
+            --btn-green-hover: #b8db40;
+            --box-green: #90b327; /* Verde da caixa de texto do 'Sobre' */
+            --text-white: #FFFFFF;
+            --font-main: 'Poppins', sans-serif;
+        }
 
-        <div class="box-verde">
-            <h3>O que você encontra aqui:</h3>
-            <ul>
-                <li>Pratos prontos e saudáveis, para todos os gostos e estilos de vida</li>
-                <li>Opções veganas, low carb, sem glúten e mais</li>
-                <li>Planos semanais e soluções personalizadas</li>
-            </ul>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* =========================================
+           IMAGENS DE FUNDO LATERAIS
+        ========================================= */
+        .bg-side {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 25vw;
+            z-index: -1;
+            opacity: 0.3;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .bg-left {
+            left: 0;
+            background-image: url('https://images.unsplash.com/photo-1490818387583-1b5f2dd061b1?q=80&w=600&auto=format&fit=crop');
+            -webkit-mask-image: linear-gradient(to right, black 10%, transparent 100%);
+            mask-image: linear-gradient(to right, black 10%, transparent 100%);
+        }
+
+        .bg-right {
+            right: 0;
+            background-image: url('https://images.unsplash.com/photo-1596683839213-9f864bc39294?q=80&w=600&auto=format&fit=crop');
+            -webkit-mask-image: linear-gradient(to left, black 10%, transparent 100%);
+            mask-image: linear-gradient(to left, black 10%, transparent 100%);
+        }
+
+        /* =========================================
+           NAVBAR (PADRÃO CONSOLIDADO)
+        ========================================= */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background-color: var(--nav-bg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            padding-right: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-wrapper {
+            height: 100%;
+            background-color: var(--logo-bg);
+            padding: 10px 40px 10px 20px;
+            border-radius: 0 50px 50px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Código ajustado conforme sua solicitação */
+        .logo-wrapper img {
+            height: 100%;
+            width: 165px;
+            object-fit: contain;
+            margin-right: 12px; /* Adiciona um espaço entre o ícone e o texto */
+        }
+
+        .logo-text {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            line-height: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo-text span {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--btn-green);
+        }
+
+        .btn-entrar {
+            background-color: var(--btn-green);
+            color: #113c0b;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: var(--font-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-entrar:hover {
+            background-color: var(--btn-green-hover);
+            transform: scale(1.05);
+        }
+
+        /* =========================================
+           CONTEÚDO PRINCIPAL - SOBRE NÓS
+        ========================================= */
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 140px 20px 80px 20px; /* Padding para compensar navbar fixa */
+        }
+
+        .page-section {
+            background-color: #000000;
+            border-radius: 15px;
+            padding: 50px 60px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+
+        .sobre-container > p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            text-transform: uppercase; /* Deixa o texto em maiúsculo igual à imagem */
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #e8e8e8;
+        }
+
+        .sobre-container > p strong {
+            display: block;
+            margin-top: 15px;
+            font-weight: 700;
+        }
+
+        /* CAIXA VERDE */
+        .box-verde {
+            background-color: var(--box-green);
+            border-radius: 25px;
+            padding: 35px 40px;
+            margin: 50px auto 0;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .box-verde h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .box-verde ul {
+            display: inline-block;
+            text-align: left; /* Mantém os bullets alinhados à esquerda, mas o bloco centralizado */
+            font-size: 1.1rem;
+            line-height: 1.6;
+            padding-left: 20px;
+            font-weight: 500;
+        }
+
+        .box-verde ul li {
+            margin-bottom: 8px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none;
+            }
+            .page-section {
+                padding: 40px 20px;
+            }
+            .sobre-container > p {
+                font-size: 0.95rem;
+            }
+            .box-verde {
+                padding: 25px 20px;
+            }
+            .box-verde h3 {
+                font-size: 1.1rem;
+            }
+            .box-verde ul {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Imagens de fundo simuladas nas laterais -->
+    <div class="bg-side bg-left"></div>
+    <div class="bg-side bg-right"></div>
+
+    <!-- NAVBAR Fiel ao Novo Padrão -->
+    <nav class="navbar">
+        <div class="logo-wrapper">
+            <img src="../assets/personalFood/PersonalFoodIcon.png" alt="Personal Food Icon" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Chef_icon.svg/1024px-Chef_icon.svg.png'; this.style.filter='brightness(0) invert(1)';">
+            <div class="logo-text">
+                PERSONAL<span>FOOD</span>
+            </div>
         </div>
-    </div>
-</section>
+        
+        <ul class="nav-links">
+            <li><a href="chefs.html">Chef 's</a></li>
+            <li><a href="cursos.html">Cursos</a></li>
+            <li><a href="receitas.html">Receitas</a></li>
+            <li><a href="impacta.html">PF Impacta</a></li>
+            <!-- O link desta página recebe a cor verde de destaque -->
+            <li><a href="../index.html" style="color: var(--btn-green);">Home</a></li>
+        </ul>
+
+        <button class="btn-entrar">Entrar</button>
+    </nav>
+
+    <!-- CONTEÚDO PRINCIPAL - SOBRE NÓS -->
+    <main class="main-container">
+        <section id="sobre" class="page-section">
+            <h2 class="section-title">Bem-vindo à Personal Food!</h2>
+            
+            <div class="sobre-container">
+                <p>
+                    A PF é uma plataforma inovadora que conecta clientes a chef profissionais especializados em alimentação personalizada, oferecendo uma experiências culinárias sob medida no conforto da sua casa. Nosso serviço funciona como um "iFood de Chefs", proporcionando praticidade com um toque humano e personalizado.<br><br>
+                    Seja você um atleta com metas nutricionais específicas. Alguém buscando reeducação alimentar, uma família com restrições alimentares ou simplesmente alguém que quer comer melhor sem ter que cozinhar.<br>
+                    <strong>Nós temos o chef certo pra você.</strong>
+                </p>
+
+                <div class="box-verde">
+                    <h3>O que você encontra aqui:</h3>
+                    <ul>
+                        <li>Pratos prontos e saudáveis, para todos os gostos e estilos de vida</li>
+                        <li>Opções veganas, low carb, sem glúten e mais</li>
+                        <li>Planos semanais e soluções personalizadas</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

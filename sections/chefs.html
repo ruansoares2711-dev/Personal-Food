@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encontre o Chef Ideal - Personal Food</title>
+    <title>Personal Food | Encontre o Chef Ideal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* =========================================
+           VARIÁVEIS DE COR E ESTILOS GLOBAIS
+        ========================================= */
         :root {
             --bg-color: #000000;
-            --header-bg: #092a0e;
+            --nav-bg: #113c0b; /* Verde escuro da navbar padrão */
+            --logo-bg: #d1c115; /* Amarelo do fundo do logo */
             --primary-green: #9cbd28;
             --dark-green: #092a0e;
             --filter-bg: #8c8c8c;
@@ -20,6 +24,10 @@
             --btn-red-hover: #a00d25;
             --text-light: #ffffff;
             --star-color: #f5c518;
+            
+            /* Botões do padrão da Navbar */
+            --btn-green: #a7c938; 
+            --btn-green-hover: #b8db40;
         }
 
         * {
@@ -33,70 +41,101 @@
             background-color: var(--bg-color);
             color: var(--text-light);
             padding-bottom: 50px;
+            overflow-x: hidden;
         }
 
-        /* --- Header --- */
-        .header {
-            background-color: var(--header-bg);
-            padding: 10px 45px;
+        /* =========================================
+           NAVBAR (PADRÃO CONSOLIDADO)
+        ========================================= */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background-color: var(--nav-bg);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            z-index: 1000;
+            padding-right: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
-        .logo-container {
+        .logo-wrapper {
+            height: 100%;
+            background-color: var(--logo-bg);
+            padding: 10px 40px 10px 20px;
+            border-radius: 0 50px 50px 0;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
 
-        /* Classe nova para a imagem do seu logo */
-        .main-logo {
-            width: 220px;
-            height: auto;
-            display: block;
+        .logo-wrapper img {
+            height: 100%;
+            width: 165px;
+            object-fit: contain;
+            margin-right: 12px; /* Adiciona um espaço entre o ícone e o texto */
+        }
+
+        .logo-text {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            line-height: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo-text span {
+            font-weight: 500;
+            font-size: 0.95rem;
         }
 
         .nav-links {
             display: flex;
-            gap: 30px;
+            list-style: none;
+            gap: 40px;
+            align-items: center;
         }
 
         .nav-links a {
-            color: white;
+            color: var(--text-light);
             text-decoration: none;
             font-weight: 700;
-            font-size: 0.9rem;
-            transition: color 0.3s;
+            font-size: 1rem;
+            transition: color 0.2s;
         }
 
         .nav-links a:hover {
-            color: var(--primary-green);
+            color: var(--btn-green);
         }
 
         .btn-entrar {
-            background-color: var(--primary-green);
-            color: white;
+            background-color: var(--btn-green);
+            color: #113c0b;
             border: none;
             padding: 10px 30px;
             border-radius: 25px;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: opacity 0.3s;
+            transition: all 0.2s;
         }
 
         .btn-entrar:hover {
-            opacity: 0.8;
+            background-color: var(--btn-green-hover);
+            transform: scale(1.05);
         }
 
         /* --- Main Section --- */
         .page-section {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            /* Padding top ajustado para 120px para não ficar atrás da navbar fixa */
+            padding: 120px 20px 40px 20px; 
         }
 
         .section-title {
@@ -286,37 +325,34 @@
             .grid-chefs {
                 grid-template-columns: 1fr;
             }
-            .header {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .main-logo {
-                height: 40px; /* Logo um pouco menor no celular */
+            .navbar {
+                padding-right: 15px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header / Navbar -->
-    <header class="header">
-        <div class="logo-container">
-            <!-- Imagem inserida com o caminho local fornecido -->
-            <img src="../assets/personalFood/PersonalFoodLogo-removebg-preview.png" 
-     alt="Personal Food Logo" 
-     class="main-logo">
+    <!-- NAVBAR Fiel ao Novo Padrão -->
+    <nav class="navbar">
+        <div class="logo-wrapper">
+            <img src="../assets/personalFood/PersonalFoodIcon.png" alt="Personal Food Icon" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Chef_icon.svg/1024px-Chef_icon.svg.png'; this.style.filter='brightness(0) invert(1)';">
+            <div class="logo-text">
+                PERSONAL<span>FOOD</span>
+            </div>
         </div>
         
-        <nav class="nav-links">
-            <a href="#">Chef's</a>
-            <a href="#">Cursos</a>
-            <a href="#">Receitas</a>
-            <a href="#">PF Impacta</a>
-            <a href="#">Sobre nós</a>
-        </nav>
+        <ul class="nav-links">
+            <!-- Link da página atual com a cor de destaque (verde claro) -->
+            <li><a href="../index.html" style="color: var(--btn-green);">Home</a></li>
+            <li><a href="cursos.html">Cursos</a></li>
+            <li><a href="receitas.html">Receitas</a></li>
+            <li><a href="impacta.html">PF Impacta</a></li>
+            <li><a href="sobre.html">Sobre nós</a></li>
+        </ul>
 
         <button class="btn-entrar" onclick="showMessage('Tela de Login em desenvolvimento.')">Entrar</button>
-    </header>
+    </nav>
 
     <!-- Main Content -->
     <section id="chefs" class="page-section">

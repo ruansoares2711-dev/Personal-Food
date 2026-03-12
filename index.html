@@ -4,23 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Food | Encontre o Chef Ideal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* =========================================
            VARIÁVEIS DE COR E ESTILOS GLOBAIS
         ========================================= */
         :root {
             --bg-main: #000000;
-            --nav-bg: #0D4F0A;
-            --green-highlight: #6FAF2C;
-            --green-light: #9DBF2D;
-            --gray-card: #333333;
-            --gray-light: #888888;
-            --gray-bar: #5c5c5c;
-            --red-cta: #D30018;
+            --nav-bg: #113c0b; /* Atualizado para o Verde escuro da nova navbar */
+            --logo-bg: #d1c115; /* Amarelo do fundo do logo */
+            --card-bg: #0e290a; /* Verde escuro dos cards */
+            --btn-green: #a7c938; /* Atualizado para o Verde claro dos botões */
+            --btn-green-hover: #b8db40;
+            --red-cta: #d30018; /* Vermelho do balão */
             --text-white: #FFFFFF;
             --font-main: 'Poppins', sans-serif;
-            --transition: all 0.3s ease;
         }
 
         * {
@@ -34,397 +32,351 @@
             color: var(--text-white);
             font-family: var(--font-main);
             overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
         }
 
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        button { font-family: var(--font-main); cursor: pointer; }
-
-        /* =========================================
-           COMPONENTES GLOBAIS
-        ========================================= */
-        .btn-green {
-            background-color: var(--green-light);
-            color: #000;
-            padding: 8px 30px;
-            border-radius: 30px;
-            font-weight: 600;
-            border: none;
-            transition: var(--transition);
+        /* Imagens de fundo laterais simuladas */
+        .bg-side {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 25vw;
+            z-index: -1;
+            opacity: 0.3;
+            background-size: cover;
+            background-position: center;
         }
-        .btn-green:hover { background-color: var(--green-highlight); color: #fff; }
 
-        .btn-red {
-            background-color: var(--red-cta);
-            color: var(--text-white);
-            padding: 10px 30px;
-            border-radius: 30px;
-            font-weight: 600;
-            border: none;
-            transition: var(--transition);
+        .bg-left {
+            left: 0;
+            background-image: url('https://images.unsplash.com/photo-1490818387583-1b5f2dd061b1?q=80&w=600&auto=format&fit=crop');
+            -webkit-mask-image: linear-gradient(to right, black 10%, transparent 100%);
+            mask-image: linear-gradient(to right, black 10%, transparent 100%);
         }
-        .btn-red:hover { background-color: #a30012; }
 
-        .section-title {
-            text-align: center;
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            text-transform: uppercase;
+        .bg-right {
+            right: 0;
+            background-image: url('https://images.unsplash.com/photo-1596683839213-9f864bc39294?q=80&w=600&auto=format&fit=crop');
+            -webkit-mask-image: linear-gradient(to left, black 10%, transparent 100%);
+            mask-image: linear-gradient(to left, black 10%, transparent 100%);
         }
 
         /* =========================================
-           NAVBAR
+           NAVBAR (NOVO PADRÃO)
         ========================================= */
         .navbar {
             position: fixed;
-            top: 0; left: 0; width: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
             background-color: var(--nav-bg);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             z-index: 1000;
+            padding-right: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
-        .logo {
-            display: flex; align-items: center; gap: 10px; cursor: pointer;
+        .logo-wrapper {
+            height: 100%;
+            background-color: var(--logo-bg);
+            padding: 10px 40px 10px 20px;
+            border-radius: 0 50px 50px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .logo img { height: 45px; } /* Ajuste caso use imagem da logo */
-        .logo-text { font-weight: 800; font-size: 1.4rem; line-height: 1.1; color: #fff;}
-        .logo-text b { color: var(--green-light); font-size: 1.6rem; display: block;}
+        .logo-wrapper img {
+            height: 100%;
+            width: 165px;
+            object-fit: contain;
+            margin-right: 12px; /* Adiciona um espaço entre o ícone e o texto */
+        }
 
-        .nav-links { display: flex; gap: 35px; align-items: center; }
-        .nav-links li a { font-weight: 600; font-size: 1rem; color: #fff; transition: var(--transition); }
-        .nav-links li a:hover, .nav-links li a.active { color: var(--green-light); }
+        .logo-text {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            line-height: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo-text span {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--btn-green);
+        }
+
+        .btn-entrar {
+            background-color: var(--btn-green);
+            color: #113c0b;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: var(--font-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-entrar:hover {
+            background-color: var(--btn-green-hover);
+            transform: scale(1.05);
+        }
 
         /* =========================================
-           GERENCIAMENTO SPA
+           HERO SECTION
         ========================================= */
-        .page-section {
-            display: none;
-            padding: 120px 60px 80px;
-            min-height: 100vh;
-            animation: fadeIn 0.4s ease;
-        }
-        .page-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* =========================================
-           HOME / HERO
-        ========================================= */
-        #home {
-            display: flex; flex-direction: column; align-items: center; text-align: center;
+        .hero {
             padding-top: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            position: relative;
+            z-index: 10;
         }
 
-        .hero-title { font-size: 3.5rem; font-weight: 800; margin-bottom: 5px; }
-        .hero-subtitle { font-size: 1.3rem; font-weight: 400; margin-bottom: 40px; }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
 
-        .search-bar {
-            display: flex; align-items: center;
-            background: #fff; border-radius: 40px;
-            padding: 5px; width: 100%; max-width: 800px;
+        .hero p {
+            font-size: 1.3rem;
+            font-weight: 400;
             margin-bottom: 60px;
-        }
-        .search-icon-wrapper {
-            background-color: var(--nav-bg);
-            border-radius: 50%; width: 45px; height: 45px;
-            display: flex; align-items: center; justify-content: center;
-            margin-left: 5px;
-        }
-        .search-bar input {
-            flex: 1; border: none; outline: none;
-            padding: 15px 20px; font-size: 1.1rem;
-            color: #333; font-family: var(--font-main);
-            border-radius: 40px;
+            color: #e0e0e0;
         }
 
-        .home-cards-wrapper {
-            display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;
+        /* =========================================
+           CARDS SECTION
+        ========================================= */
+        .cards-wrapper {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 20px;
         }
 
-        .card-home {
-            background-color: #113610; /* Fundo verde escuro igual ao design */
-            border-radius: 20px;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 20px 30px; width: 320px;
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            width: 320px;
+            height: 160px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             position: relative;
         }
-        .card-home-info h3 { font-size: 1.8rem; margin-bottom: 10px; text-align: left; }
-        .card-home .btn-green { background-color: #7b9c2a; color: #fff; padding: 6px 25px;} /* Tom especifico do botão veja */
-        .card-home img { width: 100px; height: auto; object-fit: contain; }
 
-        .tomatito-help {
-            position: fixed; bottom: 30px; right: 40px;
-            display: flex; flex-direction: column; align-items: center;
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            z-index: 2;
+        }
+
+        .card h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            line-height: 1;
+        }
+
+        .btn-veja {
+            background-color: var(--btn-green);
+            color: #ffffff;
+            border: none;
+            padding: 8px 30px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: var(--font-main);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-veja:hover {
+            transform: scale(1.05);
+            background-color: var(--btn-green-hover);
+        }
+
+        /* Local reservado para os Tomatitos nos cards */
+        .tomatito-card-placeholder {
+            position: absolute;
+            right: 0;
+            bottom: -15px; /* Permite que a imagem vaze um pouco para baixo */
+            width: 140px;
+            height: 160px;
+            z-index: 1;
+            /* background-color: rgba(255, 0, 0, 0.1); Remova o comentário para ver a área reservada */
+            pointer-events: none;
+        }
+
+        /* =========================================
+           FLOATING HELPER
+        ========================================= */
+        .helper-container {
+            position: fixed;
+            bottom: 40px;
+            right: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             z-index: 100;
         }
-        .bubble {
-            background: #000; border: 2px solid var(--red-cta);
-            border-radius: 50%; width: 140px; height: 140px;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; padding: 20px; font-size: 0.85rem; font-weight: 600;
-            position: relative; margin-bottom: 15px;
-        }
-        .bubble::after {
-            content: ''; position: absolute; bottom: -10px; right: 40px;
-            border-width: 15px 10px 0; border-style: solid;
-            border-color: var(--red-cta) transparent transparent transparent;
-        }
-        .tomatito-help img { width: 100px; }
 
-        /* =========================================
-           CHEFS
-        ========================================= */
-        .filter-bar-bg {
-            background: var(--gray-bar); padding: 10px; border-radius: 40px;
-            display: flex; justify-content: center; gap: 15px; max-width: 900px; margin: 0 auto 50px;
-        }
-        .filter-btn {
-            background: transparent; color: #000; border: none; font-weight: 600;
-            padding: 8px 25px; border-radius: 30px; font-size: 1rem;
-            border: 1px solid #000;
-        }
-        .filter-btn.active { background: var(--nav-bg); color: #fff; border-color: var(--nav-bg); }
-
-        .grid-chefs {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
-            max-width: 1400px; margin: 0 auto;
-        }
-        .chef-card {
-            background: var(--gray-card); border-radius: 10px; border: 2px solid #555;
-            text-align: center; padding-bottom: 25px; overflow: hidden;
-        }
-        .chef-card img { width: 100%; height: 200px; object-fit: cover; }
-        .chef-card h4 { margin: 15px 0 5px; font-size: 1.2rem; font-weight: 700; }
-        .stars { color: #FFD700; font-size: 1.3rem; margin-bottom: 10px; }
-        .badge-green { background: var(--green-light); color: #000; padding: 5px 20px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; display: inline-block; margin-bottom: 20px;}
-
-        /* =========================================
-           CONTRATAR CHEF
-        ========================================= */
-        .hire-layout {
-            display: grid; grid-template-columns: 350px 1fr; gap: 50px; max-width: 1200px; margin: 0 auto;
-        }
-        .chef-profile-col { background: var(--gray-card); border-radius: 15px; padding: 30px; text-align: center; border: 1px solid #555; height: fit-content; }
-        .chef-profile-col img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 4px solid var(--gray-bar);}
-        .chef-profile-col p { font-size: 0.9rem; text-align: left; margin-top: 15px; color: #ddd; }
-
-        .form-section h2 { font-size: 2.2rem; margin-bottom: 20px; }
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 30px; }
-        .form-group { display: flex; flex-direction: column; gap: 5px; }
-        .form-group.full { grid-column: 1 / -1; }
-        .form-group label { font-size: 0.95rem; }
-        .form-input {
-            background: transparent; border: 1px solid #fff; border-radius: 5px;
-            padding: 12px; color: #fff; outline: none; font-family: var(--font-main);
+        .speech-bubble {
+            background-color: #000;
+            border: 3px solid var(--red-cta);
+            border-radius: 50%;
+            width: 130px;
+            height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            line-height: 1.3;
+            position: relative;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        .kitchen-slots { display: flex; gap: 15px; margin-top: 10px; margin-bottom: 20px; }
-        .slot { width: 80px; height: 80px; background: #555; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #333; cursor: pointer; }
-        .btn-enviar-sol { background: transparent; border: 2px solid #fff; color: #fff; padding: 10px 30px; border-radius: 30px; font-weight: bold; margin-bottom: 40px;}
-
-        .flow-steps {
-            display: flex; align-items: center; justify-content: space-between;
-            border: 1px dashed #fff; border-radius: 40px; padding: 15px 30px; margin-bottom: 50px; position: relative;
+        /* A ponta (cauda) do balão de fala */
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: 1px;
+            right: 25px;
+            width: 20px;
+            height: 20px;
+            background: #000;
+            border-bottom: 3px solid var(--red-cta);
+            border-right: 3px solid var(--red-cta);
+            transform: rotate(45deg);
         }
-        .flow-steps span { background: #000; padding: 0 10px; font-size: 0.9rem; z-index: 2; font-weight: bold; }
-        .flow-steps::before {
-            content: ''; position: absolute; top: 50%; left: 30px; right: 30px;
-            border-bottom: 1px dashed #fff; z-index: 1;
+
+        /* Local reservado para o Tomatito ajudante */
+        .tomatito-helper-placeholder {
+            width: 100px;
+            height: 120px;
+            /* background-color: rgba(255, 0, 0, 0.1); Remova o comentário para ver a área reservada */
         }
-
-        .bottom-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .b-card { background: var(--gray-card); border-radius: 15px; padding: 30px; text-align: center; border: 1px solid #555;}
-        .b-card h3 { margin-bottom: 20px; font-size: 1.3rem; }
-        .price-display { font-size: 1.5rem; border-bottom: 1px solid #fff; padding-bottom: 5px; margin-bottom: 25px; width: 80%; margin-left: auto; margin-right: auto;}
-        .b-card button { background: transparent; border: 1px solid #fff; color: #fff; padding: 8px 25px; border-radius: 30px; margin: 0 5px;}
-        .b-card button:hover { background: #fff; color: #000;}
-
-        /* =========================================
-           CURSOS
-        ========================================= */
-        .cursos-header {
-            background: var(--gray-bar); padding: 30px 40px; border-radius: 15px;
-            margin-bottom: 40px; position: relative; overflow: hidden;
-            display: flex; align-items: center;
-        }
-        .cursos-header h2 { font-size: 2.2rem; line-height: 1.2; z-index: 2; position: relative;}
-        .cursos-header span { display: block; font-size: 1.2rem; font-weight: 400; color: #ddd; }
-        .cursos-header img { position: absolute; top: 0; right: 0; width: 300px; height: 100%; object-fit: cover; mix-blend-mode: overlay; opacity: 0.5;}
-
-        .cursos-layout { display: grid; grid-template-columns: 250px 1fr; gap: 40px; }
-        .sidebar-filter h3 { border-bottom: 1px solid #555; padding-bottom: 10px; margin: 20px 0 15px; font-size: 1.1rem; }
-        .sidebar-filter label { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; cursor: pointer; color: #ccc;}
-        .sidebar-filter input[type="radio"] { appearance: none; width: 16px; height: 16px; border: 2px solid #aaa; border-radius: 50%; }
-        .sidebar-filter input[type="radio"]:checked { border-color: var(--green-light); box-shadow: inset 0 0 0 4px #000; background: var(--green-light); }
-        .tomatito-sidebar { width: 120px; margin-top: 30px; }
-
-        .grid-cursos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        .curso-card { background: var(--gray-card); border-radius: 10px; border: 1px solid #444; overflow: hidden; display: flex; flex-direction: column; }
-        .curso-card img { width: 100%; height: 180px; object-fit: cover; }
-        .curso-info { padding: 20px; display: flex; flex-direction: column; flex: 1; text-align: center;}
-        .curso-info h4 { font-size: 1.1rem; margin-bottom: 10px; font-weight: bold; }
-        .curso-info p { font-size: 0.9rem; color: #ccc; margin-bottom: 5px; }
-        .curso-price-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 20px; }
-        .curso-price { font-weight: bold; font-size: 1.1rem; }
-
-        /* =========================================
-           RECEITAS
-        ========================================= */
-        .receitas-header {
-            background: var(--gray-bar); border-radius: 15px; display: flex; align-items: center;
-            padding: 20px; gap: 30px; margin-bottom: 30px;
-        }
-        .receitas-header img { width: 250px; height: 150px; object-fit: cover; border-radius: 10px; }
-        .receitas-header h2 { font-size: 2.2rem; margin-bottom: 5px; }
-
-        .receitas-menu {
-            background: #113610; border-radius: 10px; padding: 15px; display: flex; justify-content: center; gap: 40px; margin-bottom: 40px;
-        }
-        .receitas-menu button {
-            background: transparent; border: none; color: #fff; font-size: 0.9rem; font-weight: 600;
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-        }
-        .receitas-menu button.active { color: var(--green-light); }
-        .receitas-menu button img { width: 30px; height: 30px; filter: invert(1); }
-        .receitas-menu button.active img { filter: invert(70%) sepia(80%) saturate(400%) hue-rotate(40deg); } /* Aproximação do verde claro */
-
-        .list-receitas { display: flex; flex-direction: column; gap: 20px; }
-        .receita-item {
-            background: var(--gray-bar); border-radius: 10px; display: flex; align-items: center; padding-right: 30px;
-        }
-        .receita-item img { width: 250px; height: 140px; object-fit: cover; border-radius: 10px 0 0 10px; }
-        .receita-content { flex: 1; padding: 0 30px; }
-        .receita-content h4 { font-size: 1.3rem; margin-bottom: 10px; }
-        .receita-meta { display: flex; gap: 20px; color: #ccc; font-size: 0.9rem; align-items: center;}
-
-        /* =========================================
-           PF IMPACTA
-        ========================================= */
-        .impacta-header {
-            background: var(--gray-bar); border-radius: 15px; padding: 30px;
-            display: flex; align-items: center; gap: 40px; margin-bottom: 50px;
-        }
-        .impacta-header img { width: 350px; height: 150px; object-fit: cover; border-radius: 10px;}
-        .impacta-header h2 { font-size: 2.2rem; text-transform: uppercase; margin-bottom: 5px;}
-
-        .grid-impacta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1100px; margin: 0 auto;}
-        .impacta-card { background: var(--gray-bar); border-radius: 10px; text-align: center; padding: 20px; padding-top: 0; overflow: hidden;}
-        .impacta-card img { width: calc(100% + 40px); margin-left: -20px; height: 180px; object-fit: cover; margin-bottom: 20px; }
-        .impacta-card h4 { font-size: 1.3rem; margin-bottom: 15px; }
-        .impacta-card p { font-size: 0.85rem; color: #ddd; margin-bottom: 10px; min-height: 40px;}
-        .impacta-card .gratuito { font-size: 1.5rem; font-weight: bold; margin: 15px 0 5px; }
-
-        /* =========================================
-           SOBRE NÓS
-        ========================================= */
-        .sobre-container { max-width: 900px; margin: 0 auto; text-align: center; }
-        .sobre-container p { font-size: 1.2rem; line-height: 1.8; margin-bottom: 50px; text-transform: uppercase;}
-        .box-verde { background: var(--green-light); color: #000; padding: 40px 60px; border-radius: 30px; text-align: left; display: inline-block;}
-        .box-verde h3 { font-size: 1.3rem; margin-bottom: 15px; text-align: center;}
-        .box-verde ul { list-style: disc; padding-left: 20px; font-size: 1.1rem; line-height: 1.8;}
 
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR FIXA -->
+    <!-- Imagens de fundo simuladas nas laterais -->
+    <div class="bg-side bg-left"></div>
+    <div class="bg-side bg-right"></div>
+
+    <!-- NAVBAR Fiel ao Novo Padrão -->
     <nav class="navbar">
-        <div class="logo" onclick="navigateTo('home')">
-            <!-- Asset Logo. Fallback para ícone padrão em caso de erro -->
-            <img src="assets/tomatito/logo.png" alt="Logo" onerror="this.src='https://api.iconify.design/noto:man-cook.svg'">
-            <div class="logo-text"><b>PERSONAL</b> FOOD</div>
+        <div class="logo-wrapper">
+            <!-- Caminho partindo da raiz -->
+            <img src="assets/personalFood/PersonalFoodIcon.png" alt="Personal Food Icon">
+            <div class="logo-text">
+                PERSONAL<span>FOOD</span>
+            </div>
         </div>
+        
         <ul class="nav-links">
-            <li><a href="#chefs" id="nav-chefs">Chef's</a></li>
-            <li><a href="#cursos" id="nav-cursos">Cursos</a></li>
-            <li><a href="#receitas" id="nav-receitas">Receitas</a></li>
-            <li><a href="#impacta" id="nav-impacta">PF Impacta</a></li>
-            <li><a href="#sobre" id="nav-sobre">Sobre nós</a></li>
-            <li><button class="btn-green">Entrar</button></li>
+            <li><a href="sections/chefs.html">Chef 's</a></li>
+            <li><a href="sections/cursos.html">Cursos</a></li>
+            <li><a href="sections/receitas.html">Receitas</a></li>
+            <li><a href="sections/impacta.html">PF Impacta</a></li>
+            <li><a href="sections/sobre.html">Sobre nós</a></li>
         </ul>
+
+        <button class="btn-entrar">Entrar</button>
     </nav>
 
-    <main id="main-content">
-        <!-- Sections are now loaded from the `sections/` folder at runtime -->
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="hero">
+        <h1>Nós temos o chefe certo para você!</h1>
+        <p>Você descreve, a gente entende, o chefe ideal aparece!</p>
+
+        <div class="cards-wrapper">
+            <!-- Card 1 -->
+            <div class="card">
+                <div class="card-content">
+                    <h2>Chef 's</h2>
+                    <a href="sections/chefs.html" class="btn-veja">Veja!</a>
+                </div>
+                <!-- Placeholder para o Tomatito -->
+                <div class="tomatito-card-placeholder"></div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card">
+                <div class="card-content">
+                    <h2>Cursos</h2>
+                    <a href="sections/cursos.html" class="btn-veja">Veja!</a>
+                </div>
+                <!-- Placeholder para o Tomatito -->
+                <div class="tomatito-card-placeholder"></div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card">
+                <div class="card-content">
+                    <h2>Receitas</h2>
+                    <a href="sections/receitas.html" class="btn-veja">Veja!</a>
+                </div>
+                <!-- Placeholder para o Tomatito -->
+                <div class="tomatito-card-placeholder"></div>
+            </div>
+        </div>
     </main>
 
-    <!-- =========================================
-         SCRIPT SPA
-    ========================================= -->
-    <script>
-        function navigateTo(sectionId) {
-            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
-            const el = document.getElementById(sectionId);
-            if (el) el.classList.add('active');
+    <!-- HELPER FLUTUANTE (Tomatito) -->
+    <div class="helper-container">
+        <div class="speech-bubble">
+            Oi eu sou o Tomatito<br>Precisa de ajuda?
+        </div>
+        <!-- Placeholder para o Tomatito Ajudante -->
+        <div class="tomatito-helper-placeholder"></div>
+    </div>
 
-            document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
-            const activeLink = document.getElementById('nav-' + sectionId);
-            if (activeLink) activeLink.classList.add('active');
-
-            // update URL hash without triggering hashchange
-            try { history.replaceState(null, '', '#' + sectionId); } catch (e) { /* ignore */ }
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        async function loadSections() {
-            const sections = ['home','chefs','hire-chef','cursos','receitas','impacta','sobre'];
-            const main = document.getElementById('main-content');
-
-            for (const name of sections) {
-                try {
-                    const res = await fetch(`sections/${name}.html`);
-                    if (!res.ok) { console.warn('Section not found:', name); continue; }
-                    const html = await res.text();
-                    const wrapper = document.createElement('div');
-                    wrapper.innerHTML = html;
-                    const sectionEl = wrapper.querySelector('section');
-                    if (sectionEl) main.appendChild(sectionEl);
-                } catch (err) {
-                    console.error('Error loading section', name, err);
-                }
-            }
-
-            // Ensure one active section
-            if (!document.querySelector('.page-section.active')) {
-                const first = document.querySelector('.page-section');
-                if (first) first.classList.add('active');
-            }
-
-            // If a hash exists on load, navigate to it
-            if (location.hash) {
-                const id = location.hash.replace('#', '');
-                // small timeout to ensure layout settled
-                setTimeout(() => { navigateTo(id); }, 0);
-            }
-
-            // Re-attach UI handlers that depend on section DOM
-            const recipeBtns = document.querySelectorAll('.receitas-menu button');
-            recipeBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    recipeBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                });
-            });
-
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                });
-            });
-        }
-
-        // listen to hash changes (user clicking anchors or manual change)
-        window.addEventListener('hashchange', () => {
-            const id = location.hash.replace('#', '') || 'home';
-            navigateTo(id);
-        });
-
-        document.addEventListener('DOMContentLoaded', loadSections);
-    </script>
 </body>
 </html>

@@ -242,65 +242,97 @@
         .tomatito-card-placeholder {
             position: absolute;
             right: 0;
-            bottom: -15px; /* Permite que a imagem vaze um pouco para baixo */
+            bottom: 5px;
             width: 140px;
             height: 160px;
             z-index: 1;
-            /* background-color: rgba(255, 0, 0, 0.1); Remova o comentário para ver a área reservada */
             pointer-events: none;
+            object-fit: contain; 
         }
 
         /* =========================================
-           FLOATING HELPER
+           FLOATING HELPER (CHATBOT REVAMP)
         ========================================= */
         .helper-container {
             position: fixed;
-            bottom: 40px;
-            right: 50px;
+            bottom: 30px;
+            right: 40px;
+            z-index: 100;
+            cursor: pointer; /* Cursor de clique para indicar interatividade */
+        }
+
+        /* Wrapper animado para dar vida ao chatbot com flutuação contínua */
+        .helper-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
-            z-index: 100;
+            animation: floatChatbot 4s ease-in-out infinite;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Interação ao passar o mouse por cima de todo o conjunto */
+        .helper-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        /* Animação suave de subida e descida */
+        @keyframes floatChatbot {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
         }
 
         .speech-bubble {
             background-color: #000;
             border: 3px solid var(--red-cta);
             border-radius: 50%;
-            width: 130px;
-            height: 130px;
+            width: 140px; /* Aumentado um pouco para acomodar o texto certinho */
+            height: 140px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 20px;
-            font-size: 0.75rem;
+            padding: 15px;
+            font-size: 0.85rem;
             font-weight: 800;
-            line-height: 1.3;
+            line-height: 1.2;
             position: relative;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            margin-bottom: 20px; /* Espaço para a cauda encaixar bem */
+            /* Efeito neon/brilho suave ao redor da borda vermelha */
+            box-shadow: 0 0 20px rgba(211, 0, 24, 0.3);
         }
 
-        /* A ponta (cauda) do balão de fala */
+        /* A ponta (cauda) do balão de fala perfeitamente alinhada */
         .speech-bubble::before {
             content: '';
             position: absolute;
-            bottom: 1px;
-            right: 25px;
-            width: 20px;
-            height: 20px;
-            background: #000;
+            bottom: -11px; /* Posicionamento fino da cauda */
+            right: 28px;
+            width: 22px;
+            height: 22px;
+            background: #000; /* Mesma cor de fundo do balão para esconder a borda inferior */
             border-bottom: 3px solid var(--red-cta);
             border-right: 3px solid var(--red-cta);
             transform: rotate(45deg);
+            border-bottom-right-radius: 3px; /* Suaviza levemente a ponta afiada */
         }
 
-        /* Local reservado para o Tomatito ajudante */
+        /* Estilo da Imagem do Tomatito */
         .tomatito-helper-placeholder {
-            width: 100px;
-            height: 120px;
-            /* background-color: rgba(255, 0, 0, 0.1); Remova o comentário para ver a área reservada */
+            width: 105px;
+            height: 125px;
+            object-fit: contain;
+            margin-top: -15px; /* Sobe o personagem para mais perto da cauda */
+            position: relative;
+            z-index: 2;
+            /* Sombra projetada perfeitamente no contorno do PNG */
+            filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.8));
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Charminho do Tomatito: dá uma leve inclinada e aumenta de tamanho ao focar */
+        .helper-wrapper:hover .tomatito-helper-placeholder {
+            transform: rotate(-5deg) scale(1.08);
         }
 
     </style>
@@ -344,8 +376,8 @@
                     <h2>Chef 's</h2>
                     <a href="sections/chefs.html" class="btn-veja">Veja!</a>
                 </div>
-                <!-- Placeholder para o Tomatito -->
-                <div class="tomatito-card-placeholder"></div>
+                <!-- Tomatito Chef inserido -->
+                <img src="assets/tomatito/Tomatito-Chef-Home-Icon.png" alt="Tomatito Chef" class="tomatito-card-placeholder">
             </div>
 
             <!-- Card 2 -->
@@ -354,8 +386,8 @@
                     <h2>Cursos</h2>
                     <a href="sections/cursos.html" class="btn-veja">Veja!</a>
                 </div>
-                <!-- Placeholder para o Tomatito -->
-                <div class="tomatito-card-placeholder"></div>
+                <!-- Tomatito Cursos inserido -->
+                <img src="assets/tomatito/Tomatito-Cursos-Home-Icon.png" alt="Tomatito Cursos" class="tomatito-card-placeholder">
             </div>
 
             <!-- Card 3 -->
@@ -364,19 +396,22 @@
                     <h2>Receitas</h2>
                     <a href="sections/receitas.html" class="btn-veja">Veja!</a>
                 </div>
-                <!-- Placeholder para o Tomatito -->
-                <div class="tomatito-card-placeholder"></div>
+                <!-- Tomatito Receitas inserido -->
+                <img src="assets/tomatito/Tomatito-Receitas-Home-Icon.png" alt="Tomatito Receitas" class="tomatito-card-placeholder">
             </div>
         </div>
     </main>
 
     <!-- HELPER FLUTUANTE (Tomatito) -->
     <div class="helper-container">
-        <div class="speech-bubble">
-            Oi eu sou o Tomatito<br>Precisa de ajuda?
+        <!-- Wrapper animado adicionado -->
+        <div class="helper-wrapper">
+            <div class="speech-bubble">
+                Oi eu sou o<br>Tomatito<br>Precisa de<br>ajuda?
+            </div>
+            <!-- Tomatito Ajudante/Chatbot inserido -->
+            <img src="assets/tomatito/Tomatito-Chatbot-Icon.png" alt="Tomatito Assistente" class="tomatito-helper-placeholder">
         </div>
-        <!-- Placeholder para o Tomatito Ajudante -->
-        <div class="tomatito-helper-placeholder"></div>
     </div>
 
 </body>

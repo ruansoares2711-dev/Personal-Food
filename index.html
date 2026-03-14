@@ -95,7 +95,7 @@
             height: 100%;
             width: 165px;
             object-fit: contain;
-            margin-right: 12px; /* Adiciona um espaço entre o ícone e o texto */
+            margin-right: 12px;
         }
 
         .logo-text {
@@ -150,6 +150,27 @@
             transform: scale(1.05);
         }
 
+        /* Elementos exclusivos do Mobile */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background-color: var(--text-white);
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        .mobile-only {
+            display: none;
+        }
+
         /* =========================================
            HERO SECTION
         ========================================= */
@@ -169,6 +190,7 @@
             font-weight: 800;
             margin-bottom: 10px;
             letter-spacing: -1px;
+            padding: 0 15px;
         }
 
         .hero p {
@@ -176,6 +198,7 @@
             font-weight: 400;
             margin-bottom: 60px;
             color: #e0e0e0;
+            padding: 0 15px;
         }
 
         /* =========================================
@@ -200,6 +223,7 @@
             align-items: center;
             justify-content: space-between;
             position: relative;
+            overflow: hidden; /* Para o ícone não vazar no mobile */
         }
 
         .card-content {
@@ -238,11 +262,10 @@
             background-color: var(--btn-green-hover);
         }
 
-        /* Local reservado para os Tomatitos nos cards */
         .tomatito-card-placeholder {
             position: absolute;
-            right: 0;
-            bottom: 5px;
+            right: -10px; /* Leve ajuste pra não cortar no card */
+            bottom: 0px;
             width: 140px;
             height: 160px;
             z-index: 1;
@@ -258,10 +281,9 @@
             bottom: 30px;
             right: 40px;
             z-index: 100;
-            cursor: pointer; /* Cursor de clique para indicar interatividade */
+            cursor: pointer; 
         }
 
-        /* Wrapper animado para dar vida ao chatbot com flutuação contínua */
         .helper-wrapper {
             display: flex;
             flex-direction: column;
@@ -270,12 +292,10 @@
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Interação ao passar o mouse por cima de todo o conjunto */
         .helper-wrapper:hover {
             transform: scale(1.05);
         }
 
-        /* Animação suave de subida e descida */
         @keyframes floatChatbot {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-12px); }
@@ -286,7 +306,7 @@
             background-color: #000;
             border: 3px solid var(--red-cta);
             border-radius: 50%;
-            width: 140px; /* Aumentado um pouco para acomodar o texto certinho */
+            width: 140px; 
             height: 140px;
             display: flex;
             align-items: center;
@@ -297,44 +317,140 @@
             font-weight: 800;
             line-height: 1.2;
             position: relative;
-            margin-bottom: 20px; /* Espaço para a cauda encaixar bem */
-            /* Efeito neon/brilho suave ao redor da borda vermelha */
+            margin-bottom: 20px; 
             box-shadow: 0 0 20px rgba(211, 0, 24, 0.3);
         }
 
-        /* A ponta (cauda) do balão de fala perfeitamente alinhada */
         .speech-bubble::before {
             content: '';
             position: absolute;
-            bottom: -11px; /* Posicionamento fino da cauda */
+            bottom: -11px; 
             right: 28px;
             width: 22px;
             height: 22px;
-            background: #000; /* Mesma cor de fundo do balão para esconder a borda inferior */
+            background: #000; 
             border-bottom: 3px solid var(--red-cta);
             border-right: 3px solid var(--red-cta);
             transform: rotate(45deg);
-            border-bottom-right-radius: 3px; /* Suaviza levemente a ponta afiada */
+            border-bottom-right-radius: 3px; 
         }
 
-        /* Estilo da Imagem do Tomatito */
         .tomatito-helper-placeholder {
             width: 105px;
             height: 125px;
             object-fit: contain;
-            margin-top: -15px; /* Sobe o personagem para mais perto da cauda */
+            margin-top: -15px; 
             position: relative;
             z-index: 2;
-            /* Sombra projetada perfeitamente no contorno do PNG */
             filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.8));
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Charminho do Tomatito: dá uma leve inclinada e aumenta de tamanho ao focar */
         .helper-wrapper:hover .tomatito-helper-placeholder {
             transform: rotate(-5deg) scale(1.08);
         }
 
+        /* =========================================
+           RESPONSIVIDADE (MOBILE & TABLETS)
+        ========================================= */
+        @media (max-width: 1024px) {
+            .nav-links { gap: 20px; }
+            .logo-wrapper img { width: 140px; }
+            .hero h1 { font-size: 3rem; }
+        }
+
+        @media (max-width: 850px) {
+            .cards-wrapper { flex-wrap: wrap; }
+            .card { width: calc(50% - 15px); }
+        }
+
+        @media (max-width: 768px) {
+            /* Ajustes Navbar */
+            .navbar {
+                padding-right: 20px;
+            }
+            .logo-wrapper {
+                padding: 10px 20px 10px 10px;
+                border-radius: 0 35px 35px 0;
+            }
+            .logo-wrapper img {
+                width: 110px;
+            }
+            .logo-text {
+                font-size: 1rem;
+            }
+            .logo-text span {
+                font-size: 0.8rem;
+            }
+            
+            /* Mostrar Menu Hambúrguer e Esconder Navbar Padrão */
+            .menu-toggle {
+                display: flex;
+            }
+            .navbar > .btn-entrar {
+                display: none;
+            }
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%; /* Escondido fora da tela */
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: var(--nav-bg);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 40px;
+                gap: 30px;
+                transition: left 0.3s ease-in-out;
+            }
+            .nav-links.active {
+                left: 0;
+            }
+            .nav-links a {
+                font-size: 1.2rem;
+            }
+            .mobile-only {
+                display: block;
+                margin-top: 20px;
+            }
+
+            /* Animação do Ícone de Hambúrguer */
+            .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+            /* Ajustes Hero */
+            .hero {
+                padding-top: 130px;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+                margin-bottom: 40px;
+            }
+
+            /* Ajustes Cards */
+            .cards-wrapper {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            .card {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            /* Ajustes Chatbot (Diminui um pouco o tamanho na tela do celular) */
+            .helper-container {
+                right: 15px;
+                bottom: 15px;
+                transform: scale(0.75);
+                transform-origin: bottom right;
+            }
+        }
     </style>
 </head>
 <body>
@@ -353,15 +469,27 @@
             </div>
         </div>
         
-        <ul class="nav-links">
+        <!-- Botão Menu Hambúrguer (Mobile) -->
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <ul class="nav-links" id="nav-links">
             <li><a href="index.html" style="color: var(--btn-green);">Home</a></li>
             <li><a href="sections/chefs.html">Chef 's</a></li>
             <li><a href="sections/cursos.html">Cursos</a></li>
             <li><a href="sections/receitas.html">Receitas</a></li>
             <li><a href="sections/impacta.html">PF Impacta</a></li>
             <li><a href="sections/sobre.html">Sobre nós</a></li>
+            <!-- Botão Entrar apenas para Menu Mobile -->
+            <li class="mobile-only">
+                <button class="btn-entrar" onclick="location.href='sections/registerLogin.html'">Entrar</button>
+            </li>
         </ul>
 
+        <!-- Botão Entrar Desktop -->
         <button class="btn-entrar" onclick="location.href='sections/registerLogin.html'">Entrar</button>
     </nav>
 
@@ -415,5 +543,15 @@
         </div>
     </div>
 
+    <!-- SCRIPT PARA O MENU MOBILE -->
+    <script>
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+    </script>
 </body>
 </html>

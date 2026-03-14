@@ -128,6 +128,27 @@
             transform: scale(1.05);
         }
 
+        /* Elementos exclusivos do Mobile */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background-color: var(--text-white);
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        .mobile-only {
+            display: none;
+        }
+
         /* =========================================
            CONTEÚDO PRINCIPAL - RECEITAS
         ========================================= */
@@ -295,7 +316,14 @@
             transform: scale(1.05);
         }
 
-        /* Responsividade */
+        /* =========================================
+           RESPONSIVIDADE (MOBILE & TABLETS)
+        ========================================= */
+        @media (max-width: 1024px) {
+            .nav-links { gap: 20px; }
+            .logo-wrapper img { width: 140px; }
+        }
+
         @media (max-width: 900px) {
             .receitas-header {
                 flex-direction: column;
@@ -331,6 +359,37 @@
                 justify-content: center;
             }
         }
+
+        @media (max-width: 768px) {
+            /* Ajustes Navbar */
+            .navbar { padding-right: 20px; }
+            .logo-wrapper { padding: 10px 20px 10px 10px; border-radius: 0 35px 35px 0; }
+            .logo-wrapper img { width: 110px; }
+            .logo-text { font-size: 1rem; }
+            .logo-text span { font-size: 0.8rem; }
+
+            /* Mostrar Menu Hambúrguer e Esconder Navbar Padrão */
+            .menu-toggle { display: flex; }
+            .navbar > .btn-entrar { display: none; }
+            .nav-links {
+                position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
+                background-color: var(--nav-bg); flex-direction: column; align-items: center;
+                justify-content: flex-start; padding-top: 40px; gap: 30px; transition: left 0.3s ease-in-out;
+            }
+            .nav-links.active { left: 0; }
+            .nav-links a { font-size: 1.2rem; }
+            .mobile-only { display: block; margin-top: 20px; }
+
+            /* Animação do Ícone de Hambúrguer */
+            .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+        }
+
+        @media (max-width: 480px) {
+            .navbar { padding-right: 15px; }
+            .receitas-header h2 { font-size: 1.8rem; }
+        }
     </style>
 </head>
 <body>
@@ -338,22 +397,33 @@
     <!-- NAVBAR Fiel ao Novo Padrão -->
     <nav class="navbar">
         <div class="logo-wrapper">
-            <!-- Assumindo que o arquivo está em sections/receitas.html -->
             <img src="../assets/personalFood/PersonalFoodIcon.png" alt="Personal Food Icon" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Chef_icon.svg/1024px-Chef_icon.svg.png'">
             <div class="logo-text">
                 PERSONAL<span>FOOD</span>
             </div>
         </div>
         
-        <ul class="nav-links">
+        <!-- Botão Menu Hambúrguer (Mobile) -->
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <ul class="nav-links" id="nav-links">
             <li><a href="../index.html">Home</a></li>
             <li><a href="chefs.html">Chef 's</a></li>
             <li><a href="cursos.html">Cursos</a></li>
             <li><a href="receitas.html" style="color: var(--btn-green);">Receitas</a></li>
             <li><a href="impacta.html">PF Impacta</a></li>
             <li><a href="sobre.html">Sobre nós</a></li>
+            <!-- Botão Entrar apenas para Menu Mobile -->
+            <li class="mobile-only">
+                <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
+            </li>
         </ul>
 
+        <!-- Botão Entrar Desktop -->
         <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
     </nav>
 
@@ -455,9 +525,19 @@
         </section>
     </main>
 
-    <!-- Script para interatividade do menu de Filtros -->
+    <!-- Script para interatividade do menu Mobile e de Filtros -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Lógica do Menu Responsivo (Hambúrguer)
+            const menuToggle = document.getElementById('mobile-menu');
+            const navLinks = document.getElementById('nav-links');
+
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+
+            // Lógica do Menu de Filtros de Receitas
             const menuButtons = document.querySelectorAll('.receitas-menu button');
             
             menuButtons.forEach(button => {

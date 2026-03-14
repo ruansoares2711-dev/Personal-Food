@@ -72,7 +72,7 @@
             height: 100%;
             width: 165px;
             object-fit: contain;
-            margin-right: 12px; /* Adiciona um espaço entre o ícone e o texto */
+            margin-right: 12px;
         }
 
         .logo-text {
@@ -125,6 +125,27 @@
         .btn-entrar:hover {
             background-color: var(--btn-green-hover);
             transform: scale(1.05);
+        }
+
+        /* Elementos exclusivos do Mobile */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background-color: var(--text-white);
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        .mobile-only {
+            display: none;
         }
 
         /* =========================================
@@ -325,8 +346,16 @@
             background-color: var(--btn-red-hover);
         }
 
-        /* Responsividade Básica */
+        /* =========================================
+           RESPONSIVIDADE (MOBILE & TABLETS)
+        ========================================= */
+        @media (max-width: 1024px) {
+            .nav-links { gap: 20px; }
+            .logo-wrapper img { width: 140px; }
+        }
+
         @media (max-width: 900px) {
+            /* Altera a direção da página para o Sidebar ir pro topo */
             .cursos-layout {
                 flex-direction: column;
             }
@@ -335,17 +364,11 @@
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: space-between;
+                gap: 15px;
             }
             .sidebar-filter {
-            flex: 1;
-            min-width: 150px;
-        }
-        .cursos-header {
-            flex-direction: column;
-            text-align: center;
-        }
-            .tomatito-sidebar {
-                display: none; /* Esconde o mascote no mobile para economizar espaço */
+                flex: 1;
+                min-width: 150px;
             }
             .cursos-header {
                 flex-direction: column;
@@ -353,12 +376,55 @@
             }
             .cursos-header img {
                 width: 100%;
+                height: 200px;
                 border-radius: 0 0 15px 15px;
                 mask-image: none;
                 -webkit-mask-image: none;
             }
+            .cursos-header-text {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Ajustes Navbar */
+            .navbar { padding-right: 20px; }
+            .logo-wrapper { padding: 10px 20px 10px 10px; border-radius: 0 35px 35px 0; }
+            .logo-wrapper img { width: 110px; }
+            .logo-text { font-size: 1rem; }
+            .logo-text span { font-size: 0.8rem; }
+
+            /* Mostrar Menu Hambúrguer e Esconder Navbar Padrão */
+            .menu-toggle { display: flex; }
+            .navbar > .btn-entrar { display: none; }
             .nav-links {
-                display: none; /* Em um cenário real, aqui entraria um menu hamburguer */
+                position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
+                background-color: var(--nav-bg); flex-direction: column; align-items: center;
+                justify-content: flex-start; padding-top: 40px; gap: 30px; transition: left 0.3s ease-in-out;
+            }
+            .nav-links.active { left: 0; }
+            .nav-links a { font-size: 1.2rem; }
+            .mobile-only { display: block; margin-top: 20px; }
+
+            /* Animação do Ícone de Hambúrguer */
+            .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+        }
+
+        @media (max-width: 480px) {
+            .grid-cursos {
+                grid-template-columns: 1fr;
+            }
+            .navbar {
+                padding-right: 15px;
+            }
+            .cursos-header h2 {
+                font-size: 1.8rem;
+            }
+            .sidebar {
+                flex-direction: column;
+                gap: 20px;
             }
         }
     </style>
@@ -374,15 +440,27 @@
             </div>
         </div>
         
-        <ul class="nav-links">
+        <!-- Botão Menu Hambúrguer (Mobile) -->
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <ul class="nav-links" id="nav-links">
             <li><a href="../index.html">Home</a></li>
             <li><a href="chefs.html">Chef 's</a></li>
             <li><a href="cursos.html" style="color: var(--btn-green);">Cursos</a></li>
             <li><a href="receitas.html" >Receitas</a></li>
             <li><a href="impacta.html">PF Impacta</a></li>
             <li><a href="sobre.html">Sobre nós</a></li>
+            <!-- Botão Entrar apenas para Menu Mobile -->
+            <li class="mobile-only">
+                <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
+            </li>
         </ul>
 
+        <!-- Botão Entrar Desktop -->
         <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
     </nav>
 
@@ -507,5 +585,15 @@
         </section>
     </main>
 
+    <!-- SCRIPT PARA O MENU MOBILE -->
+    <script>
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+    </script>
 </body>
 </html>

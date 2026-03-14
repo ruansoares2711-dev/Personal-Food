@@ -77,7 +77,7 @@
             height: 100%;
             width: 165px;
             object-fit: contain;
-            margin-right: 12px; /* Adiciona um espaço entre o ícone e o texto */
+            margin-right: 12px;
         }
 
         .logo-text {
@@ -131,11 +131,31 @@
             transform: scale(1.05);
         }
 
+        /* Elementos exclusivos do Mobile */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background-color: var(--text-light);
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        .mobile-only {
+            display: none;
+        }
+
         /* --- Main Section --- */
         .page-section {
             max-width: 1200px;
             margin: 0 auto;
-            /* Padding top ajustado para 120px para não ficar atrás da navbar fixa */
             padding: 120px 20px 40px 20px; 
         }
 
@@ -299,36 +319,54 @@
             margin-top: 15px;
         }
 
-        /* --- Responsive Design --- */
+        /* =========================================
+           RESPONSIVIDADE (MOBILE & TABLETS)
+        ========================================= */
         @media (max-width: 1024px) {
-            .grid-chefs {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            .nav-links {
-                display: none;
-            }
+            .grid-chefs { grid-template-columns: repeat(3, 1fr); }
+            .nav-links { gap: 20px; }
+            .logo-wrapper img { width: 140px; }
+        }
+
+        @media (max-width: 850px) {
+            .grid-chefs { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
-            .grid-chefs {
-                grid-template-columns: repeat(2, 1fr);
+            /* Ajustes Navbar */
+            .navbar { padding-right: 20px; }
+            .logo-wrapper { padding: 10px 20px 10px 10px; border-radius: 0 35px 35px 0; }
+            .logo-wrapper img { width: 110px; }
+            .logo-text { font-size: 1rem; }
+            .logo-text span { font-size: 0.8rem; }
+
+            /* Mostrar Menu Hambúrguer e Esconder Navbar Padrão */
+            .menu-toggle { display: flex; }
+            .navbar > .btn-entrar { display: none; }
+            .nav-links {
+                position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
+                background-color: var(--nav-bg); flex-direction: column; align-items: center;
+                justify-content: flex-start; padding-top: 40px; gap: 30px; transition: left 0.3s ease-in-out;
             }
-            .section-title {
-                font-size: 2rem;
-            }
-            .filter-bar-bg {
-                border-radius: 20px;
-                padding: 15px;
-            }
+            .nav-links.active { left: 0; }
+            .nav-links a { font-size: 1.2rem; }
+            .mobile-only { display: block; margin-top: 20px; }
+
+            /* Animação do Ícone de Hambúrguer */
+            .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+            /* Ajustes Internos da Página */
+            .section-title { font-size: 2rem; }
+            .filter-bar-bg { border-radius: 20px; padding: 15px; gap: 10px; }
+            .filter-btn { padding: 8px 15px; font-size: 0.8rem; }
         }
 
         @media (max-width: 480px) {
-            .grid-chefs {
-                grid-template-columns: 1fr;
-            }
-            .navbar {
-                padding-right: 15px;
-            }
+            .grid-chefs { grid-template-columns: 1fr; }
+            .navbar { padding-right: 15px; }
+            .btn-red { width: 100%; } /* Botão estica um pouco mais no celular */
         }
     </style>
 </head>
@@ -343,13 +381,24 @@
             </div>
         </div>
         
-        <ul class="nav-links">
+        <!-- Botão Menu Hambúrguer (Mobile) -->
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <ul class="nav-links" id="nav-links">
             <li><a href="../index.html">Home</a></li>
             <li><a href="chefs.html" style="color: var(--btn-green);">Chef 's</a></li>
             <li><a href="cursos.html">Cursos</a></li>
             <li><a href="receitas.html" >Receitas</a></li>
             <li><a href="impacta.html">PF Impacta</a></li>
             <li><a href="sobre.html">Sobre nós</a></li>
+            <!-- Botão Entrar apenas para Menu Mobile -->
+            <li class="mobile-only">
+                <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
+            </li>
         </ul>
 
         <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
@@ -469,6 +518,15 @@
     </div>
 
     <script>
+        // Lógica do Menu Mobile Responsivo
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
         // Lógica de Filtros
         function setFilter(clickedElement) {
             const buttons = document.querySelectorAll('.filter-btn');

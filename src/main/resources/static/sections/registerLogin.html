@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Food | Login e Cadastro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/personalFood/PersonalFoodFavIcon32x32-removebg-preview.png">
+    <style>
+        /* =========================================
+           VARIÁVEIS DE COR E ESTILOS GLOBAIS
+        ========================================= */
+        :root {
+            --bg-main: #000000;
+            --nav-bg: #113c0b;
+            --logo-bg: #d1c115;
+            --card-bg: #0e290a;
+            --btn-green: #a7c938;
+            --btn-green-hover: #b8db40;
+            --red-cta: #d30018;
+            --text-white: #FFFFFF;
+            --font-main: 'Poppins', sans-serif;
+            --input-bg: rgba(0, 0, 0, 0.4);
+            --border-color: #2a5a22;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Imagens de fundo laterais simuladas */
+        .bg-side {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 25vw;
+            z-index: -1;
+            opacity: 0.3;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .bg-left {
+            left: 0;
+            background-image: url('https://images.unsplash.com/photo-1490818387583-1b5f2dd061b1?q=80&w=600&auto=format&fit=crop');
+            -webkit-mask-image: linear-gradient(to right, black 10%, transparent 100%);
+            mask-image: linear-gradient(to right, black 10%, transparent 100%);
+        }
+
+        .bg-right {
+            right: 0;
+            background-image: url('https://images.unsplash.com/photo-1596683839213-9f864bc39294?q=80&w=600&auto=format&fit=crop');
+            -webkit-mask-image: linear-gradient(to left, black 10%, transparent 100%);
+            mask-image: linear-gradient(to left, black 10%, transparent 100%);
+        }
+
+        /* =========================================
+           NAVBAR (NOVO PADRÃO)
+        ========================================= */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background-color: var(--nav-bg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            padding-right: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-wrapper {
+            height: 100%;
+            background-color: var(--logo-bg);
+            padding: 10px 40px 10px 20px;
+            border-radius: 0 50px 50px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-wrapper img {
+            height: 100%;
+            width: 165px;
+            object-fit: contain;
+            margin-right: 12px;
+        }
+
+        .logo-text {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            line-height: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo-text span {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--btn-green);
+        }
+
+        .btn-entrar {
+            background-color: var(--btn-green);
+            color: #113c0b;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: var(--font-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-entrar:hover {
+            background-color: var(--btn-green-hover);
+            transform: scale(1.05);
+        }
+
+        /* Elementos exclusivos do Mobile */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background-color: var(--text-white);
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        .mobile-only {
+            display: none;
+        }
+
+        /* =========================================
+           AUTH SECTION (LOGIN / REGISTRO)
+        ========================================= */
+        .auth-section {
+            padding-top: 120px;
+            padding-bottom: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            z-index: 10;
+        }
+
+        .auth-container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Tabs de navegação (Entrar / Cadastrar) */
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #88a483;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .auth-tab.active {
+            color: var(--btn-green);
+        }
+
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--btn-green);
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* Formulários */
+        .auth-form {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-form h2 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        /* Inputs e Labels */
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #e0e0e0;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-white);
+            font-family: var(--font-main);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            border-color: var(--btn-green);
+            box-shadow: 0 0 8px rgba(167, 201, 56, 0.3);
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .input-group select option {
+            background-color: var(--card-bg);
+            color: var(--text-white);
+        }
+
+        /* Checkbox Customizado (Quero ser Chef) */
+        .checkbox-group {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: rgba(167, 201, 56, 0.05);
+            border: 1px dashed var(--btn-green);
+            border-radius: 10px;
+        }
+
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #e0e0e0;
+            font-weight: 600;
+            user-select: none;
+        }
+
+        .custom-checkbox input {
+            display: none;
+        }
+
+        .checkmark {
+            width: 24px;
+            height: 24px;
+            background-color: var(--input-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            margin-right: 12px;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .custom-checkbox input:checked + .checkmark {
+            background-color: var(--btn-green);
+            border-color: var(--btn-green);
+        }
+
+        .custom-checkbox input:checked + .checkmark::after {
+            content: "✓";
+            position: absolute;
+            color: #113c0b;
+            font-size: 16px;
+            font-weight: 900;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Container de campos extras do Chef */
+        #chef-extra-fields {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Input de Arquivo Customizado */
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+            height: 100%;
+        }
+
+        .btn-file {
+            display: block;
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--input-bg);
+            border: 1px dashed var(--btn-green);
+            border-radius: 10px;
+            color: var(--text-white);
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-file:hover {
+            background-color: rgba(167, 201, 56, 0.1);
+        }
+
+        /* Botões */
+        .btn-submit {
+            width: 100%;
+            background-color: var(--btn-green);
+            color: #113c0b;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            font-family: var(--font-main);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--btn-green-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(167, 201, 56, 0.3);
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 15px;
+            display: block;
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .forgot-password:hover {
+            color: var(--btn-green);
+            text-decoration: underline;
+        }
+
+        /* =========================================
+           RESPONSIVIDADE
+        ========================================= */
+        @media (max-width: 1024px) {
+            .nav-links { gap: 20px; }
+            .logo-wrapper img { width: 140px; }
+        }
+
+        @media (max-width: 900px) {
+            .bg-side { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding-right: 20px; }
+            .logo-wrapper { padding: 10px 20px 10px 10px; border-radius: 0 35px 35px 0; }
+            .logo-wrapper img { width: 110px; }
+            .logo-text { font-size: 1rem; }
+            .logo-text span { font-size: 0.8rem; }
+            .menu-toggle { display: flex; }
+            .navbar > .btn-entrar { display: none; }
+            .nav-links {
+                position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
+                background-color: var(--nav-bg); flex-direction: column; align-items: center;
+                justify-content: flex-start; padding-top: 40px; gap: 30px; transition: left 0.3s ease-in-out;
+            }
+            .nav-links.active { left: 0; }
+            .nav-links a { font-size: 1.2rem; }
+            .mobile-only { display: block; margin-top: 20px; }
+            .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+        }
+        
+        @media (max-width: 550px) {
+            .auth-section { padding-top: 100px; padding-bottom: 0; align-items: flex-start; }
+            .auth-container { border-radius: 0; box-shadow: none; padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Imagens de fundo simuladas nas laterais -->
+    <div class="bg-side bg-left"></div>
+    <div class="bg-side bg-right"></div>
+
+    <!-- NAVBAR Fiel ao Novo Padrão -->
+    <nav class="navbar">
+        <div class="logo-wrapper">
+            <!-- Caminho partindo da raiz -->
+            <img src="../assets/personalFood/PersonalFoodIcon.png" alt="Personal Food Icon" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Chef_icon.svg/1024px-Chef_icon.svg.png'">
+            <div class="logo-text">
+                PERSONAL<span>FOOD</span>
+            </div>
+        </div>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <ul class="nav-links" id="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="chefs.html">Chef 's</a></li>
+            <li><a href="cursos.html">Cursos</a></li>
+            <li><a href="receitas.html">Receitas</a></li>
+            <li><a href="impacta.html">PF Impacta</a></li>
+            <li><a href="sobre.html">Sobre nós</a></li>
+            <li class="mobile-only">
+                <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
+            </li>
+        </ul>
+
+        <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
+    </nav>
+
+    <!-- CONTEÚDO PRINCIPAL (AUTH) -->
+    <main class="auth-section">
+        <div class="auth-container">
+            
+            <!-- Guias de Navegação -->
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="tab-login" onclick="toggleAuth('login')">Entrar</div>
+                <div class="auth-tab" id="tab-register" onclick="toggleAuth('register')">Cadastrar</div>
+            </div>
+
+            <!-- Formulário de LOGIN -->
+            <form id="form-login" class="auth-form active" onsubmit="event.preventDefault();">
+                <h2>Bem-vindo de volta!</h2>
+                
+                <div class="input-group">
+                    <label for="login-email">E-mail</label>
+                    <input type="email" id="login-email" placeholder="Digite seu e-mail" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="login-password">Senha</label>
+                    <input type="password" id="login-password" placeholder="Digite sua senha" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Acessar Conta</button>
+                <a href="#" class="forgot-password">Esqueceu sua senha?</a>
+            </form>
+
+            <!-- Formulário de REGISTRO -->
+            <form id="form-register" class="auth-form" onsubmit="event.preventDefault();">
+                <h2>Junte-se a nós!</h2>
+                
+                <div class="input-group">
+                    <label for="reg-name">Nome Completo</label>
+                    <input type="text" id="reg-name" placeholder="Como devemos te chamar?" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="reg-email">E-mail</label>
+                    <input type="email" id="reg-email" placeholder="seu.melhor@email.com" required>
+                </div>
+
+                <!-- Novo Campo: CPF -->
+                <div class="input-group">
+                    <label for="reg-cpf">CPF</label>
+                    <input type="text" id="reg-cpf" placeholder="000.000.000-00" maxlength="14" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="reg-password">Senha</label>
+                    <input type="password" id="reg-password" placeholder="Crie uma senha forte" required>
+                </div>
+
+                <!-- Checkbox para transformar em conta de Chef -->
+                <div class="checkbox-group">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="reg-is-chef" onchange="toggleChefFields()">
+                        <span class="checkmark"></span>
+                        Quero ser Chef (Sujeito a aprovação)
+                    </label>
+                </div>
+
+                <!-- Campos Extras (Ocultos por Padrão) -->
+                <div id="chef-extra-fields">
+                    <div class="input-group">
+                        <label for="reg-specialty">Especialidade Principal</label>
+                        <select id="reg-specialty">
+                            <option value="" disabled selected>Selecione sua especialidade</option>
+                            <option value="confeitaria">Confeitaria & Doces</option>
+                            <option value="brasileira">Cozinha Brasileira</option>
+                            <option value="churrasco">Churrasco & Carnes</option>
+                            <option value="vegana">Comida Vegana / Vegetariana</option>
+                            <option value="massas">Massas & Cozinha Italiana</option>
+                            <option value="oriental">Cozinha Oriental</option>
+                            <option value="fit">Cozinha Fit / Saudável</option>
+                            <option value="outro">Outro (Geral)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="reg-bio">Apresentação</label>
+                        <textarea id="reg-bio" placeholder="Conte-nos um pouco sobre você e sua paixão pela culinária..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Foto de Perfil (Opcional por enquanto)</label>
+                        <div class="file-input-wrapper">
+                            <button type="button" class="btn-file" id="fileNameDisplay">📸 Escolher Foto...</button>
+                            <input type="file" id="reg-photo" accept="image/*" onchange="updateFileName(this)">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Criar Conta</button>
+            </form>
+
+        </div>
+    </main>
+
+    <!-- SCRIPT DE INTERATIVIDADE -->
+    <script>
+        // Lógica do Menu Responsivo (Hambúrguer)
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Função para alternar entre Login e Cadastro
+        function toggleAuth(type) {
+            const formLogin = document.getElementById('form-login');
+            const formRegister = document.getElementById('form-register');
+            const tabLogin = document.getElementById('tab-login');
+            const tabRegister = document.getElementById('tab-register');
+
+            if (type === 'login') {
+                formLogin.classList.add('active');
+                formRegister.classList.remove('active');
+                
+                tabLogin.classList.add('active');
+                tabRegister.classList.remove('active');
+            } else {
+                formRegister.classList.add('active');
+                formLogin.classList.remove('active');
+                
+                tabRegister.classList.add('active');
+                tabLogin.classList.remove('active');
+            }
+        }
+
+        // Função para mostrar/esconder campos extras de Chef
+        function toggleChefFields() {
+            const isChefChecked = document.getElementById('reg-is-chef').checked;
+            const extraFieldsContainer = document.getElementById('chef-extra-fields');
+            
+            // Pegamos os campos que se tornarão obrigatórios
+            const specialtyInput = document.getElementById('reg-specialty');
+            const bioInput = document.getElementById('reg-bio');
+
+            if (isChefChecked) {
+                extraFieldsContainer.style.display = 'block';
+                specialtyInput.setAttribute('required', 'true');
+                bioInput.setAttribute('required', 'true');
+            } else {
+                extraFieldsContainer.style.display = 'none';
+                specialtyInput.removeAttribute('required');
+                bioInput.removeAttribute('required');
+            }
+        }
+
+        // Máscara Automática de CPF
+        document.getElementById('reg-cpf').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
+            
+            if (value.length > 11) value = value.slice(0, 11); // Limita a 11 dígitos numéricos
+            
+            // Aplica a máscara (000.000.000-00)
+            if (value.length > 9) {
+                value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, "$1.$2.$3-$4");
+            } else if (value.length > 6) {
+                value = value.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3");
+            } else if (value.length > 3) {
+                value = value.replace(/(\d{3})(\d{1,3})/, "$1.$2");
+            }
+            
+            e.target.value = value;
+        });
+
+        // Atualizar o texto do botão de arquivo com o nome da imagem selecionada
+        function updateFileName(input) {
+            const displayBtn = document.getElementById('fileNameDisplay');
+            if (input.files && input.files[0]) {
+                displayBtn.innerText = "✅ " + input.files[0].name;
+                displayBtn.style.borderColor = "var(--btn-green)";
+                displayBtn.style.color = "var(--btn-green)";
+            } else {
+                displayBtn.innerText = "📸 Escolher Foto...";
+                displayBtn.style.borderColor = "var(--btn-green)";
+                displayBtn.style.color = "var(--text-white)";
+            }
+        }
+    </script>
+</body>
+</html>

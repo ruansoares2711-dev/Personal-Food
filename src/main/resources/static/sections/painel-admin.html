@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Food | Painel Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/personalFood/PersonalFoodFavIcon32x32-removebg-preview.png">
+    <style>
+        :root {
+            --bg-main: #000000;
+            --nav-bg: #113c0b;
+            --logo-bg: #d1c115;
+            --card-bg: #0e290a;
+            --btn-green: #a7c938;
+            --btn-green-hover: #b8db40;
+            --red-cta: #d30018;
+            --text-white: #FFFFFF;
+            --font-main: 'Poppins', sans-serif;
+            --border-color: #2a5a22;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Imagens de fundo laterais sincronizadas com a Home */
+        .bg-side {
+            position: fixed; top: 0; bottom: 0; width: 25vw; z-index: -1;
+            opacity: 0.2; background-size: cover; background-position: center;
+        }
+        .bg-left { 
+            left: 0; 
+            background-image: url('https://images.unsplash.com/photo-1490818387583-1b5f2dd061b1?q=80&w=600&auto=format&fit=crop'); 
+            -webkit-mask-image: linear-gradient(to right, black 10%, transparent 100%);
+        }
+        .bg-right { 
+            right: 0; 
+            background-image: url('https://images.unsplash.com/photo-1596683839213-9f864bc39294?q=80&w=600&auto=format&fit=crop'); 
+            -webkit-mask-image: linear-gradient(to left, black 10%, transparent 100%);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; height: 80px;
+            background-color: var(--nav-bg); display: flex; align-items: center;
+            justify-content: space-between; z-index: 1000; padding-right: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .logo-wrapper {
+            height: 100%; background-color: var(--logo-bg); padding: 10px 40px 10px 20px;
+            border-radius: 0 50px 50px 0; display: flex; align-items: center;
+        }
+        .logo-wrapper img { height: 100%; width: 165px; object-fit: contain; margin-right: 12px; }
+        .logo-text { color: #ffffff; font-size: 1.3rem; font-weight: 800; line-height: 1; display: flex; flex-direction: column; }
+        .logo-text span { font-weight: 500; font-size: 0.95rem; }
+        
+        .btn-sair {
+            background-color: transparent; color: var(--red-cta); border: 2px solid var(--red-cta);
+            padding: 8px 20px; border-radius: 25px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-sair:hover { background-color: var(--red-cta); color: #fff; }
+
+        /* DASHBOARD CONTENT */
+        .dashboard-container {
+            padding-top: 120px; padding-bottom: 60px; max-width: 1200px; margin: 0 auto; padding-inline: 20px;
+            position: relative; z-index: 10;
+        }
+
+        .header-painel {
+            margin-bottom: 30px; border-bottom: 2px solid var(--border-color); padding-bottom: 20px;
+        }
+        .header-painel h1 { font-size: 2.2rem; font-weight: 800; color: var(--btn-green); }
+        .header-painel p { color: #a0a0a0; }
+
+        .metrics-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 40px;
+        }
+        .metric-card {
+            background-color: var(--card-bg); border-radius: 12px; padding: 20px;
+            border: 1px solid var(--border-color); text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        .metric-card h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .metric-card .value { font-size: 2.5rem; font-weight: 800; }
+
+        /* TABELA */
+        .table-container {
+            background-color: var(--card-bg); border-radius: 15px; padding: 25px;
+            border: 1px solid var(--border-color); overflow-x: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .table-container h2 { margin-bottom: 20px; font-size: 1.4rem; color: var(--text-white); }
+
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        th, td { padding: 18px 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        th { color: var(--btn-green); text-transform: uppercase; font-size: 0.8rem; font-weight: 700; }
+        td { font-size: 0.9rem; color: #e0e0e0; }
+        tr:hover { background-color: rgba(167, 201, 56, 0.03); }
+
+        .btn-aprovar { 
+            background-color: #2e7d32; color: white; border: none; padding: 8px 15px; 
+            border-radius: 6px; cursor: pointer; font-weight: 600; margin-right: 8px; transition: 0.2s;
+        }
+        .btn-aprovar:hover { background-color: #388e3c; transform: scale(1.05); }
+
+        .btn-recusar { 
+            background-color: var(--red-cta); color: white; border: none; padding: 8px 15px; 
+            border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s;
+        }
+        .btn-recusar:hover { background-color: #ff1a34; transform: scale(1.05); }
+
+        /* TOMATITO ANIMADO */
+        .helper-container { position: fixed; bottom: 30px; right: 40px; z-index: 100; }
+        .helper-wrapper {
+            animation: floatChatbot 4s ease-in-out infinite;
+        }
+        @keyframes floatChatbot { 0% { transform: translateY(0px); } 50% { transform: translateY(-12px); } 100% { transform: translateY(0px); } }
+        
+        .tomatito-admin { width: 90px; filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.8)); }
+
+        @media (max-width: 768px) {
+            .navbar { padding-right: 20px; }
+            .logo-wrapper { padding: 10px 20px 10px 10px; border-radius: 0 35px 35px 0; }
+            .logo-wrapper img { width: 110px; }
+            .header-painel h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-side bg-left"></div>
+    <div class="bg-side bg-right"></div>
+
+    <nav class="navbar">
+        <div class="logo-wrapper">
+            <img src="../assets/personalFood/PersonalFoodIcon.png" alt="Personal Food">
+            <div class="logo-text">PERSONAL<span>FOOD</span></div>
+        </div>
+        <button class="btn-sair" onclick="fazerLogout()">Sair do Painel</button>
+    </nav>
+
+    <main class="dashboard-container">
+        <div class="header-painel">
+            <h1 id="nome-admin">Gestão da Plataforma</h1>
+            <p>Analise os perfis candidatos e aprove novos parceiros.</p>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h3 style="color: var(--btn-green)">Solicitações Pendentes</h3>
+                <div class="value" id="count-pendentes">0</div>
+            </div>
+            <div class="metric-card">
+                <h3 style="color: #a0a0a0">Aprovados por você</h3>
+                <div class="value" id="count-meus-aprovados">0</div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <h2>Fila de Espera: Candidatos a Chefe</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome do Candidato</th>
+                        <th>E-mail para Contato</th>
+                        <th>Documento (CPF)</th>
+                        <th>Ações Gerenciais</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-solicitacoes">
+                    </tbody>
+            </table>
+        </div>
+    </main>
+
+    <div class="helper-container">
+        <div class="helper-wrapper">
+            <img src="../assets/tomatito/Tomatito-Chatbot-Icon.png" class="tomatito-admin" alt="Tomatito">
+        </div>
+    </div>
+
+    <script>
+        let aprovadosSessao = 0;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const usuarioJSON = localStorage.getItem('usuarioLogado');
+            if (!usuarioJSON || JSON.parse(usuarioJSON).tipo !== 'ADMIN') {
+                window.location.href = "../index.html";
+                return;
+            }
+            
+            const admin = JSON.parse(usuarioJSON);
+            document.getElementById('nome-admin').innerText = `Gestão de Projetos: ${admin.nome}`;
+            
+            carregarSolicitacoes();
+        });
+
+        async function carregarSolicitacoes() {
+            try {
+                // Rota que busca apenas usuários com tipo PENDENTE_CHEFE
+                const resposta = await fetch('http://localhost:8080/api/admin/usuarios-pendentes');
+                const usuarios = await resposta.json();
+                
+                const tabela = document.getElementById('tabela-solicitacoes');
+                tabela.innerHTML = '';
+                
+                document.getElementById('count-pendentes').innerText = usuarios.length;
+
+                if (usuarios.length === 0) {
+                    tabela.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 40px; color: #88a483; font-style: italic;">Nenhuma solicitação pendente no momento.</td></tr>';
+                    return;
+                }
+
+                usuarios.forEach(user => {
+                    tabela.innerHTML += `
+                        <tr>
+                            <td style="font-weight: 700;">${user.nome}</td>
+                            <td>${user.email}</td>
+                            <td>${user.cpf}</td>
+                            <td>
+                                <button class="btn-aprovar" onclick="aprovarChef(${user.id}, '${user.nome}')">Aprovar</button>
+                                <button class="btn-recusar" onclick="recusarChef(${user.id})">Recusar</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (error) {
+                console.error("Erro ao carregar candidatos:", error);
+            }
+        }
+
+        async function aprovarChef(id, nome) {
+            if (!confirm(`Confirmar a promoção de ${nome} para o cargo de CHEFE?`)) return;
+            
+            try {
+                const res = await fetch(`http://localhost:8080/api/admin/aprovar-chefe/${id}`, { method: 'PUT' });
+                if (res.ok) {
+                    aprovadosSessao++;
+                    document.getElementById('count-meus-aprovados').innerText = aprovadosSessao;
+                    carregarSolicitacoes();
+                }
+            } catch (err) {
+                alert("Erro ao conectar com o servidor.");
+            }
+        }
+
+        async function recusarChef(id) {
+            if (!confirm("Deseja realmente deletar esta solicitação? Esta ação é irreversível.")) return;
+            
+            try {
+                const res = await fetch(`http://localhost:8080/api/admin/recusar-usuario/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    carregarSolicitacoes();
+                }
+            } catch (err) {
+                alert("Erro ao conectar com o servidor.");
+            }
+        }
+
+        function fazerLogout() {
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = "registerLogin.html";
+        }
+    </script>
+</body>
+</html>

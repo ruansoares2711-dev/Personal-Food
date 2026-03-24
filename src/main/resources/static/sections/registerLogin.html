@@ -66,7 +66,7 @@
         }
 
         /* =========================================
-           NAVBAR (NOVO PADRÃO)
+           NAVBAR
         ========================================= */
         .navbar {
             position: fixed;
@@ -174,7 +174,7 @@
         }
 
         /* =========================================
-           AUTH SECTION (LOGIN / REGISTRO)
+           AUTH SECTION
         ========================================= */
         .auth-section {
             padding-top: 120px;
@@ -199,7 +199,6 @@
             overflow: hidden;
         }
 
-        /* Tabs de navegação (Entrar / Cadastrar) */
         .auth-tabs {
             display: flex;
             margin-bottom: 30px;
@@ -233,7 +232,6 @@
             border-radius: 3px 3px 0 0;
         }
 
-        /* Formulários */
         .auth-form {
             display: none;
             animation: fadeIn 0.4s ease forwards;
@@ -255,7 +253,6 @@
             text-align: center;
         }
 
-        /* Inputs e Labels */
         .input-group {
             margin-bottom: 20px;
             display: flex;
@@ -301,7 +298,6 @@
             color: var(--text-white);
         }
 
-        /* Checkbox Customizado (Quero ser Chef) */
         .checkbox-group {
             margin-bottom: 25px;
             padding: 15px;
@@ -351,7 +347,6 @@
             transform: translate(-50%, -50%);
         }
 
-        /* Container de campos extras do Chef */
         #chef-extra-fields {
             display: none;
             animation: fadeIn 0.4s ease forwards;
@@ -360,7 +355,6 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Input de Arquivo Customizado */
         .file-input-wrapper {
             position: relative;
             overflow: hidden;
@@ -396,7 +390,6 @@
             background-color: rgba(167, 201, 56, 0.1);
         }
 
-        /* Botões */
         .btn-submit {
             width: 100%;
             background-color: var(--btn-green);
@@ -434,6 +427,40 @@
         }
 
         /* =========================================
+           TOAST NOTIFICATION (POPUP CUSTOMIZADO)
+        ========================================= */
+        .custom-toast {
+            position: fixed;
+            bottom: 30px;
+            right: -400px; /* Escondido por padrão fora da tela */
+            background-color: var(--card-bg);
+            color: var(--text-white);
+            border-left: 5px solid var(--btn-green); /* Verde por padrão (Sucesso) */
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-family: var(--font-main);
+            font-weight: 500;
+            z-index: 9999;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .custom-toast.show {
+            right: 30px; /* Desliza para dentro da tela */
+        }
+
+        .custom-toast.error {
+            border-left-color: var(--red-cta); /* Muda detalhe para vermelho */
+        }
+
+        .toast-icon {
+            font-size: 1.5rem;
+        }
+
+        /* =========================================
            RESPONSIVIDADE
         ========================================= */
         @media (max-width: 1024px) {
@@ -464,6 +491,8 @@
             .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
             .menu-toggle.active span:nth-child(2) { opacity: 0; }
             .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+            .custom-toast { right: 0; bottom: -100px; width: 90%; left: 5%; border-radius: 10px; transition: bottom 0.4s; }
+            .custom-toast.show { bottom: 20px; right: 0; }
         }
         
         @media (max-width: 550px) {
@@ -474,14 +503,11 @@
 </head>
 <body>
 
-    <!-- Imagens de fundo simuladas nas laterais -->
     <div class="bg-side bg-left"></div>
     <div class="bg-side bg-right"></div>
 
-    <!-- NAVBAR Fiel ao Novo Padrão -->
     <nav class="navbar">
         <div class="logo-wrapper">
-            <!-- Caminho partindo da raiz -->
             <img src="../assets/personalFood/PersonalFoodIcon.png" alt="Personal Food Icon" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Chef_icon.svg/1024px-Chef_icon.svg.png'">
             <div class="logo-text">
                 PERSONAL<span>FOOD</span>
@@ -509,18 +535,15 @@
         <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
     </nav>
 
-    <!-- CONTEÚDO PRINCIPAL (AUTH) -->
     <main class="auth-section">
         <div class="auth-container">
             
-            <!-- Guias de Navegação -->
             <div class="auth-tabs">
                 <div class="auth-tab active" id="tab-login" onclick="toggleAuth('login')">Entrar</div>
                 <div class="auth-tab" id="tab-register" onclick="toggleAuth('register')">Cadastrar</div>
             </div>
 
-            <!-- Formulário de LOGIN -->
-            <form id="form-login" class="auth-form active" onsubmit="event.preventDefault();">
+            <form id="form-login" class="auth-form active" onsubmit="fazerLogin(event)">
                 <h2>Bem-vindo de volta!</h2>
                 
                 <div class="input-group">
@@ -537,8 +560,7 @@
                 <a href="#" class="forgot-password">Esqueceu sua senha?</a>
             </form>
 
-            <!-- Formulário de REGISTRO -->
-            <form id="form-register" class="auth-form" onsubmit="event.preventDefault();">
+            <form id="form-register" class="auth-form" onsubmit="enviarCadastro(event)">
                 <h2>Junte-se a nós!</h2>
                 
                 <div class="input-group">
@@ -551,7 +573,6 @@
                     <input type="email" id="reg-email" placeholder="seu.melhor@email.com" required>
                 </div>
 
-                <!-- Novo Campo: CPF -->
                 <div class="input-group">
                     <label for="reg-cpf">CPF</label>
                     <input type="text" id="reg-cpf" placeholder="000.000.000-00" maxlength="14" required>
@@ -562,7 +583,6 @@
                     <input type="password" id="reg-password" placeholder="Crie uma senha forte" required>
                 </div>
 
-                <!-- Checkbox para transformar em conta de Chef -->
                 <div class="checkbox-group">
                     <label class="custom-checkbox">
                         <input type="checkbox" id="reg-is-chef" onchange="toggleChefFields()">
@@ -571,7 +591,6 @@
                     </label>
                 </div>
 
-                <!-- Campos Extras (Ocultos por Padrão) -->
                 <div id="chef-extra-fields">
                     <div class="input-group">
                         <label for="reg-specialty">Especialidade Principal</label>
@@ -608,9 +627,12 @@
         </div>
     </main>
 
-    <!-- SCRIPT DE INTERATIVIDADE -->
+    <div id="custom-toast" class="custom-toast">
+        <span id="toast-icon" class="toast-icon">✅</span>
+        <span id="toast-message">Mensagem de teste aqui</span>
+    </div>
+
     <script>
-        // Lógica do Menu Responsivo (Hambúrguer)
         const menuToggle = document.getElementById('mobile-menu');
         const navLinks = document.getElementById('nav-links');
 
@@ -619,7 +641,6 @@
             navLinks.classList.toggle('active');
         });
 
-        // Função para alternar entre Login e Cadastro
         function toggleAuth(type) {
             const formLogin = document.getElementById('form-login');
             const formRegister = document.getElementById('form-register');
@@ -629,24 +650,20 @@
             if (type === 'login') {
                 formLogin.classList.add('active');
                 formRegister.classList.remove('active');
-                
                 tabLogin.classList.add('active');
                 tabRegister.classList.remove('active');
             } else {
                 formRegister.classList.add('active');
                 formLogin.classList.remove('active');
-                
                 tabRegister.classList.add('active');
                 tabLogin.classList.remove('active');
             }
         }
 
-        // Função para mostrar/esconder campos extras de Chef
         function toggleChefFields() {
             const isChefChecked = document.getElementById('reg-is-chef').checked;
             const extraFieldsContainer = document.getElementById('chef-extra-fields');
             
-            // Pegamos os campos que se tornarão obrigatórios
             const specialtyInput = document.getElementById('reg-specialty');
             const bioInput = document.getElementById('reg-bio');
 
@@ -661,13 +678,11 @@
             }
         }
 
-        // Máscara Automática de CPF
         document.getElementById('reg-cpf').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
+            let value = e.target.value.replace(/\D/g, ''); 
             
-            if (value.length > 11) value = value.slice(0, 11); // Limita a 11 dígitos numéricos
+            if (value.length > 11) value = value.slice(0, 11); 
             
-            // Aplica a máscara (000.000.000-00)
             if (value.length > 9) {
                 value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, "$1.$2.$3-$4");
             } else if (value.length > 6) {
@@ -679,7 +694,6 @@
             e.target.value = value;
         });
 
-        // Atualizar o texto do botão de arquivo com o nome da imagem selecionada
         function updateFileName(input) {
             const displayBtn = document.getElementById('fileNameDisplay');
             if (input.files && input.files[0]) {
@@ -690,6 +704,112 @@
                 displayBtn.innerText = "📸 Escolher Foto...";
                 displayBtn.style.borderColor = "var(--btn-green)";
                 displayBtn.style.color = "var(--text-white)";
+            }
+        }
+
+        // ==========================================
+        // LÓGICA DO POPUP CUSTOMIZADO (TOAST)
+        // ==========================================
+        function mostrarNotificacao(mensagem, tipo = 'sucesso') {
+            const toast = document.getElementById('custom-toast');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.innerText = mensagem;
+
+            if (tipo === 'erro') {
+                toast.classList.add('error');
+                toastIcon.innerText = '⚠️';
+            } else {
+                toast.classList.remove('error');
+                toastIcon.innerText = '✅';
+            }
+
+            // Mostra o Toast
+            toast.classList.add('show');
+
+            // Esconde automaticamente após 4 segundos
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // ==========================================
+        // INTEGRAÇÃO COM A API (Cadastro e Login)
+        // ==========================================
+        async function enviarCadastro(event) {
+            event.preventDefault(); 
+
+            // Pega o valor booleano (true/false) direto da checkbox
+            const isChefAtivo = document.getElementById('reg-is-chef').checked;
+            
+            const dadosFormulario = {
+                nome: document.getElementById('reg-name').value,
+                email: document.getElementById('reg-email').value,
+                cpf: document.getElementById('reg-cpf').value,
+                senha: document.getElementById('reg-password').value,
+                isChef: isChefAtivo, // Envia true se marcado, false se desmarcado
+                especialidade: isChefAtivo ? document.getElementById('reg-specialty').value : null,
+                bio: isChefAtivo ? document.getElementById('reg-bio').value : null
+            };
+
+            try {
+                const resposta = await fetch('http://localhost:8080/api/usuarios/registrar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dadosFormulario)
+                });
+
+                const mensagemServidor = await resposta.text();
+
+                if (resposta.ok) {
+                    mostrarNotificacao(mensagemServidor, 'sucesso');
+                    document.getElementById('form-register').reset();
+                    setTimeout(() => toggleAuth('login'), 2000); 
+                } else {
+                    mostrarNotificacao('Erro: ' + mensagemServidor, 'erro');
+                }
+            } catch (erro) {
+                console.error('Erro de conexão:', erro);
+                mostrarNotificacao('Servidor offline. Verifique o Spring Boot.', 'erro');
+            }
+        }
+
+        async function fazerLogin(event) {
+            event.preventDefault(); 
+
+            const dadosLogin = {
+                email: document.getElementById('login-email').value,
+                senha: document.getElementById('login-password').value
+            };
+
+            try {
+                const resposta = await fetch('http://localhost:8080/api/usuarios/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dadosLogin)
+                });
+
+                if (resposta.ok) {
+                    const usuarioLogado = await resposta.json();
+                    localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+                    
+                    // Sem alert, vai direto para a tela do painel
+                    if (usuarioLogado.tipo === 'CHEFE') {
+                        window.location.href = 'painel-chefe.html';
+                    } else if (usuarioLogado.tipo === 'ADMIN') {
+                        window.location.href = 'painel-admin.html';
+                    } else {
+                        window.location.href = 'painel-cliente.html';
+                    }
+
+                } else {
+                    const mensagemErro = await resposta.text();
+                    mostrarNotificacao(mensagemErro, 'erro'); 
+                }
+            } catch (erro) {
+                console.error('Erro:', erro);
+                mostrarNotificacao('Servidor offline. Verifique o Spring Boot.', 'erro');
             }
         }
     </script>

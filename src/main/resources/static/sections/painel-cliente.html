@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Food | Meu Painel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/personalFood/PersonalFoodFavIcon32x32-removebg-preview.png">
+    <style>
+        :root {
+            --bg-main: #000000;
+            --nav-bg: #113c0b;
+            --logo-bg: #d1c115;
+            --card-bg: #0e290a;
+            --btn-green: #a7c938;
+            --btn-green-hover: #b8db40;
+            --red-cta: #d30018;
+            --text-white: #FFFFFF;
+            --font-main: 'Poppins', sans-serif;
+            --border-color: #2a5a22;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Imagens de fundo laterais simuladas */
+        .bg-side {
+            position: fixed; top: 0; bottom: 0; width: 25vw; z-index: -1;
+            opacity: 0.3; background-size: cover; background-position: center;
+        }
+
+        .bg-left {
+            left: 0; background-image: url('https://images.unsplash.com/photo-1490818387583-1b5f2dd061b1?q=80&w=600&auto=format&fit=crop');
+            -webkit-mask-image: linear-gradient(to right, black 10%, transparent 100%);
+            mask-image: linear-gradient(to right, black 10%, transparent 100%);
+        }
+
+        .bg-right {
+            right: 0; background-image: url('https://images.unsplash.com/photo-1596683839213-9f864bc39294?q=80&w=600&auto=format&fit=crop');
+            -webkit-mask-image: linear-gradient(to left, black 10%, transparent 100%);
+            mask-image: linear-gradient(to left, black 10%, transparent 100%);
+        }
+
+        /* NAVBAR (Reaproveitada) */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; height: 80px;
+            background-color: var(--nav-bg); display: flex; align-items: center;
+            justify-content: space-between; z-index: 1000; padding-right: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .logo-wrapper {
+            height: 100%; background-color: var(--logo-bg); padding: 10px 40px 10px 20px;
+            border-radius: 0 50px 50px 0; display: flex; align-items: center;
+        }
+        .logo-wrapper img { height: 100%; width: 165px; object-fit: contain; margin-right: 12px; }
+        .logo-text { color: #ffffff; font-size: 1.3rem; font-weight: 800; line-height: 1; display: flex; flex-direction: column; }
+        .logo-text span { font-weight: 500; font-size: 0.95rem; }
+        .nav-links { display: flex; list-style: none; gap: 40px; align-items: center; }
+        .nav-links a { color: var(--text-white); text-decoration: none; font-weight: 700; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--btn-green); }
+        
+        .btn-sair {
+            background-color: transparent; color: var(--red-cta); border: 2px solid var(--red-cta);
+            padding: 8px 20px; border-radius: 25px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-sair:hover { background-color: var(--red-cta); color: #fff; }
+
+        /* PAINEL DO CLIENTE */
+        .dashboard-container {
+            padding-top: 120px; padding-bottom: 60px; max-width: 1200px; margin: 0 auto; padding-inline: 20px;
+            position: relative; z-index: 10;
+        }
+
+        .header-painel {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;
+            border-bottom: 2px solid var(--border-color); padding-bottom: 20px;
+        }
+        .header-painel h1 { font-size: 2.2rem; font-weight: 800; color: var(--btn-green); }
+        .header-painel p { font-size: 1rem; color: #e0e0e0; }
+
+        .dashboard-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;
+        }
+
+        .dash-card {
+            background-color: var(--card-bg); border-radius: 15px; padding: 25px;
+            border: 1px solid var(--border-color); box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;
+        }
+
+        .dash-card-content { z-index: 2; position: relative; }
+
+        .dash-card h3 { font-size: 1.3rem; margin-bottom: 15px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px;}
+        
+        .empty-state { color: #88a483; padding: 10px 0 20px 0; font-size: 0.95rem; font-style: italic; }
+
+        .btn-explorar {
+            display: block; width: fit-content; text-align: center; background-color: var(--btn-green);
+            color: #113c0b; padding: 10px 20px; border-radius: 20px; text-decoration: none;
+            font-weight: 700; transition: transform 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .btn-explorar:hover { transform: scale(1.05); background-color: var(--btn-green-hover); }
+
+        .tomatito-card-placeholder {
+            position: absolute; right: -10px; bottom: 0px; width: 120px; height: 140px;
+            z-index: 1; pointer-events: none; object-fit: contain; opacity: 0.7;
+        }
+
+        /* =========================================
+           FLOATING HELPER (CHATBOT REVAMP)
+        ========================================= */
+        .helper-container {
+            position: fixed; bottom: 30px; right: 40px; z-index: 100; cursor: pointer;
+        }
+
+        .helper-wrapper {
+            display: flex; flex-direction: column; align-items: center;
+            animation: floatChatbot 4s ease-in-out infinite;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .helper-wrapper:hover { transform: scale(1.05); }
+
+        @keyframes floatChatbot {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .speech-bubble {
+            background-color: #000; border: 3px solid var(--red-cta); border-radius: 50%;
+            width: 140px; height: 140px; display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 15px; font-size: 0.85rem; font-weight: 800; line-height: 1.2;
+            position: relative; margin-bottom: 20px; box-shadow: 0 0 20px rgba(211, 0, 24, 0.3);
+        }
+
+        .speech-bubble::before {
+            content: ''; position: absolute; bottom: -11px; right: 28px; width: 22px; height: 22px;
+            background: #000; border-bottom: 3px solid var(--red-cta); border-right: 3px solid var(--red-cta);
+            transform: rotate(45deg); border-bottom-right-radius: 3px; 
+        }
+
+        .tomatito-helper-placeholder {
+            width: 105px; height: 125px; object-fit: contain; margin-top: -15px; position: relative;
+            z-index: 2; filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.8));
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .helper-wrapper:hover .tomatito-helper-placeholder { transform: rotate(-5deg) scale(1.08); }
+
+        @media (max-width: 900px) {
+            .bg-side { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding-right: 20px; }
+            .logo-wrapper { padding: 10px 20px 10px 10px; border-radius: 0 35px 35px 0; }
+            .logo-wrapper img { width: 110px; }
+            .nav-links { display: none; } 
+            .header-painel { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .helper-container { right: 15px; bottom: 15px; transform: scale(0.75); transform-origin: bottom right; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-side bg-left"></div>
+    <div class="bg-side bg-right"></div>
+
+    <nav class="navbar">
+        <div class="logo-wrapper">
+            <img src="../assets/personalFood/PersonalFoodIcon.png" alt="Personal Food Icon" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Chef_icon.svg/1024px-Chef_icon.svg.png'">
+            <div class="logo-text">PERSONAL<span>FOOD</span></div>
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="chefs.html">Chef 's</a></li>
+            <li><a href="receitas.html">Receitas</a></li>
+            <li><button class="btn-sair" onclick="fazerLogout()">Sair da Conta</button></li>
+        </ul>
+    </nav>
+
+    <main class="dashboard-container">
+        <div class="header-painel">
+            <div>
+                <h1 id="nome-usuario">Olá, Cliente!</h1>
+                <p>Bem-vindo ao seu painel de controle do Personal Food.</p>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dash-card">
+                <div class="dash-card-content">
+                    <h3>Chefs que sigo</h3>
+                    <div class="empty-state">Você ainda não segue nenhum chef.</div>
+                    <a href="chefs.html" class="btn-explorar">Encontrar Chefs</a>
+                </div>
+                <img src="../assets/tomatito/Tomatito-Chef-Home-Icon.png" alt="Tomatito Chef" class="tomatito-card-placeholder">
+            </div>
+
+            <div class="dash-card">
+                <div class="dash-card-content">
+                    <h3>Receitas Salvas</h3>
+                    <div class="empty-state">Seu caderno de receitas está vazio.</div>
+                    <a href="receitas.html" class="btn-explorar">Explorar Receitas</a>
+                </div>
+                <img src="../assets/tomatito/Tomatito-Receitas-Home-Icon.png" alt="Tomatito Receitas" class="tomatito-card-placeholder">
+            </div>
+
+            <div class="dash-card">
+                <div class="dash-card-content">
+                    <h3>Meus Cursos</h3>
+                    <div class="empty-state">Você não está matriculado em nenhum curso.</div>
+                    <a href="cursos.html" class="btn-explorar">Ver Cursos Disponíveis</a>
+                </div>
+                <img src="../assets/tomatito/Tomatito-Cursos-Home-Icon.png" alt="Tomatito Cursos" class="tomatito-card-placeholder">
+            </div>
+        </div>
+    </main>
+
+    <div class="helper-container">
+        <div class="helper-wrapper">
+            <div class="speech-bubble">
+                Oi eu sou o<br>Tomatito<br>Precisa de<br>ajuda?
+            </div>
+            <img src="../assets/tomatito/Tomatito-Chatbot-Icon.png" alt="Tomatito Assistente" class="tomatito-helper-placeholder">
+        </div>
+    </div>
+
+    <script>
+        // Quando a página carregar, verifica se tem alguém logado
+        document.addEventListener("DOMContentLoaded", () => {
+            const usuarioJSON = localStorage.getItem('usuarioLogado');
+            
+            if (!usuarioJSON) {
+                // Se não tiver login salvo, expulsa de volta para a tela de login
+                alert("Você precisa estar logado para acessar esta página.");
+                window.location.href = "registerLogin.html";
+                return;
+            }
+
+            // Pega os dados do usuário logado
+            const usuario = JSON.parse(usuarioJSON);
+            const primeiroNome = usuario.nome.split(' ')[0];
+            
+            // Verifica se é o tipo correto de usuário para estar aqui
+            if (usuario.tipo === 'CHEFE') {
+                window.location.href = "painel-chefe.html";
+                return;
+            } else if (usuario.tipo === 'ADMIN') {
+                window.location.href = "painel-admin.html";
+                return;
+            }
+
+            // Exibe o nome do usuário na tela
+            document.getElementById('nome-usuario').innerText = `Olá, ${primeiroNome}!`;
+        });
+
+        function fazerLogout() {
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = "registerLogin.html";
+        }
+    </script>
+</body>
+</html>

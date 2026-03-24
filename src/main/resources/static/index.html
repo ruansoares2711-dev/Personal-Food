@@ -12,12 +12,12 @@
         ========================================= */
         :root {
             --bg-main: #000000;
-            --nav-bg: #113c0b; /* Atualizado para o Verde escuro da nova navbar */
-            --logo-bg: #d1c115; /* Amarelo do fundo do logo */
-            --card-bg: #0e290a; /* Verde escuro dos cards */
-            --btn-green: #a7c938; /* Atualizado para o Verde claro dos botões */
+            --nav-bg: #113c0b; 
+            --logo-bg: #d1c115; 
+            --card-bg: #0e290a; 
+            --btn-green: #a7c938; 
             --btn-green-hover: #b8db40;
-            --red-cta: #d30018; /* Vermelho do balão */
+            --red-cta: #d30018; 
             --text-white: #FFFFFF;
             --font-main: 'Poppins', sans-serif;
         }
@@ -39,26 +39,16 @@
 
         /* Imagens de fundo laterais simuladas */
         .bg-side {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            width: 25vw;
-            z-index: -1;
-            opacity: 0.3;
-            background-size: cover;
-            background-position: center;
+            position: fixed; top: 0; bottom: 0; width: 25vw; z-index: -1;
+            opacity: 0.3; background-size: cover; background-position: center;
         }
-
         .bg-left {
-            left: 0;
-            background-image: url('https://images.unsplash.com/photo-1490818387583-1b5f2dd061b1?q=80&w=600&auto=format&fit=crop');
+            left: 0; background-image: url('https://images.unsplash.com/photo-1490818387583-1b5f2dd061b1?q=80&w=600&auto=format&fit=crop');
             -webkit-mask-image: linear-gradient(to right, black 10%, transparent 100%);
             mask-image: linear-gradient(to right, black 10%, transparent 100%);
         }
-
         .bg-right {
-            right: 0;
-            background-image: url('https://images.unsplash.com/photo-1596683839213-9f864bc39294?q=80&w=600&auto=format&fit=crop');
+            right: 0; background-image: url('https://images.unsplash.com/photo-1596683839213-9f864bc39294?q=80&w=600&auto=format&fit=crop');
             -webkit-mask-image: linear-gradient(to left, black 10%, transparent 100%);
             mask-image: linear-gradient(to left, black 10%, transparent 100%);
         }
@@ -67,291 +57,135 @@
            NAVBAR (NOVO PADRÃO)
         ========================================= */
         .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 80px;
-            background-color: var(--nav-bg);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 1000;
-            padding-right: 30px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 80px;
+            background-color: var(--nav-bg); display: flex; align-items: center;
+            justify-content: space-between; z-index: 1000; padding-right: 30px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
         .logo-wrapper {
-            height: 100%;
-            background-color: var(--logo-bg);
-            padding: 10px 40px 10px 20px;
-            border-radius: 0 50px 50px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 100%; background-color: var(--logo-bg); padding: 10px 40px 10px 20px;
+            border-radius: 0 50px 50px 0; display: flex; align-items: center; justify-content: center;
         }
-
-        .logo-wrapper img {
-            height: 100%;
-            width: 165px;
-            object-fit: contain;
-            margin-right: 12px;
-        }
-
-        .logo-text {
-            color: #ffffff;
-            font-size: 1.3rem;
-            font-weight: 800;
-            line-height: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .logo-text span {
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
+        .logo-wrapper img { height: 100%; width: 165px; object-fit: contain; margin-right: 12px; }
+        .logo-text { color: #ffffff; font-size: 1.3rem; font-weight: 800; line-height: 1; display: flex; flex-direction: column; justify-content: center; }
+        .logo-text span { font-weight: 500; font-size: 0.95rem; }
 
         .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 40px;
-            align-items: center;
+            display: flex; list-style: none; gap: 40px; align-items: center; margin: 0; padding: 0;
         }
 
         .nav-links a {
-            color: var(--text-white);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: color 0.2s;
+            color: var(--text-white); text-decoration: none; font-weight: 700; font-size: 1rem; transition: color 0.2s;
         }
 
-        .nav-links a:hover {
-            color: var(--btn-green);
+        .nav-links a:hover { color: var(--btn-green); }
+
+        /* Controles Desktop (Lado Direito) */
+        .nav-controls-desktop {
+            display: flex; align-items: center; gap: 15px;
         }
 
-        .btn-entrar {
-            background-color: var(--btn-green);
-            color: #113c0b;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 700;
-            font-family: var(--font-main);
-            cursor: pointer;
-            transition: all 0.2s;
+        /* BOTÕES NAVBAR */
+        .btn-entrar, .btn-painel {
+            background-color: var(--btn-green); color: #113c0b; border: none; padding: 10px 30px;
+            border-radius: 25px; font-size: 1rem; font-weight: 700; font-family: var(--font-main);
+            cursor: pointer; transition: all 0.2s;
         }
+        .btn-entrar:hover, .btn-painel:hover { background-color: var(--btn-green-hover); transform: scale(1.05); }
 
-        .btn-entrar:hover {
-            background-color: var(--btn-green-hover);
-            transform: scale(1.05);
+        .btn-sair {
+            background-color: transparent; color: var(--red-cta); border: 2px solid var(--red-cta);
+            padding: 8px 20px; border-radius: 25px; font-size: 0.9rem; font-weight: 700;
+            font-family: var(--font-main); cursor: pointer; transition: all 0.2s;
         }
+        .btn-sair:hover { background-color: var(--red-cta); color: #fff; }
+
+        .welcome-text { font-size: 0.95rem; font-weight: 600; color: var(--text-white); margin-right: 10px; }
 
         /* Elementos exclusivos do Mobile */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 6px;
-            z-index: 1001;
-        }
-
-        .menu-toggle span {
-            width: 30px;
-            height: 3px;
-            background-color: var(--text-white);
-            border-radius: 3px;
-            transition: 0.3s;
-        }
-
-        .mobile-only {
-            display: none;
-        }
+        .menu-toggle { display: none; flex-direction: column; cursor: pointer; gap: 6px; z-index: 1001; }
+        .menu-toggle span { width: 30px; height: 3px; background-color: var(--text-white); border-radius: 3px; transition: 0.3s; }
+        
+        /* =========================================
+           LÓGICA DE EXIBIÇÃO (GUEST vs LOGGED)
+        ========================================= */
+        /* Esconde as telas de logado por padrão */
+        .logged-view { display: none !important; }
+        
+        /* Quando a classe 'logged-in' for adicionada ao body pelo JS: */
+        body.logged-in .guest-view { display: none !important; } 
 
         /* =========================================
            HERO SECTION
         ========================================= */
         .hero {
-            padding-top: 180px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            width: 100%;
-            position: relative;
-            z-index: 10;
+            padding-top: 180px; display: flex; flex-direction: column; align-items: center;
+            text-align: center; width: 100%; position: relative; z-index: 10;
         }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            letter-spacing: -1px;
-            padding: 0 15px;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            font-weight: 400;
-            margin-bottom: 60px;
-            color: #e0e0e0;
-            padding: 0 15px;
-        }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -1px; padding: 0 15px; }
+        .hero p { font-size: 1.3rem; font-weight: 400; margin-bottom: 60px; color: #e0e0e0; padding: 0 15px; }
 
         /* =========================================
            CARDS SECTION
         ========================================= */
-        .cards-wrapper {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            max-width: 1200px;
-            width: 100%;
-            padding: 0 20px;
-        }
-
+        .cards-wrapper { display: flex; gap: 30px; justify-content: center; max-width: 1200px; width: 100%; padding: 0 20px; }
         .card {
-            background-color: var(--card-bg);
-            border-radius: 15px;
-            width: 320px;
-            height: 160px;
-            padding: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            overflow: hidden; /* Para o ícone não vazar no mobile */
+            background-color: var(--card-bg); border-radius: 15px; width: 320px; height: 160px;
+            padding: 30px; display: flex; align-items: center; justify-content: space-between;
+            position: relative; overflow: hidden; 
         }
-
-        .card-content {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            z-index: 2;
-        }
-
-        .card h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            line-height: 1;
-        }
-
+        .card-content { display: flex; flex-direction: column; align-items: flex-start; z-index: 2; }
+        .card h2 { font-size: 2rem; font-weight: 800; margin-bottom: 15px; line-height: 1; }
         .btn-veja {
-            background-color: var(--btn-green);
-            color: #ffffff;
-            border: none;
-            padding: 8px 30px;
-            border-radius: 20px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: var(--font-main);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
+            background-color: var(--btn-green); color: #ffffff; border: none; padding: 8px 30px;
+            border-radius: 20px; font-size: 1rem; font-weight: 700; cursor: pointer;
+            font-family: var(--font-main); box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: transform 0.2s; text-decoration: none; display: inline-block; text-align: center;
         }
-
-        .btn-veja:hover {
-            transform: scale(1.05);
-            background-color: var(--btn-green-hover);
-        }
-
+        .btn-veja:hover { transform: scale(1.05); background-color: var(--btn-green-hover); }
         .tomatito-card-placeholder {
-            position: absolute;
-            right: -10px; /* Leve ajuste pra não cortar no card */
-            bottom: 0px;
-            width: 140px;
-            height: 160px;
-            z-index: 1;
-            pointer-events: none;
-            object-fit: contain; 
+            position: absolute; right: -10px; bottom: 0px; width: 140px; height: 160px;
+            z-index: 1; pointer-events: none; object-fit: contain; 
         }
 
         /* =========================================
-           FLOATING HELPER (CHATBOT REVAMP)
+           FLOATING HELPER
         ========================================= */
-        .helper-container {
-            position: fixed;
-            bottom: 30px;
-            right: 40px;
-            z-index: 100;
-            cursor: pointer; 
-        }
-
+        .helper-container { position: fixed; bottom: 30px; right: 40px; z-index: 100; cursor: pointer; }
         .helper-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            animation: floatChatbot 4s ease-in-out infinite;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; align-items: center;
+            animation: floatChatbot 4s ease-in-out infinite; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
-        .helper-wrapper:hover {
-            transform: scale(1.05);
-        }
-
-        @keyframes floatChatbot {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
-            100% { transform: translateY(0px); }
-        }
-
+        .helper-wrapper:hover { transform: scale(1.05); }
+        @keyframes floatChatbot { 0% { transform: translateY(0px); } 50% { transform: translateY(-12px); } 100% { transform: translateY(0px); } }
         .speech-bubble {
-            background-color: #000;
-            border: 3px solid var(--red-cta);
-            border-radius: 50%;
-            width: 140px; 
-            height: 140px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 15px;
-            font-size: 0.85rem;
-            font-weight: 800;
-            line-height: 1.2;
-            position: relative;
-            margin-bottom: 20px; 
-            box-shadow: 0 0 20px rgba(211, 0, 24, 0.3);
+            background-color: #000; border: 3px solid var(--red-cta); border-radius: 50%;
+            width: 140px; height: 140px; display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 15px; font-size: 0.85rem; font-weight: 800; line-height: 1.2;
+            position: relative; margin-bottom: 20px; box-shadow: 0 0 20px rgba(211, 0, 24, 0.3);
         }
-
         .speech-bubble::before {
-            content: '';
-            position: absolute;
-            bottom: -11px; 
-            right: 28px;
-            width: 22px;
-            height: 22px;
-            background: #000; 
-            border-bottom: 3px solid var(--red-cta);
-            border-right: 3px solid var(--red-cta);
-            transform: rotate(45deg);
-            border-bottom-right-radius: 3px; 
+            content: ''; position: absolute; bottom: -11px; right: 28px; width: 22px; height: 22px;
+            background: #000; border-bottom: 3px solid var(--red-cta); border-right: 3px solid var(--red-cta);
+            transform: rotate(45deg); border-bottom-right-radius: 3px; 
         }
-
         .tomatito-helper-placeholder {
-            width: 105px;
-            height: 125px;
-            object-fit: contain;
-            margin-top: -15px; 
-            position: relative;
-            z-index: 2;
-            filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.8));
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 105px; height: 125px; object-fit: contain; margin-top: -15px; position: relative;
+            z-index: 2; filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.8)); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        .helper-wrapper:hover .tomatito-helper-placeholder { transform: rotate(-5deg) scale(1.08); }
 
-        .helper-wrapper:hover .tomatito-helper-placeholder {
-            transform: rotate(-5deg) scale(1.08);
+        /* =========================================
+           RESPONSIVIDADE (DESKTOP)
+        ========================================= */
+        @media (min-width: 769px) {
+            .mobile-only { display: none !important; }
+            body.logged-in .nav-controls-desktop.logged-view { display: flex !important; }
         }
 
         /* =========================================
-           RESPONSIVIDADE (MOBILE & TABLETS)
+           RESPONSIVIDADE (TABLETS E MOBILE)
         ========================================= */
         @media (max-width: 1024px) {
             .nav-links { gap: 20px; }
@@ -365,111 +199,53 @@
         }
 
         @media (max-width: 768px) {
-            /* Ajustes Navbar */
-            .navbar {
-                padding-right: 20px;
-            }
-            .logo-wrapper {
-                padding: 10px 20px 10px 10px;
-                border-radius: 0 35px 35px 0;
-            }
-            .logo-wrapper img {
-                width: 110px;
-            }
-            .logo-text {
-                font-size: 1rem;
-            }
-            .logo-text span {
-                font-size: 0.8rem;
-            }
+            .navbar { padding-right: 20px; }
+            .logo-wrapper { padding: 10px 20px 10px 10px; border-radius: 0 35px 35px 0; }
+            .logo-wrapper img { width: 110px; }
+            .logo-text { font-size: 1rem; }
+            .logo-text span { font-size: 0.8rem; }
+            .menu-toggle { display: flex; }
             
-            /* Mostrar Menu Hambúrguer e Esconder Navbar Padrão */
-            .menu-toggle {
-                display: flex;
-            }
-            .navbar > .btn-entrar {
-                display: none;
-            }
+            /* Garante que NADA do Desktop apareça no Mobile */
+            .nav-controls-desktop { display: none !important; }
+            
+            /* O nav-links vira o menu lateral gigante */
             .nav-links {
-                position: fixed;
-                top: 80px;
-                left: -100%; /* Escondido fora da tela */
-                width: 100%;
-                height: calc(100vh - 80px);
-                background-color: var(--nav-bg);
-                flex-direction: column;
-                align-items: center;
-                justify-content: flex-start;
-                padding-top: 40px;
-                gap: 30px;
-                transition: left 0.3s ease-in-out;
+                position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
+                background-color: var(--nav-bg); flex-direction: column; align-items: center;
+                justify-content: flex-start; padding-top: 40px; gap: 30px; transition: left 0.3s ease-in-out;
             }
-            .nav-links.active {
-                left: 0;
-            }
-            .nav-links a {
-                font-size: 1.2rem;
-            }
-            .mobile-only {
-                display: block;
-                margin-top: 20px;
-            }
+            .nav-links.active { left: 0; }
+            
+            /* Mostra os controles mobile e alinha direitinho */
+            .mobile-only { width: 100%; text-align: center; }
+            body:not(.logged-in) .mobile-only.guest-view { display: block !important; }
+            body.logged-in .mobile-only.logged-view { display: flex !important; flex-direction: column; gap: 15px; align-items: center; }
 
-            /* Animação do Ícone de Hambúrguer */
             .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
             .menu-toggle.active span:nth-child(2) { opacity: 0; }
             .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
-            /* Ajustes Hero */
-            .hero {
-                padding-top: 130px;
-            }
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            .hero p {
-                font-size: 1rem;
-                margin-bottom: 40px;
-            }
-
-            /* Ajustes Cards */
-            .cards-wrapper {
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-            }
-            .card {
-                width: 100%;
-                max-width: 320px;
-            }
-
-            /* Ajustes Chatbot (Diminui um pouco o tamanho na tela do celular) */
-            .helper-container {
-                right: 15px;
-                bottom: 15px;
-                transform: scale(0.75);
-                transform-origin: bottom right;
-            }
+            .hero { padding-top: 130px; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1rem; margin-bottom: 40px; }
+            .cards-wrapper { flex-direction: column; align-items: center; gap: 20px; }
+            .card { width: 100%; max-width: 320px; }
+            .helper-container { right: 15px; bottom: 15px; transform: scale(0.75); transform-origin: bottom right; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Imagens de fundo simuladas nas laterais -->
     <div class="bg-side bg-left"></div>
     <div class="bg-side bg-right"></div>
 
-    <!-- NAVBAR Fiel ao Novo Padrão -->
     <nav class="navbar">
         <div class="logo-wrapper">
-            <!-- Caminho partindo da raiz -->
             <img src="assets/personalFood/PersonalFoodIcon.png" alt="Personal Food Icon">
-            <div class="logo-text">
-                PERSONAL<span>FOOD</span>
-            </div>
+            <div class="logo-text">PERSONAL<span>FOOD</span></div>
         </div>
         
-        <!-- Botão Menu Hambúrguer (Mobile) -->
         <div class="menu-toggle" id="mobile-menu">
             <span></span>
             <span></span>
@@ -483,68 +259,70 @@
             <li><a href="sections/receitas.html">Receitas</a></li>
             <li><a href="sections/impacta.html">PF Impacta</a></li>
             <li><a href="sections/sobre.html">Sobre nós</a></li>
-            <!-- Botão Entrar apenas para Menu Mobile -->
-            <li class="mobile-only">
+            
+            <li class="mobile-only guest-view">
                 <button class="btn-entrar" onclick="location.href='sections/registerLogin.html'">Entrar</button>
+            </li>
+            <li class="mobile-only logged-view">
+                <span class="welcome-text" id="welcome-text-mobile" style="margin-bottom: 5px;"></span>
+                <button class="btn-painel" onclick="irParaPainel()">Meu Painel</button>
+                <button class="btn-sair" onclick="fazerLogout()">Sair</button>
             </li>
         </ul>
 
-        <!-- Botão Entrar Desktop -->
-        <button class="btn-entrar" onclick="location.href='sections/registerLogin.html'">Entrar</button>
+        <div class="nav-controls-desktop guest-view">
+            <button class="btn-entrar" onclick="location.href='sections/registerLogin.html'">Entrar</button>
+        </div>
+        
+        <div class="nav-controls-desktop logged-view">
+            <span class="welcome-text" id="welcome-text-desktop"></span>
+            <button class="btn-painel" onclick="irParaPainel()">Meu Painel</button>
+            <button class="btn-sair" onclick="fazerLogout()">Sair</button>
+        </div>
     </nav>
 
-    <!-- CONTEÚDO PRINCIPAL -->
     <main class="hero">
         <h1>Nós temos o chefe certo para você!</h1>
         <p>Você descreve, a gente entende, o chefe ideal aparece!</p>
 
         <div class="cards-wrapper">
-            <!-- Card 1 -->
             <div class="card">
                 <div class="card-content">
                     <h2>Chef 's</h2>
                     <a href="sections/chefs.html" class="btn-veja">Veja!</a>
                 </div>
-                <!-- Tomatito Chef inserido -->
                 <img src="assets/tomatito/Tomatito-Chef-Home-Icon.png" alt="Tomatito Chef" class="tomatito-card-placeholder">
             </div>
 
-            <!-- Card 2 -->
             <div class="card">
                 <div class="card-content">
                     <h2>Cursos</h2>
                     <a href="sections/cursos.html" class="btn-veja">Veja!</a>
                 </div>
-                <!-- Tomatito Cursos inserido -->
                 <img src="assets/tomatito/Tomatito-Cursos-Home-Icon.png" alt="Tomatito Cursos" class="tomatito-card-placeholder">
             </div>
 
-            <!-- Card 3 -->
             <div class="card">
                 <div class="card-content">
                     <h2>Receitas</h2>
                     <a href="sections/receitas.html" class="btn-veja">Veja!</a>
                 </div>
-                <!-- Tomatito Receitas inserido -->
                 <img src="assets/tomatito/Tomatito-Receitas-Home-Icon.png" alt="Tomatito Receitas" class="tomatito-card-placeholder">
             </div>
         </div>
     </main>
 
-    <!-- HELPER FLUTUANTE (Tomatito) -->
     <div class="helper-container">
-        <!-- Wrapper animado adicionado -->
         <div class="helper-wrapper">
             <div class="speech-bubble">
                 Oi eu sou o<br>Tomatito<br>Precisa de<br>ajuda?
             </div>
-            <!-- Tomatito Ajudante/Chatbot inserido -->
             <img src="assets/tomatito/Tomatito-Chatbot-Icon.png" alt="Tomatito Assistente" class="tomatito-helper-placeholder">
         </div>
     </div>
 
-    <!-- SCRIPT PARA O MENU MOBILE -->
     <script>
+        // Lógica do Menu Mobile
         const menuToggle = document.getElementById('mobile-menu');
         const navLinks = document.getElementById('nav-links');
 
@@ -552,6 +330,42 @@
             menuToggle.classList.toggle('active');
             navLinks.classList.toggle('active');
         });
+
+        // Lógica de Autenticação usando CSS (Melhor prática)
+        document.addEventListener("DOMContentLoaded", () => {
+            const usuarioJSON = localStorage.getItem('usuarioLogado');
+            
+            if (usuarioJSON) {
+                const usuario = JSON.parse(usuarioJSON);
+                const primeiroNome = usuario.nome.split(' ')[0];
+
+                // MÁGICA: Adiciona a classe no body. O CSS faz o resto!
+                document.body.classList.add('logged-in');
+
+                // Define as saudações
+                document.getElementById('welcome-text-desktop').innerText = `Olá, ${primeiroNome}!`;
+                document.getElementById('welcome-text-mobile').innerText = `Olá, ${primeiroNome}!`;
+            }
+        });
+
+        function irParaPainel() {
+            const usuarioJSON = localStorage.getItem('usuarioLogado');
+            if (usuarioJSON) {
+                const usuario = JSON.parse(usuarioJSON);
+                if (usuario.tipo === 'CHEFE') {
+                    window.location.href = 'sections/painel-chefe.html';
+                } else if (usuario.tipo === 'ADMIN') {
+                    window.location.href = 'sections/painel-admin.html';
+                } else {
+                    window.location.href = 'sections/painel-cliente.html';
+                }
+            }
+        }
+
+        function fazerLogout() {
+            localStorage.removeItem('usuarioLogado');
+            window.location.reload(); 
+        }
     </script>
 </body>
 </html>

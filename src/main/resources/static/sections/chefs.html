@@ -14,8 +14,8 @@
         ========================================= */
         :root {
             --bg-color: #000000;
-            --nav-bg: #113c0b; /* Verde escuro da navbar padrão */
-            --logo-bg: #d1c115; /* Amarelo do fundo do logo */
+            --nav-bg: #113c0b;
+            --logo-bg: #d1c115;
             --primary-green: #9cbd28;
             --dark-green: #092a0e;
             --filter-bg: #8c8c8c;
@@ -26,367 +26,120 @@
             --text-light: #ffffff;
             --star-color: #f5c518;
             
-            /* Botões do padrão da Navbar */
             --btn-green: #a7c938; 
             --btn-green-hover: #b8db40;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-light);
-            padding-bottom: 50px;
-            overflow-x: hidden;
+            background-color: var(--bg-color); color: var(--text-light); padding-bottom: 50px; overflow-x: hidden;
         }
 
         /* =========================================
-           NAVBAR (PADRÃO CONSOLIDADO)
+           NAVBAR
         ========================================= */
         .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 80px;
-            background-color: var(--nav-bg);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 1000;
-            padding-right: 30px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            position: fixed; top: 0; left: 0; width: 100%; height: 80px; background-color: var(--nav-bg);
+            display: flex; align-items: center; justify-content: space-between; z-index: 1000; padding-right: 30px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
         .logo-wrapper {
-            height: 100%;
-            background-color: var(--logo-bg);
-            padding: 10px 40px 10px 20px;
-            border-radius: 0 50px 50px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 100%; background-color: var(--logo-bg); padding: 10px 40px 10px 20px;
+            border-radius: 0 50px 50px 0; display: flex; align-items: center; justify-content: center;
         }
 
-        .logo-wrapper img {
-            height: 100%;
-            width: 165px;
-            object-fit: contain;
-            margin-right: 12px;
-        }
+        .logo-wrapper img { height: 100%; width: 165px; object-fit: contain; margin-right: 12px; }
+        .logo-text { color: #ffffff; font-size: 1.3rem; font-weight: 800; line-height: 1; display: flex; flex-direction: column; justify-content: center; }
+        .logo-text span { font-weight: 500; font-size: 0.95rem; }
 
-        .logo-text {
-            color: #ffffff;
-            font-size: 1.3rem;
-            font-weight: 800;
-            line-height: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .logo-text span {
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--btn-green);
-        }
+        .nav-links { display: flex; list-style: none; gap: 40px; align-items: center; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-weight: 700; font-size: 1rem; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--btn-green); }
 
         .btn-entrar {
-            background-color: var(--btn-green);
-            color: #113c0b;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
+            background-color: var(--btn-green); color: #113c0b; border: none; padding: 10px 30px;
+            border-radius: 25px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
         }
+        .btn-entrar:hover { background-color: var(--btn-green-hover); transform: scale(1.05); }
 
-        .btn-entrar:hover {
-            background-color: var(--btn-green-hover);
-            transform: scale(1.05);
-        }
-
-        /* Elementos exclusivos do Mobile */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 6px;
-            z-index: 1001;
-        }
-
-        .menu-toggle span {
-            width: 30px;
-            height: 3px;
-            background-color: var(--text-light);
-            border-radius: 3px;
-            transition: 0.3s;
-        }
-
-        .mobile-only {
-            display: none;
-        }
+        .menu-toggle { display: none; flex-direction: column; cursor: pointer; gap: 6px; z-index: 1001; }
+        .menu-toggle span { width: 30px; height: 3px; background-color: var(--text-light); border-radius: 3px; transition: 0.3s; }
+        .mobile-only { display: none; }
 
         /* --- Main Section --- */
-        .page-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 120px 20px 40px 20px; 
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .page-section { max-width: 1200px; margin: 0 auto; padding: 120px 20px 40px 20px; }
+        .section-title { text-align: center; font-size: 2.5rem; font-weight: 900; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px; }
 
         /* --- Filter Bar --- */
-        .filter-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 40px;
-        }
-
-        .filter-bar-bg {
-            background-color: var(--filter-bg);
-            padding: 10px 30px;
-            border-radius: 50px;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
+        .filter-container { display: flex; justify-content: center; margin-bottom: 40px; }
+        .filter-bar-bg { background-color: var(--filter-bg); padding: 10px 30px; border-radius: 50px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap; justify-content: center; }
         .filter-btn {
-            background-color: transparent;
-            color: #1a1a1a;
-            border: 2px solid var(--dark-green);
-            padding: 8px 25px;
-            border-radius: 25px;
-            font-weight: 800;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
+            background-color: transparent; color: #1a1a1a; border: 2px solid var(--dark-green); padding: 8px 25px;
+            border-radius: 25px; font-weight: 800; font-size: 0.9rem; cursor: pointer; transition: all 0.3s; text-transform: uppercase;
         }
-
-        .filter-btn:hover {
-            background-color: rgba(9, 42, 14, 0.1);
-        }
-
-        .filter-btn.active {
-            background-color: var(--dark-green);
-            color: white;
-        }
+        .filter-btn:hover { background-color: rgba(9, 42, 14, 0.1); }
+        .filter-btn.active { background-color: var(--dark-green); color: white; }
 
         /* --- Grid & Cards --- */
-        .grid-chefs {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 25px;
-        }
+        .grid-chefs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
 
         .chef-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid var(--card-border);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s;
+            background-color: var(--card-bg); border-radius: 12px; border: 1px solid var(--card-border);
+            overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s;
         }
-
-        .chef-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .chef-card img.chef-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-
-        .card-content {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .chef-card h4 {
-            font-size: 1.1rem;
-            font-weight: 800;
-            margin-bottom: 5px;
-        }
-
-        .stars {
-            color: var(--star-color);
-            font-size: 1.2rem;
-            margin-bottom: 12px;
-            letter-spacing: 2px;
-        }
-
+        .chef-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(156, 189, 40, 0.2); }
+        .chef-card img.chef-img { width: 100%; height: 180px; object-fit: cover; }
+        
+        .card-content { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; align-items: center; text-align: center; }
+        .chef-card h4 { font-size: 1.1rem; font-weight: 800; margin-bottom: 5px; width: 100%;}
+        .stars { color: var(--star-color); font-size: 1.2rem; margin-bottom: 12px; letter-spacing: 2px; }
+        
         .badge-green {
-            background-color: var(--primary-green);
-            color: white;
-            padding: 6px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 15px;
-            width: 100%;
+            background-color: var(--primary-green); color: white; padding: 6px 10px; border-radius: 20px;
+            font-size: 0.8rem; font-weight: 700; margin-bottom: 15px; width: 100%;
         }
 
         .btn-red {
-            background-color: var(--btn-red);
-            color: white;
-            border: none;
-            padding: 10px 0;
-            border-radius: 25px;
-            font-weight: 800;
-            font-size: 1rem;
-            cursor: pointer;
-            width: 70%;
-            margin: auto auto 5px auto;
-            transition: background 0.3s;
+            background-color: var(--btn-red); color: white; border: none; padding: 10px 0; border-radius: 25px;
+            font-weight: 800; font-size: 1rem; cursor: pointer; width: 80%; margin: auto auto 5px auto; transition: background 0.3s;
         }
+        .btn-red:hover { background-color: var(--btn-red-hover); }
 
-        .btn-red:hover {
-            background-color: var(--btn-red-hover);
-        }
+        /* --- Loading e Placeholder --- */
+        .loading-msg { grid-column: 1 / -1; text-align: center; font-size: 1.2rem; color: #a0a0a0; padding: 40px; }
 
         /* --- Custom Modal --- */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-content {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            border: 2px solid var(--primary-green);
-            max-width: 400px;
-            width: 90%;
-        }
-        .modal-content h3 {
-            margin-bottom: 15px;
-            color: white;
-        }
-        .modal-close {
-            background: var(--btn-red);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 15px;
-        }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: var(--card-bg); padding: 30px; border-radius: 12px; text-align: center; border: 2px solid var(--primary-green); max-width: 400px; width: 90%; }
+        .modal-content h3 { margin-bottom: 15px; color: white; }
+        .modal-close { background: var(--btn-red); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 15px; }
 
         /* =========================================
-           RESPONSIVIDADE (MOBILE & TABLETS)
+           RESPONSIVIDADE
         ========================================= */
-        @media (max-width: 1024px) {
-            .grid-chefs { grid-template-columns: repeat(3, 1fr); }
-            .nav-links { gap: 20px; }
-            .logo-wrapper img { width: 140px; }
-        }
-
-        @media (max-width: 850px) {
-            .grid-chefs { grid-template-columns: repeat(2, 1fr); }
-        }
-
+        @media (max-width: 1024px) { .grid-chefs { grid-template-columns: repeat(3, 1fr); } .nav-links { gap: 20px; } .logo-wrapper img { width: 140px; } }
+        @media (max-width: 850px) { .grid-chefs { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) {
-            /* Ajustes Navbar */
-            .navbar { padding-right: 20px; }
-            .logo-wrapper { padding: 10px 20px 10px 10px; border-radius: 0 35px 35px 0; }
-            .logo-wrapper img { width: 110px; }
-            .logo-text { font-size: 1rem; }
-            .logo-text span { font-size: 0.8rem; }
-
-            /* Mostrar Menu Hambúrguer e Esconder Navbar Padrão */
-            .menu-toggle { display: flex; }
-            .navbar > .btn-entrar { display: none; }
-            .nav-links {
-                position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
-                background-color: var(--nav-bg); flex-direction: column; align-items: center;
-                justify-content: flex-start; padding-top: 40px; gap: 30px; transition: left 0.3s ease-in-out;
-            }
-            .nav-links.active { left: 0; }
-            .nav-links a { font-size: 1.2rem; }
-            .mobile-only { display: block; margin-top: 20px; }
-
-            /* Animação do Ícone de Hambúrguer */
-            .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
-            .menu-toggle.active span:nth-child(2) { opacity: 0; }
-            .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
-
-            /* Ajustes Internos da Página */
-            .section-title { font-size: 2rem; }
-            .filter-bar-bg { border-radius: 20px; padding: 15px; gap: 10px; }
-            .filter-btn { padding: 8px 15px; font-size: 0.8rem; }
+            .navbar { padding-right: 20px; } .logo-wrapper { padding: 10px 20px 10px 10px; border-radius: 0 35px 35px 0; } .logo-wrapper img { width: 110px; }
+            .logo-text { font-size: 1rem; } .logo-text span { font-size: 0.8rem; } .menu-toggle { display: flex; } .navbar > .btn-entrar { display: none; }
+            .nav-links { position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px); background-color: var(--nav-bg); flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 40px; gap: 30px; transition: left 0.3s ease-in-out; }
+            .nav-links.active { left: 0; } .nav-links a { font-size: 1.2rem; } .mobile-only { display: block; margin-top: 20px; }
+            .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); } .menu-toggle.active span:nth-child(2) { opacity: 0; } .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+            .section-title { font-size: 2rem; } .filter-bar-bg { border-radius: 20px; padding: 15px; gap: 10px; } .filter-btn { padding: 8px 15px; font-size: 0.8rem; }
         }
-
-        @media (max-width: 480px) {
-            .grid-chefs { grid-template-columns: 1fr; }
-            .navbar { padding-right: 15px; }
-            .btn-red { width: 100%; } /* Botão estica um pouco mais no celular */
-        }
+        @media (max-width: 480px) { .grid-chefs { grid-template-columns: 1fr; } .navbar { padding-right: 15px; } .btn-red { width: 100%; } }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR Fiel ao Novo Padrão -->
     <nav class="navbar">
         <div class="logo-wrapper">
             <img src="../assets/personalFood/PersonalFoodIcon.png" alt="Personal Food Icon" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Chef_icon.svg/1024px-Chef_icon.svg.png'; this.style.filter='brightness(0) invert(1)';">
-            <div class="logo-text">
-                PERSONAL<span>FOOD</span>
-            </div>
+            <div class="logo-text">PERSONAL<span>FOOD</span></div>
         </div>
         
-        <!-- Botão Menu Hambúrguer (Mobile) -->
-        <div class="menu-toggle" id="mobile-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+        <div class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></div>
 
         <ul class="nav-links" id="nav-links">
             <li><a href="../index.html">Home</a></li>
@@ -395,121 +148,32 @@
             <li><a href="receitas.html" >Receitas</a></li>
             <li><a href="impacta.html">PF Impacta</a></li>
             <li><a href="sobre.html">Sobre nós</a></li>
-            <!-- Botão Entrar apenas para Menu Mobile -->
-            <li class="mobile-only">
+            <li class="mobile-only" id="menu-mobile-login">
                 <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
             </li>
         </ul>
 
-        <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
+        <button class="btn-entrar" id="btn-login-desk" onclick="location.href='registerLogin.html'">Entrar</button>
     </nav>
 
-    <!-- Main Content -->
     <section id="chefs" class="page-section">
         <h2 class="section-title">ENCONTRE O CHEF IDEAL PARA VOCÊ!</h2>
         
         <div class="filter-container">
             <div class="filter-bar-bg">
-                <button class="filter-btn active" onclick="setFilter(this)">TODOS</button>
-                <button class="filter-btn" onclick="setFilter(this)">EVENTOS</button>
-                <button class="filter-btn" onclick="setFilter(this)">PARTICULAR</button>
-                <button class="filter-btn" onclick="setFilter(this)">VEGANO</button>
-                <button class="filter-btn" onclick="setFilter(this)">CORPORATIVO</button>
+                <button class="filter-btn active" onclick="setFilter(this, 'todos')">TODOS</button>
+                <button class="filter-btn" onclick="setFilter(this, 'eventos')">EVENTOS</button>
+                <button class="filter-btn" onclick="setFilter(this, 'particular')">PARTICULAR</button>
+                <button class="filter-btn" onclick="setFilter(this, 'vegano')">VEGANO</button>
+                <button class="filter-btn" onclick="setFilter(this, 'corporativo')">CORPORATIVO</button>
             </div>
         </div>
 
-        <div class="grid-chefs">
-            <!-- Chef 1 -->
-            <div class="chef-card">
-                <img class="chef-img" src="https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Chef Lorenzo Bianchi">
-                <div class="card-content">
-                    <h4>Chef Lorenzo Bianchi</h4>
-                    <div class="stars">★★★★☆</div>
-                    <div class="badge-green">Culinária Italiana</div>
-                    <button class="btn-red" onclick="navigateTo('hire-chef', 'Lorenzo Bianchi')">Ver Perfil</button>
-                </div>
-            </div>
-            
-            <!-- Chef 2 -->
-            <div class="chef-card">
-                <img class="chef-img" src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Akira Tanaka">
-                <div class="card-content">
-                    <h4>Chef Akira Tanaka</h4>
-                    <div class="stars">★★★★★</div>
-                    <div class="badge-green">Culinária Japonesa</div>
-                    <button class="btn-red" onclick="navigateTo('hire-chef', 'Akira Tanaka')">Ver Perfil</button>
-                </div>
-            </div>
-
-            <!-- Chef 3 -->
-            <div class="chef-card">
-                <img class="chef-img" src="https://images.unsplash.com/photo-1566554273541-37a9ca77b91f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Maria">
-                <div class="card-content">
-                    <h4>Chef Maria do Carmo</h4>
-                    <div class="stars">★★★★☆</div>
-                    <div class="badge-green">Culinária Brasileira</div>
-                    <button class="btn-red" onclick="navigateTo('hire-chef', 'Maria do Carmo')">Ver Perfil</button>
-                </div>
-            </div>
-
-            <!-- Chef 4 -->
-            <div class="chef-card">
-                <img class="chef-img" src="https://images.unsplash.com/photo-1595273670150-bd0c3c392e46?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Koda">
-                <div class="card-content">
-                    <h4>Chef Koda Martins</h4>
-                    <div class="stars">★★★★★</div>
-                    <div class="badge-green">Buffet executivo saudável</div>
-                    <button class="btn-red" onclick="navigateTo('hire-chef', 'Koda Martins')">Ver Perfil</button>
-                </div>
-            </div>
-
-            <!-- Chef 5 -->
-            <div class="chef-card">
-                <img class="chef-img" src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef André">
-                <div class="card-content">
-                    <h4>Chef André Vasconcelos</h4>
-                    <div class="stars">★★★★★</div>
-                    <div class="badge-green">Eventos e Finger Foods</div>
-                    <button class="btn-red" onclick="navigateTo('hire-chef', 'André Vasconcelos')">Ver Perfil</button>
-                </div>
-            </div>
-
-            <!-- Chef 6 -->
-            <div class="chef-card">
-                <img class="chef-img" src="https://images.unsplash.com/photo-1581299894007-aaa50297cf16?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Hiroshi">
-                <div class="card-content">
-                    <h4>Chef Hiroshi Rossi</h4>
-                    <div class="stars">★★★★☆</div>
-                    <div class="badge-green">Culinária Vegana</div>
-                    <button class="btn-red" onclick="navigateTo('hire-chef', 'Hiroshi Rossi')">Ver Perfil</button>
-                </div>
-            </div>
-
-            <!-- Chef 7 -->
-            <div class="chef-card">
-                <img class="chef-img" src="https://images.unsplash.com/photo-1615671524827-c1fe3973b648?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chef Isabella">
-                <div class="card-content">
-                    <h4>Chef Isabella Costa</h4>
-                    <div class="stars">★★★★★</div>
-                    <div class="badge-green">Gastronomia Francesa</div>
-                    <button class="btn-red" onclick="navigateTo('hire-chef', 'Isabella Costa')">Ver Perfil</button>
-                </div>
-            </div>
-
-            <!-- Chef 8 -->
-            <div class="chef-card">
-                <img class="chef-img" src="https://images.pexels.com/photos/3814446/pexels-photo-3814446.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Chef Eduardo">
-                <div class="card-content">
-                    <h4>Chef Eduardo Monteiro</h4>
-                    <div class="stars">★★★★☆</div>
-                    <div class="badge-green">Churrasco Premium</div>
-                    <button class="btn-red" onclick="navigateTo('hire-chef', 'Eduardo Monteiro')">Ver Perfil</button>
-                </div>
-            </div>
+        <div class="grid-chefs" id="grid-chefs">
+            <div class="loading-msg">Buscando os melhores chefs da região...</div>
         </div>
     </section>
 
-    <!-- Custom Modal instead of native Alert -->
     <div id="custom-modal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="modal-text">Ação realizada!</h3>
@@ -518,7 +182,7 @@
     </div>
 
     <script>
-        // Lógica do Menu Mobile Responsivo
+        // Lógica do Menu Mobile
         const menuToggle = document.getElementById('mobile-menu');
         const navLinks = document.getElementById('nav-links');
 
@@ -527,21 +191,122 @@
             navLinks.classList.toggle('active');
         });
 
-        // Lógica de Filtros
-        function setFilter(clickedElement) {
-            const buttons = document.querySelectorAll('.filter-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            clickedElement.classList.add('active');
-        }
+        // Troca o botão Entrar por "Painel" se o usuário estiver logado
+        document.addEventListener("DOMContentLoaded", () => {
+            const usuarioJSON = localStorage.getItem('usuarioLogado');
+            if (usuarioJSON) {
+                const usuario = JSON.parse(usuarioJSON);
+                let linkPainel = 'painel-cliente.html';
+                if(usuario.tipo === 'CHEFE') linkPainel = 'painel-chefe.html';
+                if(usuario.tipo === 'ADMIN') linkPainel = 'painel-admin.html';
+                
+                const btnDesk = document.getElementById('btn-login-desk');
+                btnDesk.innerText = "Meu Painel";
+                btnDesk.onclick = () => location.href = linkPainel;
 
-        // Lógica de Navegação / Modal
-        function navigateTo(action, chefName) {
-            if (action === 'hire-chef') {
-                showMessage(`Redirecionando para o perfil de: ${chefName}`);
+                const liMobile = document.getElementById('menu-mobile-login');
+                liMobile.innerHTML = `<button class="btn-entrar" onclick="location.href='${linkPainel}'">Meu Painel</button>`;
+            }
+
+            // Inicia a busca no banco de dados
+            carregarChefes();
+        });
+
+        // ==========================================
+        // INTEGRAÇÃO COM O BACK-END
+        // ==========================================
+        let listaGlobalChefes = [];
+
+        async function carregarChefes() {
+            const grid = document.getElementById('grid-chefs');
+            
+            try {
+                const resposta = await fetch('http://localhost:8080/api/chefes');
+                if (resposta.ok) {
+                    const dados = await resposta.json();
+                    
+                    // Filtra para exibir APENAS quem está com a vitrine ativada
+                    listaGlobalChefes = dados.filter(chefe => chefe.ativoVitrine === true);
+                    renderizarChefes(listaGlobalChefes);
+                } else {
+                    grid.innerHTML = '<div class="loading-msg">Erro ao carregar o catálogo de chefs.</div>';
+                }
+            } catch (erro) {
+                console.error("Erro de conexão", erro);
+                grid.innerHTML = '<div class="loading-msg">Servidor offline. Verifique o Spring Boot.</div>';
             }
         }
 
-        // Sistema de Mensagem Customizada
+        function renderizarChefes(lista) {
+            const grid = document.getElementById('grid-chefs');
+            grid.innerHTML = '';
+
+            if (lista.length === 0) {
+                grid.innerHTML = '<div class="loading-msg">Nenhum chef encontrado para esta categoria.</div>';
+                return;
+            }
+
+            lista.forEach(chefe => {
+                // Monta os dados para exibição (trata valores nulos com padrões)
+                const nomeCompleto = chefe.usuario ? chefe.usuario.nome : 'Chef Parceiro';
+                const primeiroNome = nomeCompleto.split(' ')[0];
+                
+                // Se não tiver foto no banco, usa uma genérica
+                const foto = chefe.fotoPerfil || 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=500&q=80'; 
+                const especialidade = chefe.especialidade || 'Culinária Geral';
+                const nota = chefe.notaReputacao ? chefe.notaReputacao.toFixed(1) : '5.0';
+                
+                // Criação simples de estrelinhas visuais
+                let estrelasHtml = '★★★★★';
+                if (nota < 5.0) estrelasHtml = '★★★★☆';
+                if (nota < 4.0) estrelasHtml = '★★★☆☆';
+
+                // Desenha o Card no HTML
+                const card = document.createElement('div');
+                card.className = 'chef-card';
+                card.innerHTML = `
+                    <img class="chef-img" src="${foto}" alt="Chef ${primeiroNome}">
+                    <div class="card-content">
+                        <h4>Chef ${nomeCompleto}</h4>
+                        <div class="stars" title="Nota: ${nota}">${estrelasHtml}</div>
+                        <div class="badge-green">${especialidade}</div>
+                        <button class="btn-red" onclick="verPerfilChefe(${chefe.id}, '${nomeCompleto}')">Ver Perfil</button>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // ==========================================
+        // LÓGICA DO FILTRO
+        // ==========================================
+        function setFilter(clickedElement, tag) {
+            // Atualiza a cor do botão selecionado
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            clickedElement.classList.add('active');
+
+            // Filtra os cards baseados na tag selecionada
+            if (tag === 'todos') {
+                renderizarChefes(listaGlobalChefes);
+            } else {
+                // A tag do banco precisa conter a tag do botão (ex: 'vegano')
+                const filtrados = listaGlobalChefes.filter(chefe => {
+                    if(!chefe.tagsAtendimento) return false;
+                    return chefe.tagsAtendimento.toLowerCase().includes(tag.toLowerCase());
+                });
+                renderizarChefes(filtrados);
+            }
+        }
+
+        // ==========================================
+        // NAVEGAÇÃO E MODAL
+        // ==========================================
+        function verPerfilChefe(chefeId, nome) {
+            window.location.href = `perfil-chefe.html?id=${chefeId}`;
+        }
+
         function showMessage(text) {
             document.getElementById('modal-text').innerText = text;
             document.getElementById('custom-modal').style.display = 'flex';
@@ -551,6 +316,5 @@
             document.getElementById('custom-modal').style.display = 'none';
         }
     </script>
-
 </body>
 </html>

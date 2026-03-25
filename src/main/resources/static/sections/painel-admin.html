@@ -31,7 +31,7 @@
             overflow-x: hidden;
         }
 
-        /* Imagens de fundo laterais sincronizadas com a Home */
+        /* Imagens de fundo laterais */
         .bg-side {
             position: fixed; top: 0; bottom: 0; width: 25vw; z-index: -1;
             opacity: 0.2; background-size: cover; background-position: center;
@@ -47,7 +47,9 @@
             -webkit-mask-image: linear-gradient(to left, black 10%, transparent 100%);
         }
 
-        /* NAVBAR */
+        /* =========================================
+           NAVBAR PADRÃO
+        ========================================= */
         .navbar {
             position: fixed; top: 0; left: 0; width: 100%; height: 80px;
             background-color: var(--nav-bg); display: flex; align-items: center;
@@ -61,14 +63,32 @@
         .logo-wrapper img { height: 100%; width: 165px; object-fit: contain; margin-right: 12px; }
         .logo-text { color: #ffffff; font-size: 1.3rem; font-weight: 800; line-height: 1; display: flex; flex-direction: column; }
         .logo-text span { font-weight: 500; font-size: 0.95rem; }
-        
+
+        .nav-links {
+            display: flex; list-style: none; gap: 30px; align-items: center; margin: 0; padding: 0;
+        }
+        .nav-links a {
+            color: var(--text-white); text-decoration: none; font-weight: 700; font-size: 1rem; transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--btn-green); }
+
+        .nav-controls-desktop { display: flex; align-items: center; gap: 15px; }
+
         .btn-sair {
             background-color: transparent; color: var(--red-cta); border: 2px solid var(--red-cta);
-            padding: 8px 20px; border-radius: 25px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+            padding: 8px 20px; border-radius: 25px; font-size: 0.9rem; font-weight: 700;
+            font-family: var(--font-main); cursor: pointer; transition: all 0.2s;
         }
         .btn-sair:hover { background-color: var(--red-cta); color: #fff; }
 
-        /* DASHBOARD CONTENT */
+        /* Elementos Mobile */
+        .menu-toggle { display: none; flex-direction: column; cursor: pointer; gap: 6px; z-index: 1001; }
+        .menu-toggle span { width: 30px; height: 3px; background-color: var(--text-white); border-radius: 3px; transition: 0.3s; }
+        .mobile-only { display: none; }
+
+        /* =========================================
+           DASHBOARD CONTENT
+        ========================================= */
         .dashboard-container {
             padding-top: 120px; padding-bottom: 60px; max-width: 1200px; margin: 0 auto; padding-inline: 20px;
             position: relative; z-index: 10;
@@ -119,18 +139,76 @@
 
         /* TOMATITO ANIMADO */
         .helper-container { position: fixed; bottom: 30px; right: 40px; z-index: 100; }
-        .helper-wrapper {
-            animation: floatChatbot 4s ease-in-out infinite;
-        }
+        .helper-wrapper { animation: floatChatbot 4s ease-in-out infinite; }
         @keyframes floatChatbot { 0% { transform: translateY(0px); } 50% { transform: translateY(-12px); } 100% { transform: translateY(0px); } }
-        
         .tomatito-admin { width: 90px; filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.8)); }
+
+        /* =========================================
+           TOAST E MODAL CUSTOMIZADO
+        ========================================= */
+        .custom-toast {
+            position: fixed; bottom: 30px; right: -400px; background-color: var(--card-bg);
+            color: var(--text-white); border-left: 5px solid var(--btn-green); padding: 16px 24px;
+            border-radius: 8px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6); display: flex;
+            align-items: center; gap: 15px; font-weight: 500; z-index: 9999;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .custom-toast.show { right: 30px; }
+        .custom-toast.error { border-left-color: var(--red-cta); }
+
+        /* Overlay do Modal */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); z-index: 2000; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        
+        .modal-box {
+            background: var(--card-bg); padding: 30px; border-radius: 15px; width: 90%; max-width: 400px;
+            border: 1px solid var(--border-color); text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            transform: translateY(-20px); transition: transform 0.3s;
+        }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-box h2 { font-size: 1.5rem; margin-bottom: 15px; color: var(--text-white); }
+        .modal-box p { color: #e0e0e0; margin-bottom: 25px; font-size: 0.95rem; }
+        
+        .modal-actions { display: flex; justify-content: center; gap: 15px; }
+        .btn-cancelar { background: transparent; border: 1px solid #e0e0e0; color: #e0e0e0; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .btn-confirmar { background: var(--btn-green); color: #113c0b; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 700; }
+        .btn-confirmar.danger { background: var(--red-cta); color: #fff; }
+
+        /* =========================================
+           RESPONSIVIDADE
+        ========================================= */
+        @media (max-width: 1024px) {
+            .nav-links { gap: 15px; }
+            .logo-wrapper img { width: 140px; }
+        }
 
         @media (max-width: 768px) {
             .navbar { padding-right: 20px; }
             .logo-wrapper { padding: 10px 20px 10px 10px; border-radius: 0 35px 35px 0; }
             .logo-wrapper img { width: 110px; }
             .header-painel h1 { font-size: 1.8rem; }
+            
+            .menu-toggle { display: flex; }
+            .nav-controls-desktop { display: none; }
+            
+            .nav-links {
+                position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
+                background-color: var(--nav-bg); flex-direction: column; align-items: center;
+                justify-content: flex-start; padding-top: 40px; gap: 30px; transition: left 0.3s ease-in-out;
+            }
+            .nav-links.active { left: 0; }
+            .mobile-only { display: block; margin-top: 20px; }
+            
+            .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+            .custom-toast { right: 0; bottom: -100px; width: 90%; left: 5%; border-radius: 10px; transition: bottom 0.4s; }
+            .custom-toast.show { bottom: 20px; right: 0; }
         }
     </style>
 </head>
@@ -144,7 +222,28 @@
             <img src="../assets/personalFood/PersonalFoodIcon.png" alt="Personal Food">
             <div class="logo-text">PERSONAL<span>FOOD</span></div>
         </div>
-        <button class="btn-sair" onclick="fazerLogout()">Sair do Painel</button>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <ul class="nav-links" id="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="chefs.html">Chef 's</a></li>
+            <li><a href="cursos.html">Cursos</a></li>
+            <li><a href="receitas.html">Receitas</a></li>
+            <li><a href="impacta.html">PF Impacta</a></li>
+            <li><a href="sobre.html">Sobre nós</a></li>
+            <li class="mobile-only">
+                <button class="btn-sair" onclick="fazerLogout()">Sair do Painel</button>
+            </li>
+        </ul>
+
+        <div class="nav-controls-desktop">
+            <button class="btn-sair" onclick="fazerLogout()">Sair do Painel</button>
+        </div>
     </nav>
 
     <main class="dashboard-container">
@@ -159,8 +258,12 @@
                 <div class="value" id="count-pendentes">0</div>
             </div>
             <div class="metric-card">
-                <h3 style="color: #a0a0a0">Aprovados por você</h3>
-                <div class="value" id="count-meus-aprovados">0</div>
+                <h3 style="color: #a0a0a0">Total Aprovados (Geral)</h3>
+                <div class="value" id="count-aprovados-total">0</div>
+            </div>
+            <div class="metric-card">
+                <h3 style="color: var(--red-cta)">Total Recusados (Geral)</h3>
+                <div class="value" id="count-recusados-total">0</div>
             </div>
         </div>
 
@@ -187,8 +290,31 @@
         </div>
     </div>
 
+    <div id="custom-toast" class="custom-toast">
+        <span id="toast-icon" class="toast-icon">✅</span>
+        <span id="toast-message">Mensagem</span>
+    </div>
+
+    <div id="confirm-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h2 id="modal-title">Confirmar Ação</h2>
+            <p id="modal-desc">Você tem certeza que deseja prosseguir?</p>
+            <div class="modal-actions">
+                <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+                <button id="modal-btn-confirmar" class="btn-confirmar">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        let aprovadosSessao = 0;
+        // Lógica do Menu Mobile
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
 
         document.addEventListener("DOMContentLoaded", () => {
             const usuarioJSON = localStorage.getItem('usuarioLogado');
@@ -201,17 +327,76 @@
             document.getElementById('nome-admin').innerText = `Gestão de Projetos: ${admin.nome}`;
             
             carregarSolicitacoes();
+            carregarMetricas();
         });
+
+        // TOAST FUNCTION
+        function mostrarNotificacao(mensagem, tipo = 'sucesso') {
+            const toast = document.getElementById('custom-toast');
+            document.getElementById('toast-message').innerText = mensagem;
+            
+            if (tipo === 'erro') {
+                toast.classList.add('error');
+                document.getElementById('toast-icon').innerText = '⚠️';
+            } else {
+                toast.classList.remove('error');
+                document.getElementById('toast-icon').innerText = '✅';
+            }
+
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // MODAL LOGIC
+        let acaoPendente = null;
+
+        function abrirModal(titulo, descricao, isDanger, acaoCallback) {
+            document.getElementById('modal-title').innerText = titulo;
+            document.getElementById('modal-desc').innerText = descricao;
+            
+            const btnConfirmar = document.getElementById('modal-btn-confirmar');
+            if (isDanger) {
+                btnConfirmar.classList.add('danger');
+                btnConfirmar.innerText = "Recusar e Deletar";
+            } else {
+                btnConfirmar.classList.remove('danger');
+                btnConfirmar.innerText = "Aprovar Chefe";
+            }
+
+            acaoPendente = acaoCallback;
+            document.getElementById('confirm-modal').classList.add('active');
+        }
+
+        function fecharModal() {
+            document.getElementById('confirm-modal').classList.remove('active');
+            acaoPendente = null;
+        }
+
+        document.getElementById('modal-btn-confirmar').addEventListener('click', () => {
+            if (acaoPendente) acaoPendente();
+            fecharModal();
+        });
+
+        // INTEGRAÇÃO API
+        async function carregarMetricas() {
+            try {
+                const resposta = await fetch('http://localhost:8080/api/admin/metricas-dashboard');
+                const metricas = await resposta.json();
+                
+                document.getElementById('count-aprovados-total').innerText = metricas.aprovados;
+                document.getElementById('count-recusados-total').innerText = metricas.recusados;
+            } catch (error) {
+                console.error("Erro ao carregar métricas:", error);
+            }
+        }
 
         async function carregarSolicitacoes() {
             try {
-                // Rota que busca apenas usuários com tipo PENDENTE_CHEFE
                 const resposta = await fetch('http://localhost:8080/api/admin/usuarios-pendentes');
                 const usuarios = await resposta.json();
                 
                 const tabela = document.getElementById('tabela-solicitacoes');
                 tabela.innerHTML = '';
-                
                 document.getElementById('count-pendentes').innerText = usuarios.length;
 
                 if (usuarios.length === 0) {
@@ -226,42 +411,56 @@
                             <td>${user.email}</td>
                             <td>${user.cpf}</td>
                             <td>
-                                <button class="btn-aprovar" onclick="aprovarChef(${user.id}, '${user.nome}')">Aprovar</button>
-                                <button class="btn-recusar" onclick="recusarChef(${user.id})">Recusar</button>
+                                <button class="btn-aprovar" onclick="prepararAprovacao(${user.id}, '${user.nome}')">Aprovar</button>
+                                <button class="btn-recusar" onclick="prepararRecusa(${user.id}, '${user.nome}')">Recusar</button>
                             </td>
                         </tr>
                     `;
                 });
             } catch (error) {
-                console.error("Erro ao carregar candidatos:", error);
+                mostrarNotificacao('Erro ao carregar lista de pendentes', 'erro');
             }
         }
 
-        async function aprovarChef(id, nome) {
-            if (!confirm(`Confirmar a promoção de ${nome} para o cargo de CHEFE?`)) return;
-            
+        function prepararAprovacao(id, nome) {
+            abrirModal("Aprovar Chefe", `Deseja promover ${nome} para Chefe?`, false, () => efetivarAprovacao(id));
+        }
+
+        function prepararRecusa(id, nome) {
+            abrirModal("Recusar Solicitação", `Deseja realmente recusar e remover a solicitação de ${nome}?`, true, () => efetivarRecusa(id));
+        }
+
+        async function efetivarAprovacao(id) {
+            const adminNome = JSON.parse(localStorage.getItem('usuarioLogado')).nome;
+
             try {
-                const res = await fetch(`http://localhost:8080/api/admin/aprovar-chefe/${id}`, { method: 'PUT' });
+                const res = await fetch(`http://localhost:8080/api/admin/aprovar-chefe/${id}?adminNome=${encodeURIComponent(adminNome)}`, { method: 'PUT' });
                 if (res.ok) {
-                    aprovadosSessao++;
-                    document.getElementById('count-meus-aprovados').innerText = aprovadosSessao;
+                    mostrarNotificacao("Chefe aprovado com sucesso!");
                     carregarSolicitacoes();
+                    carregarMetricas();
+                } else {
+                    mostrarNotificacao("Erro ao aprovar.", "erro");
                 }
             } catch (err) {
-                alert("Erro ao conectar com o servidor.");
+                mostrarNotificacao("Erro de conexão.", "erro");
             }
         }
 
-        async function recusarChef(id) {
-            if (!confirm("Deseja realmente deletar esta solicitação? Esta ação é irreversível.")) return;
-            
+        async function efetivarRecusa(id) {
+            const adminNome = JSON.parse(localStorage.getItem('usuarioLogado')).nome;
+
             try {
-                const res = await fetch(`http://localhost:8080/api/admin/recusar-usuario/${id}`, { method: 'DELETE' });
+                const res = await fetch(`http://localhost:8080/api/admin/recusar-usuario/${id}?adminNome=${encodeURIComponent(adminNome)}`, { method: 'DELETE' });
                 if (res.ok) {
+                    mostrarNotificacao("Solicitação recusada e removida.");
                     carregarSolicitacoes();
+                    carregarMetricas();
+                } else {
+                    mostrarNotificacao("Erro ao recusar.", "erro");
                 }
             } catch (err) {
-                alert("Erro ao conectar com o servidor.");
+                mostrarNotificacao("Erro de conexão.", "erro");
             }
         }
 

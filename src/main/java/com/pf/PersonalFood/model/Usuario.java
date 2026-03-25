@@ -33,11 +33,15 @@ public class Usuario {
     @Column(nullable = false)
     private String senha;
 
-    @Enumerated(EnumType.STRING) // Diz para o Spring salvar o texto do Enum (ex: "CLIENTE") e não um número
+    @Enumerated(EnumType.STRING) 
     @Column(nullable = false)
     private TipoUsuario tipo;
 
-    // O banco já coloca a data padrão, então dizemos pro Spring não tentar inserir isso
+    // O banco já coloca a data padrão
     @Column(name = "criado_em", insertable = false, updatable = false)
     private LocalDateTime criadoEm; 
+
+    // Foto de perfil do usuário
+    @Column(name = "foto_perfil", columnDefinition = "LONGTEXT")
+    private String fotoPerfil;
 }

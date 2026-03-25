@@ -1,6 +1,8 @@
 package com.pf.PersonalFood.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pf.PersonalFood.model.LogAprovacao;
 import com.pf.PersonalFood.model.TipoUsuario;
 import com.pf.PersonalFood.model.Usuario;
+import com.pf.PersonalFood.repository.LogAprovacaoRepository;
 import com.pf.PersonalFood.repository.UsuarioRepository;
 
 @RestController
@@ -24,33 +29,58 @@ public class AdminController {
     @Autowired
     private UsuarioRepository usuarioRepo;
 
-    // 1. Rota para listar apenas quem está com status PENDENTE_CHEFE
+    @Autowired
+    private LogAprovacaoRepository logRepo;
+
     @GetMapping("/usuarios-pendentes")
     public ResponseEntity<List<Usuario>> listarPendentes() {
-        // Agora filtramos especificamente quem está na fila de aprovação
         return ResponseEntity.ok(usuarioRepo.findByTipo(TipoUsuario.PENDENTE_CHEFE));
     }
 
-    // 2. Rota para APROVAR (Trocar PENDENTE_CHEFE para CHEFE)
+    // NOVA ROTA: Retorna as métricas para o Dashboard
+    @GetMapping("/metricas-dashboard")
+    public ResponseEntity<Map<String, Long>> obterMetricas() {
+        Map<String, Long> metricas = new HashMap<>();
+        metricas.put("aprovados", logRepo.countByAcao("APROVADO"));
+        metricas.put("recusados", logRepo.countByAcao("RECUSADO"));
+        return ResponseEntity.ok(metricas);
+    }
+
+    // ATUALIZADO: Recebe o nome do Admin via parâmetro para salvar no Log
     @PutMapping("/aprovar-chefe/{id}")
-    public ResponseEntity<String> aprovarChefe(@PathVariable Integer id) {
+    public ResponseEntity<String> aprovarChefe(@PathVariable Integer id, @RequestParam String adminNome) {
         return usuarioRepo.findById(id).map(usuario -> {
-            // Atualiza o status para CHEFE, permitindo o login nas próximas tentativas
             usuario.setTipo(TipoUsuario.CHEFE); 
             usuarioRepo.save(usuario);          
-            return ResponseEntity.ok("Usuário " + usuario.getNome() + " aprovado! Agora ele tem acesso às funções de Chefe.");
+            
+            // Salva no Histórico
+            LogAprovacao log = new LogAprovacao();
+            log.setAdminNome(adminNome);
+            log.setCandidatoNome(usuario.getNome());
+            log.setAcao("APROVADO");
+            logRepo.save(log);
+
+            return ResponseEntity.ok("Usuário aprovado com sucesso!");
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    // 3. Rota para DELETAR/RECUSAR
+    // ATUALIZADO: Recebe o nome do Admin via parâmetro para salvar no Log
     @DeleteMapping("/recusar-usuario/{id}")
-    public ResponseEntity<String> recusarUsuario(@PathVariable Integer id) {
-        if (usuarioRepo.existsById(id)) {
-            // Ao recusar, deletamos o usuário ou poderíamos apenas mudar o tipo para CLIENTE
-            // Como ele preencheu dados de bio/chef, o delete limpa a solicitação por completo.
+    public ResponseEntity<String> recusarUsuario(@PathVariable Integer id, @RequestParam String adminNome) {
+        return usuarioRepo.findById(id).map(usuario -> {
+            String nomeCandidato = usuario.getNome();
+            
+            // Deleta o usuário recusado
             usuarioRepo.deleteById(id);
-            return ResponseEntity.ok("Solicitação recusada e usuário removido.");
-        }
-        return ResponseEntity.notFound().build();
+
+            // Salva no Histórico
+            LogAprovacao log = new LogAprovacao();
+            log.setAdminNome(adminNome);
+            log.setCandidatoNome(nomeCandidato);
+            log.setAcao("RECUSADO");
+            logRepo.save(log);
+
+            return ResponseEntity.ok("Solicitação recusada e removida.");
+        }).orElse(ResponseEntity.notFound().build());
     }
 }

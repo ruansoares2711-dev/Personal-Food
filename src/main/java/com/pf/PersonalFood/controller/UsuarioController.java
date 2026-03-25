@@ -1,15 +1,12 @@
 package com.pf.PersonalFood.controller;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.pf.PersonalFood.dto.LoginDTO;
 import com.pf.PersonalFood.dto.RegistroDTO;
@@ -39,9 +36,6 @@ public class UsuarioController {
         novoUsuario.setCpf(dto.getCpf());
         novoUsuario.setSenha(dto.getSenha());
         
-        // 👇 AQUI ESTÁ A MUDANÇA:
-        // Se a checkbox (isChef) vier true, o status é PENDENTE_CHEFE.
-        // Se vier false, ele vira CLIENTE direto.
         if (dto.isChef()) {
             novoUsuario.setTipo(TipoUsuario.PENDENTE_CHEFE);
         } else {
@@ -68,25 +62,46 @@ public class UsuarioController {
 
         if (usuarioBuscado.isPresent()) {
             Usuario usuario = usuarioBuscado.get();
-            
             if (usuario.getSenha().equals(dto.getSenha())) {
-                
-                // BLOQUEIO: Se o usuário ainda estiver pendente, não deixa logar.
                 if (usuario.getTipo() == TipoUsuario.PENDENTE_CHEFE) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN)
                                          .body("Aguardando solicitação: Seu perfil de Chefe ainda não foi aprovado.");
                 }
 
-                UsuarioResponseDTO response = new UsuarioResponseDTO();
-                response.setId(usuario.getId());
-                response.setNome(usuario.getNome());
-                response.setEmail(usuario.getEmail());
-                response.setTipo(usuario.getTipo().name());
-                
-                return ResponseEntity.ok(response);
+                // Usamos o método auxiliar para converter
+                return ResponseEntity.ok(converterParaDTO(usuario));
             }
         }
-
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("E-mail ou senha incorretos.");
+    }
+
+    @PutMapping("/perfil/{id}")
+    public ResponseEntity<?> atualizarPerfil(@PathVariable Integer id, @RequestBody Map<String, Object> dados) {
+        return usuarioRepo.findById(id).map(usuario -> {
+            // Atualiza os campos
+            if (dados.containsKey("nome")) {
+                usuario.setNome((String) dados.get("nome"));
+            }
+            if (dados.get("fotoPerfil") != null) {
+                usuario.setFotoPerfil((String) dados.get("fotoPerfil"));
+            }
+            
+            Usuario usuarioAtualizado = usuarioRepo.save(usuario);
+            
+            // RETORNO CRUCIAL: Retornamos o DTO e não a Entidade Usuario diretamente
+            return ResponseEntity.ok(converterParaDTO(usuarioAtualizado));
+            
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    // Método auxiliar para evitar repetição de código e erros de conversão
+    private UsuarioResponseDTO converterParaDTO(Usuario usuario) {
+        UsuarioResponseDTO dto = new UsuarioResponseDTO();
+        dto.setId(usuario.getId());
+        dto.setNome(usuario.getNome());
+        dto.setEmail(usuario.getEmail());
+        dto.setTipo(usuario.getTipo().name());
+        dto.setFotoPerfil(usuario.getFotoPerfil());
+        return dto;
     }
 }

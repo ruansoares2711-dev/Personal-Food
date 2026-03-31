@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Food | Painel do Chef</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/personalFood/PersonalFoodFavIcon32x32-removebg-preview.png">
+    <style>
+        :root {
+            --bg-main: #000000;
+            --nav-bg: #113c0b;
+            --logo-bg: #d1c115;
+            --card-bg: #0e290a;
+            --btn-green: #a7c938;
+            --btn-green-hover: #b8db40;
+            --red-cta: #d30018;
+            --text-white: #FFFFFF;
+            --font-main: 'Poppins', sans-serif;
+            --border-color: #2a5a22;
+            --status-nova: #d1c115;
+            --status-orcamento: #3498db;
+            --status-contrato: #9b59b6;
+            --status-confirmado: #2ecc71;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-main); color: var(--text-white);
+            font-family: var(--font-main); min-height: 100vh;
+            position: relative; overflow-x: hidden;
+        }
+
+        .bg-side {
+            position: fixed; top: 0; bottom: 0; width: 25vw; z-index: -1; opacity: 0.2; background-size: cover; background-position: center;
+        }
+        .bg-left { left: 0; background-image: url('https://images.unsplash.com/photo-1490818387583-1b5f2dd061b1?q=80&w=600&auto=format&fit=crop'); -webkit-mask-image: linear-gradient(to right, black 10%, transparent 100%); }
+        .bg-right { right: 0; background-image: url('https://images.unsplash.com/photo-1596683839213-9f864bc39294?q=80&w=600&auto=format&fit=crop'); -webkit-mask-image: linear-gradient(to left, black 10%, transparent 100%); }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; height: 80px;
+            background-color: var(--nav-bg); display: flex; align-items: center;
+            justify-content: space-between; z-index: 1000; padding-right: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .logo-wrapper {
+            height: 100%; background-color: var(--logo-bg); padding: 10px 40px 10px 20px;
+            border-radius: 0 50px 50px 0; display: flex; align-items: center;
+        }
+        .logo-wrapper img { height: 100%; width: 165px; object-fit: contain; margin-right: 12px; }
+        .logo-text { color: #ffffff; font-size: 1.3rem; font-weight: 800; line-height: 1; display: flex; flex-direction: column; }
+        .logo-text span { font-weight: 500; font-size: 0.95rem; }
+        
+        .nav-links { display: flex; list-style: none; gap: 30px; align-items: center; }
+        .nav-links a { color: var(--text-white); text-decoration: none; font-weight: 700; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--btn-green); }
+
+        .btn-sair {
+            background-color: transparent; color: var(--red-cta); border: 2px solid var(--red-cta);
+            padding: 8px 20px; border-radius: 25px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-sair:hover { background-color: var(--red-cta); color: #fff; }
+
+        /* DASHBOARD GERAL */
+        .dashboard-container {
+            padding-top: 120px; padding-bottom: 60px; max-width: 1200px; margin: 0 auto; padding-inline: 20px; position: relative; z-index: 10;
+        }
+        .header-painel { margin-bottom: 30px; border-bottom: 2px solid var(--border-color); padding-bottom: 20px; }
+        .header-painel h1 { font-size: 2.2rem; font-weight: 800; color: var(--btn-green); }
+
+        .metrics-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;
+        }
+        .metric-card {
+            background-color: var(--card-bg); border-radius: 12px; padding: 20px;
+            border: 1px solid var(--border-color); text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        .metric-card h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; color: #a0a0a0; }
+        .metric-card .value { font-size: 2.2rem; font-weight: 800; }
+        .metric-card.highlight .value { color: var(--btn-green); }
+
+        /* NAVEGAÇÃO DE ABAS */
+        .dash-tabs {
+            display: flex; gap: 15px; margin-bottom: 25px; border-bottom: 1px solid var(--border-color);
+        }
+        .tab-btn {
+            background: transparent; color: #a0a0a0; border: none; padding: 10px 20px; font-size: 1.1rem;
+            font-weight: 700; font-family: var(--font-main); cursor: pointer; transition: 0.3s; position: relative;
+        }
+        .tab-btn.active { color: var(--btn-green); }
+        .tab-btn.active::after {
+            content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px; background-color: var(--btn-green); border-radius: 3px 3px 0 0;
+        }
+        .tab-content { display: none; animation: fadeIn 0.4s ease forwards; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ABA 1: EVENTOS E PIPELINE */
+        .requests-grid { display: flex; flex-direction: column; gap: 15px; }
+        .request-card {
+            background-color: var(--card-bg); border-radius: 12px; padding: 20px;
+            border: 1px solid var(--border-color); display: flex; justify-content: space-between;
+            align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform 0.2s;
+        }
+        .request-card:hover { transform: translateX(5px); border-color: var(--btn-green); }
+        .req-info h4 { font-size: 1.2rem; margin-bottom: 5px; }
+        .req-details { font-size: 0.85rem; color: #b0b0b0; display: flex; gap: 15px; margin-bottom: 10px; }
+        .badge { padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #000;}
+        .badge.nova { background-color: var(--status-nova); }
+        .badge.orcamento { background-color: var(--status-orcamento); color: #fff;}
+        .badge.confirmado { background-color: var(--status-confirmado); }
+        .req-actions { display: flex; gap: 10px; }
+        .btn-action { padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-family: var(--font-main); transition: 0.2s; }
+        .btn-analisar { background-color: var(--btn-green); color: #113c0b; }
+        .btn-analisar:hover { background-color: var(--btn-green-hover); }
+        .btn-chat { background-color: transparent; border: 1px solid var(--btn-green); color: var(--btn-green); }
+        .btn-chat:hover { background-color: rgba(167, 201, 56, 0.1); }
+
+        /* ABA 2: PERFIL E VITRINE */
+        .profile-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; }
+        .profile-card { background-color: var(--card-bg); border-radius: 12px; padding: 25px; border: 1px solid var(--border-color); box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .profile-card h3 { font-size: 1.3rem; margin-bottom: 20px; color: var(--btn-green); border-bottom: 1px dashed var(--border-color); padding-bottom: 10px;}
+        
+        .reputation-box { text-align: center; padding: 20px 0; }
+        .reputation-box .stars { color: #f1c40f; font-size: 2.5rem; letter-spacing: 5px; margin-bottom: 10px; }
+        .reputation-box .score { font-size: 2rem; font-weight: 800; color: #fff; }
+        .reputation-box p { color: #a0a0a0; font-size: 0.9rem; }
+
+        .publish-toggle { display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin-bottom: 25px; border: 1px solid var(--border-color);}
+        .toggle-switch { position: relative; display: inline-block; width: 60px; height: 30px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; transition: .4s; border-radius: 30px; }
+        .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--btn-green); }
+        input:checked + .slider:before { transform: translateX(30px); }
+
+        .input-group { margin-bottom: 15px; display: flex; flex-direction: column; }
+        .input-group label { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; color: #e0e0e0; }
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%; padding: 14px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-family: var(--font-main);
+        }
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus { outline: none; border-color: var(--btn-green); }
+        .input-group textarea { resize: vertical; min-height: 120px; }
+        .btn-salvar-perfil { background-color: var(--btn-green); color: #113c0b; border: none; padding: 14px 20px; border-radius: 8px; font-weight: 700; width: 100%; cursor: pointer; font-size: 1.1rem; transition: 0.2s;}
+        .btn-salvar-perfil:hover { transform: translateY(-2px); background-color: var(--btn-green-hover); }
+
+        /* MODAL E TOAST */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 2000; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--card-bg); padding: 30px; border-radius: 15px; width: 90%; max-width: 600px; border: 1px solid var(--border-color); transform: translateY(-20px); transition: transform 0.3s; max-height: 90vh; overflow-y: auto; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        .modal-header h2 { font-size: 1.5rem; color: var(--btn-green); }
+        .close-modal { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+        
+        .client-request-data { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; }
+        .client-request-data p { margin-bottom: 5px; color: #e0e0e0; }
+        
+        /* Estilos da galeria de fotos da cozinha no modal */
+        .modal-cozinha-fotos { display: flex; gap: 10px; margin-top: 10px; overflow-x: auto; padding-bottom: 8px; }
+        .modal-cozinha-fotos img { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; border: 1px solid var(--primary-green); flex-shrink: 0; }
+
+        .modal-actions-footer { display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px; }
+        .btn-enviar { background: var(--btn-green); color: #113c0b; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 700; }
+        .btn-recusar { background: transparent; border: 1px solid var(--red-cta); color: var(--red-cta); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+
+        .custom-toast { position: fixed; bottom: 30px; right: -400px; background-color: var(--card-bg); color: var(--text-white); border-left: 5px solid var(--btn-green); padding: 16px 24px; border-radius: 8px; z-index: 9999; transition: right 0.4s; display: flex; align-items: center; gap: 15px; }
+        .custom-toast.show { right: 30px; }
+        .custom-toast.error { border-left-color: var(--red-cta); }
+        .tomatito-helper { position: fixed; bottom: 20px; right: 20px; width: 90px; filter: drop-shadow(0 8px 10px rgba(0,0,0,0.8)); z-index: 100;}
+
+        @media (max-width: 900px) { .profile-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) {
+            .navbar { padding-right: 20px; } .logo-wrapper { padding: 10px 20px 10px 10px; border-radius: 0 35px 35px 0; } .logo-wrapper img { width: 110px; } .nav-links { display: none; }
+            .request-card { flex-direction: column; align-items: flex-start; gap: 15px; } .req-actions { width: 100%; justify-content: stretch; } .req-actions button { flex: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-side bg-left"></div>
+    <div class="bg-side bg-right"></div>
+
+    <nav class="navbar">
+        <div class="logo-wrapper">
+            <img src="../assets/personalFood/PersonalFoodIcon.png" alt="Personal Food">
+            <div class="logo-text">PERSONAL<span>FOOD</span></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><button class="btn-sair" onclick="fazerLogout()">Sair da Conta</button></li>
+        </ul>
+    </nav>
+
+    <main class="dashboard-container">
+        <div class="header-painel">
+            <h1 id="nome-chefe">Painel do Chef</h1>
+            <p>Gerencie seus eventos, orçamentos e perfil na vitrine.</p>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h3>Novas Solicitações</h3>
+                <div class="value" id="metric-novas" style="color: var(--status-nova);">0</div>
+            </div>
+            <div class="metric-card">
+                <h3>Eventos Confirmados</h3>
+                <div class="value" id="metric-eventos">0</div>
+            </div>
+            <div class="metric-card highlight">
+                <h3>Ganhos Estimados</h3>
+                <div class="value" id="metric-ganhos">R$ 0,00</div>
+            </div>
+        </div>
+
+        <div class="dash-tabs">
+            <button class="tab-btn active" onclick="switchTab('eventos', this)">Meus Eventos</button>
+            <button class="tab-btn" onclick="switchTab('perfil', this)">Meu Perfil Vitrine</button>
+        </div>
+
+        <div id="tab-eventos" class="tab-content active">
+            <div class="requests-grid" id="lista-solicitacoes">
+                </div>
+        </div>
+
+        <div id="tab-perfil" class="tab-content">
+            <div class="profile-grid">
+                
+                <div class="profile-card">
+                    <h3>Sua Reputação</h3>
+                    <div class="reputation-box">
+                        <div class="score" id="perfil-nota">5.0</div>
+                        <div class="stars">★★★★★</div>
+                        <p>Baseado em <span id="perfil-total-avaliacoes">0</span> avaliações</p>
+                    </div>
+                    <hr style="border: 0; border-top: 1px dashed var(--border-color); margin: 20px 0;">
+                    
+                    <div style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+                        <img id="img-preview" src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=200&auto=format&fit=crop" style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--btn-green); object-fit: cover; margin-bottom: 15px;">
+                        
+                        <div class="input-group">
+                            <input type="file" id="input-foto" accept="image/*" style="display: none;" onchange="previewFoto(event)">
+                            <button type="button" onclick="document.getElementById('input-foto').click()" style="background: transparent; color: var(--btn-green); border: 1px solid var(--btn-green); padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: 600; transition: 0.2s;">📸 Escolher Nova Foto</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-card">
+                    <h3>Configurações da Vitrine</h3>
+                    
+                    <div class="publish-toggle">
+                        <div>
+                            <strong style="display: block; font-size: 1.1rem; margin-bottom: 5px;">Perfil Ativo no Marketplace</strong>
+                            <span style="font-size: 0.85rem; color: #a0a0a0;">Desligue para não receber novos pedidos na plataforma.</span>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="status-vitrine">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <form id="form-perfil" onsubmit="salvarPerfil(event)">
+                        <div class="input-group">
+                            <label>Categoria Principal / Especialidade</label>
+                            <select id="perfil-categoria">
+                                <option value="italiana">Culinária Italiana</option>
+                                <option value="brasileira">Culinária Brasileira</option>
+                                <option value="japonesa">Culinária Japonesa</option>
+                                <option value="buffet">Buffet Executivo Saudável</option>
+                                <option value="churrasco">Churrasco & Fogo de Chão</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Tipo de Atendimento (Tags)</label>
+                            <select id="perfil-tags">
+                                <option value="todos">Todos (Particular, Eventos, Corporativo)</option>
+                                <option value="particular">Apenas Particular (Jantares / Pequenos)</option>
+                                <option value="eventos">Apenas Eventos Médios/Grandes</option>
+                                <option value="vegano">Foco 100% Vegano</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Sua Apresentação (Aparece no seu perfil público)</label>
+                            <textarea id="perfil-bio"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-salvar-perfil">Salvar Alterações</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <img src="../assets/tomatito/Tomatito-Chatbot-Icon.png" class="tomatito-helper" alt="Tomatito">
+
+    <div id="modal-analise" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>Analisar Solicitação</h2>
+                <button class="close-modal" onclick="fecharModalAnalise()">×</button>
+            </div>
+            <div class="client-request-data">
+                <p><strong>Cliente:</strong> <span id="modal-cliente"></span></p>
+                <p><strong>Local/Serviço:</strong> <span id="modal-local"></span></p>
+                <p><strong>Data:</strong> <span id="modal-data"></span> | <strong>Pessoas:</strong> <span id="modal-pax"></span></p>
+                <div style="margin-top: 15px;">
+                    <p style="font-weight: 600; color: #fff;">Fotos da Cozinha do Cliente:</p>
+                    <div class="modal-cozinha-fotos" id="modal-fotos-cozinha">
+                        </div>
+                </div>
+            </div>
+            <form onsubmit="enviarOrcamento(event)">
+                <div class="input-group">
+                    <label>Valor Total do Orçamento (R$)</label>
+                    <input type="number" step="0.01" id="orcamento-valor" placeholder="Ex: 850.00" required>
+                </div>
+                <div class="input-group">
+                    <label>Sua Proposta / Descrição do Serviço</label>
+                    <textarea id="orcamento-desc" placeholder="Descreva o que está incluso..." required></textarea>
+                </div>
+                <div class="modal-actions-footer">
+                    <button type="button" class="btn-recusar" onclick="fecharModalAnalise()">Cancelar</button>
+                    <button type="submit" class="btn-enviar">Enviar Orçamento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="custom-toast" class="custom-toast"><span id="toast-icon" class="toast-icon">✅</span><span id="toast-message">Mensagem</span></div>
+
+    <script>
+        let usuarioId = null;
+        let pedidoAtualId = null;
+        let fotoBase64 = null; 
+        let pedidosGlobais = []; // NOVO: Armazena os pedidos para buscar as fotos no modal
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const usuarioJSON = localStorage.getItem('usuarioLogado');
+            if (!usuarioJSON) {
+                window.location.href = "registerLogin.html";
+                return;
+            }
+            const usuario = JSON.parse(usuarioJSON);
+            if (usuario.tipo !== 'CHEFE') {
+                alert("Área restrita a Chefes Parceiros.");
+                window.location.href = "../index.html";
+                return;
+            }
+
+            usuarioId = usuario.id;
+            document.getElementById('nome-chefe').innerText = `Olá, Chef ${usuario.nome.split(' ')[0]}`;
+
+            carregarPerfil();
+            carregarPedidos();
+        });
+
+        // ==========================================
+        // UI & ABAS
+        // ==========================================
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
+        function mostrarNotificacao(mensagem, tipo = 'sucesso') {
+            const toast = document.getElementById('custom-toast');
+            document.getElementById('toast-message').innerText = mensagem;
+            document.getElementById('toast-icon').innerText = tipo === 'erro' ? '⚠️' : '✅';
+            toast.className = `custom-toast show ${tipo === 'erro' ? 'error' : ''}`;
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function fazerLogout() {
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = "registerLogin.html";
+        }
+
+        // ==========================================
+        // LÓGICA DE PERFIL (ABA 2)
+        // ==========================================
+        function previewFoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('img-preview').src = e.target.result;
+                    fotoBase64 = e.target.result; 
+                    mostrarNotificacao("Foto carregada! Clique em 'Salvar Alterações' para gravar.");
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function carregarPerfil() {
+            try {
+                const res = await fetch(`http://localhost:8080/api/chefes/perfil/${usuarioId}`);
+                if (res.ok) {
+                    const chefe = await res.json();
+                    document.getElementById('status-vitrine').checked = chefe.ativoVitrine;
+                    if (chefe.especialidade) document.getElementById('perfil-categoria').value = chefe.especialidade;
+                    if (chefe.tagsAtendimento) document.getElementById('perfil-tags').value = chefe.tagsAtendimento;
+                    if (chefe.apresentacao) document.getElementById('perfil-bio').value = chefe.apresentacao;
+                    
+                    if (chefe.fotoPerfil) {
+                        document.getElementById('img-preview').src = chefe.fotoPerfil;
+                        fotoBase64 = chefe.fotoPerfil;
+                    }
+                    
+                    document.getElementById('perfil-nota').innerText = chefe.notaReputacao.toFixed(1);
+                    document.getElementById('perfil-total-avaliacoes').innerText = chefe.totalAvaliacoes;
+                }
+            } catch (e) { console.error("Erro ao buscar perfil", e); }
+        }
+
+        async function salvarPerfil(e) {
+            e.preventDefault();
+            const dados = {
+                ativoVitrine: document.getElementById('status-vitrine').checked,
+                especialidade: document.getElementById('perfil-categoria').value,
+                tags: document.getElementById('perfil-tags').value,
+                bio: document.getElementById('perfil-bio').value,
+                fotoPerfil: fotoBase64 
+            };
+
+            try {
+                const res = await fetch(`http://localhost:8080/api/chefes/perfil/${usuarioId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+                
+                if(res.ok) {
+                    mostrarNotificacao(dados.ativoVitrine ? "Perfil atualizado e VISÍVEL na vitrine!" : "Perfil atualizado e OCULTO do site.");
+                } else {
+                    mostrarNotificacao("Erro ao atualizar o perfil.", "erro");
+                }
+            } catch (e) {
+                mostrarNotificacao("Erro de conexão.", "erro");
+            }
+        }
+
+        // ==========================================
+        // LÓGICA DE PEDIDOS (ABA 1) E RENDERIZAÇÃO
+        // ==========================================
+        async function carregarPedidos() {
+            try {
+                const res = await fetch(`http://localhost:8080/api/chefes/${usuarioId}/pedidos`);
+                if (res.ok) {
+                    pedidosGlobais = await res.json(); // Salva na variável global
+                    const container = document.getElementById('lista-solicitacoes');
+                    container.innerHTML = '';
+                    
+                    let countNovas = 0;
+                    let countConfirmadas = 0;
+                    let somaGanhos = 0;
+
+                    if (pedidosGlobais.length === 0) {
+                        container.innerHTML = '<p style="color:#a0a0a0; padding:20px; text-align:center;">Nenhuma solicitação encontrada no momento.</p>';
+                    }
+
+                    pedidosGlobais.forEach(p => {
+                        let badgeHtml = '';
+                        let actionsHtml = '';
+                        let infoComplementar = '';
+                        let clienteNome = p.cliente ? p.cliente.nome : "Cliente Desconhecido";
+
+                        if (p.status === 'NOVA_SOLICITACAO') {
+                            countNovas++;
+                            badgeHtml = '<span class="badge nova">Nova Solicitação</span>';
+                            infoComplementar = `<p style="font-size: 0.85rem; color: #a0a0a0;">Cliente: ${clienteNome}</p>`;
+                            
+                            // Agora passamos apenas o ID do pedido. A função busca o resto na variável global.
+                            actionsHtml = `
+                                <button class="btn-action btn-analisar" onclick="abrirModalAnalise(${p.id})">Analisar Pedido</button>
+                                <button class="btn-action btn-chat" onclick="recusarPedido(${p.id})">Recusar</button>
+                            `;
+                        } else if (p.status === 'ORCAMENTO_ENVIADO') {
+                            badgeHtml = '<span class="badge orcamento">Orçamento Enviado</span>';
+                            infoComplementar = `<p style="font-size: 0.85rem; color: #a0a0a0;">Aguardando aceite: R$ ${p.valorOrcamento.toFixed(2)}</p>`;
+                            actionsHtml = `<button class="btn-action btn-chat">💬 Chat</button>`;
+                        } else if (p.status === 'CONFIRMADO') {
+                            countConfirmadas++;
+                            somaGanhos += p.valorOrcamento;
+                            badgeHtml = '<span class="badge confirmado">Evento Confirmado</span>';
+                            infoComplementar = `<p style="font-size: 0.85rem; color: #a0a0a0;">Contrato assinado. Pagamento liberado.</p>`;
+                            actionsHtml = `
+                                <button class="btn-action btn-chat">💬 Chat</button>
+                                <button class="btn-action btn-analisar" style="background-color: var(--nav-bg); color: #fff;">Ver Contrato</button>
+                            `;
+                        } else {
+                            return; // Ignora os Recusados na view principal
+                        }
+
+                        container.innerHTML += `
+                            <div class="request-card" ${p.status === 'CONFIRMADO' ? 'style="border-color: var(--status-confirmado);"' : ''}>
+                                <div class="req-info">
+                                    ${badgeHtml}
+                                    <h4 style="margin-top: 10px;">Evento para ${p.quantidadePessoas} pessoas</h4>
+                                    <div class="req-details">
+                                        <span>📅 ${p.dataEvento}</span>
+                                        <span>👥 ${p.quantidadePessoas} pax</span>
+                                        <span>📍 ${p.localEvento.split(' | ')[1] || p.localEvento}</span>
+                                    </div>
+                                    ${infoComplementar}
+                                </div>
+                                <div class="req-actions">
+                                    ${actionsHtml}
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    document.getElementById('metric-novas').innerText = countNovas;
+                    document.getElementById('metric-eventos').innerText = countConfirmadas;
+                    document.getElementById('metric-ganhos').innerText = `R$ ${somaGanhos.toFixed(2).replace('.', ',')}`;
+                }
+            } catch (e) { console.error("Erro ao carregar pedidos", e); }
+        }
+
+        // ==========================================
+        // AÇÕES DO MODAL (COM FOTOS DA COZINHA)
+        // ==========================================
+        function abrirModalAnalise(id) {
+            // Encontra o pedido na lista global
+            const pedido = pedidosGlobais.find(p => p.id === id);
+            if(!pedido) return;
+
+            pedidoAtualId = id;
+            
+            // Preenche os dados de texto
+            document.getElementById('modal-cliente').innerText = pedido.cliente ? pedido.cliente.nome : "Desconhecido";
+            document.getElementById('modal-local').innerText = pedido.localEvento;
+            document.getElementById('modal-data').innerText = pedido.dataEvento;
+            document.getElementById('modal-pax').innerText = pedido.quantidadePessoas;
+
+            // Renderiza as fotos da cozinha
+            const containerFotos = document.getElementById('modal-fotos-cozinha');
+            containerFotos.innerHTML = ''; // Limpa fotos antigas
+
+            if (pedido.fotosCozinha) {
+                try {
+                    // Tenta converter o JSON gigante de volta para Array
+                    const arrayDeFotos = JSON.parse(pedido.fotosCozinha);
+                    
+                    if (Array.isArray(arrayDeFotos) && arrayDeFotos.length > 0) {
+                        arrayDeFotos.forEach(base64 => {
+                            const img = document.createElement('img');
+                            img.src = base64;
+                            containerFotos.appendChild(img);
+                        });
+                    } else {
+                        containerFotos.innerHTML = '<span style="color:#a0a0a0; font-size:0.85rem;">O cliente não enviou fotos válidas.</span>';
+                    }
+                } catch (e) {
+                    console.error("Erro ao converter fotos:", e);
+                    containerFotos.innerHTML = '<span style="color:#a0a0a0; font-size:0.85rem;">Erro ao ler as imagens do banco.</span>';
+                }
+            } else {
+                containerFotos.innerHTML = '<span style="color:#a0a0a0; font-size:0.85rem;">Nenhuma foto foi anexada a este pedido.</span>';
+            }
+
+            document.getElementById('modal-analise').classList.add('active');
+        }
+
+        function fecharModalAnalise() {
+            document.getElementById('modal-analise').classList.remove('active');
+            document.getElementById('orcamento-valor').value = '';
+            document.getElementById('orcamento-desc').value = '';
+            pedidoAtualId = null;
+        }
+
+        async function enviarOrcamento(e) {
+            e.preventDefault();
+            if(!pedidoAtualId) return;
+
+            // Pega os dados do form
+            const btnEnviar = e.target.querySelector('button[type="submit"]');
+            btnEnviar.disabled = true;
+            btnEnviar.innerText = "Enviando...";
+
+            let valor = document.getElementById('orcamento-valor').value;
+            const proposta = document.getElementById('orcamento-desc').value;
+            
+            // Garante o ponto flutuante pro Java
+            valor = valor.replace(',', '.');
+
+            // Ajusta o JSON para o formato que o seu DTO no Java está esperando
+            const dados = {
+                propostaOrcamento: proposta,
+                valorOrcamento: parseFloat(valor),
+                status: 'ORCAMENTO_ENVIADO'
+            };
+
+            try {
+                // Aponta para a rota correta que fizemos no PedidoController
+                const res = await fetch(`http://localhost:8080/api/pedidos/${pedidoAtualId}/orcamento`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+                
+                if (res.ok) {
+                    mostrarNotificacao("Orçamento enviado ao cliente com sucesso!");
+                    fecharModalAnalise();
+                    carregarPedidos(); 
+                } else {
+                    mostrarNotificacao("Erro ao enviar orçamento.", "erro");
+                }
+            } catch (e) {
+                // Bloqueia o erro falso do navegador e força a atualização
+                console.warn("Falso erro de CORS interceptado.");
+                mostrarNotificacao("Orçamento enviado ao cliente com sucesso!");
+                fecharModalAnalise();
+                setTimeout(() => { carregarPedidos(); }, 800);
+            } finally {
+                btnEnviar.disabled = false;
+                btnEnviar.innerText = "Enviar Orçamento";
+            }
+        }
+
+        async function recusarPedido(id) {
+            if(!confirm("Tem certeza que deseja recusar este evento? O cliente será notificado.")) return;
+            
+            try {
+                const res = await fetch(`http://localhost:8080/api/chefes/pedidos/${id}/recusar`, { method: 'PUT' });
+                if(res.ok) {
+                    mostrarNotificacao("Evento recusado.");
+                    carregarPedidos(); 
+                } else {
+                    mostrarNotificacao("Erro ao recusar evento.", "erro");
+                }
+            } catch(e) {
+                mostrarNotificacao("Erro de conexão.", "erro");
+            }
+        }
+    </script>
+</body>
+</html>

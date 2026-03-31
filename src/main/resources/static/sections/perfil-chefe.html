@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Food | Perfil do Chef</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/personalFood/PersonalFoodFavIcon32x32-removebg-preview.png">
+    <style>
+        :root {
+            --bg-main: #000000;
+            --nav-bg: #113c0b;
+            --logo-bg: #d1c115;
+            --primary-green: #9cbd28;
+            --dark-green: #092a0e;
+            --card-gray: #2a2a2a;
+            --input-border: #ffffff;
+            --text-light: #ffffff;
+            --star-color: #f5c518;
+            --red-danger: #d32f2f;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); overflow-x: hidden; padding-bottom: 60px; }
+
+        /* NAVBAR PADRÃO */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; height: 80px; background-color: var(--nav-bg); display: flex; align-items: center; justify-content: space-between; z-index: 1000; padding-right: 30px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); }
+        .logo-wrapper { height: 100%; background-color: var(--logo-bg); padding: 10px 40px 10px 20px; border-radius: 0 50px 50px 0; display: flex; align-items: center; justify-content: center; }
+        .logo-wrapper img { height: 100%; width: 165px; object-fit: contain; margin-right: 12px; }
+        .logo-text { color: #ffffff; font-size: 1.3rem; font-weight: 800; line-height: 1; display: flex; flex-direction: column; justify-content: center; }
+        .logo-text span { font-weight: 500; font-size: 0.95rem; }
+        .nav-links { display: flex; list-style: none; gap: 40px; align-items: center; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-weight: 700; font-size: 1rem; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--primary-green); }
+        .btn-entrar { background-color: var(--primary-green); color: #113c0b; border: none; padding: 10px 30px; border-radius: 25px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .btn-entrar:hover { background-color: #b8db40; transform: scale(1.05); }
+
+        /* CONTAINER PRINCIPAL */
+        .page-container { max-width: 1200px; margin: 120px auto 0 auto; padding: 0 20px; }
+
+        /* SISTEMA DE ABAS (CHEF) */
+        .dash-tabs { display: none; gap: 15px; margin-bottom: 30px; border-bottom: 1px solid #444; padding-bottom: 10px; }
+        .tab-btn { background: transparent; color: #888; border: none; padding: 10px 20px; font-size: 1.1rem; font-weight: 700; cursor: pointer; position: relative; text-transform: uppercase;}
+        .tab-btn.active { color: var(--primary-green); }
+        .tab-btn.active::after { content: ''; position: absolute; bottom: -11px; left: 0; width: 100%; height: 3px; background-color: var(--primary-green); }
+        .tab-content { display: none; animation: fadeIn 0.4s ease forwards; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* GRID SUPERIOR */
+        .top-grid { display: grid; grid-template-columns: 300px 1fr; gap: 40px; margin-bottom: 50px; }
+
+        /* CARD DO CHEF */
+        .chef-profile-card { background-color: var(--card-gray); border-radius: 12px; padding: 30px 20px; text-align: center; height: fit-content;}
+        .chef-img-container { width: 140px; height: 140px; margin: 0 auto 20px auto; border-radius: 50%; overflow: hidden; border: 3px solid var(--primary-green); background-color: #444;}
+        .chef-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .chef-profile-card h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 5px; }
+        .stars { color: var(--star-color); font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 20px; }
+        .chef-bio { font-size: 0.85rem; color: #d0d0d0; line-height: 1.6; text-align: justify; }
+
+        /* FORMULÁRIO */
+        .form-section h1 { font-size: 2rem; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; }
+        .input-row { display: flex; gap: 20px; margin-bottom: 20px; }
+        .input-group { flex: 1; display: flex; flex-direction: column; }
+        .input-group label { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+        .input-group input, .input-group select { 
+            background: transparent; border: 2px solid var(--input-border); border-radius: 8px; 
+            padding: 12px 15px; color: var(--text-light); font-size: 1rem; outline: none; transition: 0.3s;
+            color-scheme: dark; 
+        }
+        .input-group input:focus, .input-group select:focus { border-color: var(--primary-green); }
+        .input-group select { cursor: pointer; appearance: none; background: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center; background-size: 20px; }
+        .input-group select option { background: var(--bg-main); color: white; }
+        .input-group.full-width { margin-bottom: 30px; }
+
+        /* SESSÃO COZINHA */
+        .cozinha-section h2 { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
+        .cozinha-section p { font-size: 0.9rem; color: #a0a0a0; margin-bottom: 15px; }
+        .photo-upload-row { display: flex; gap: 15px; align-items: center; justify-content: space-between; flex-wrap: wrap;}
+        .photo-boxes { display: flex; gap: 15px; }
+        .photo-box { 
+            width: 80px; height: 80px; background-color: #444; border-radius: 12px; 
+            display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #888; 
+            cursor: pointer; transition: 0.2s; border: 2px dashed #666; overflow: hidden; position: relative;
+        }
+        .photo-box:hover:not(.has-image) { background-color: #555; border-color: var(--primary-green); color: var(--primary-green);}
+        .photo-box img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-box .btn-remove { 
+            position: absolute; top: 2px; right: 2px; background: rgba(211, 47, 47, 0.8); 
+            color: white; border: none; border-radius: 50%; width: 20px; height: 20px; 
+            font-size: 12px; font-weight: bold; cursor: pointer; display: none; z-index: 10;
+        }
+        .photo-box.has-image:hover .btn-remove { display: flex; align-items: center; justify-content: center; }
+
+        .btn-enviar-solicitacao { 
+            background: transparent; border: 2px solid var(--primary-green); color: var(--text-light); 
+            padding: 12px 30px; border-radius: 30px; font-weight: 800; font-size: 1.1rem; cursor: pointer; 
+            transition: all 0.3s; text-transform: uppercase;
+        }
+        .btn-enviar-solicitacao:hover { background: var(--primary-green); color: #000; transform: scale(1.05); }
+        .btn-enviar-solicitacao:disabled { border-color: #555; color: #777; cursor: not-allowed; opacity: 0.5; }
+
+        /* TIMELINE & LOCKED BOTTOM */
+        .timeline-container { position: relative; margin: 60px 0; padding: 20px 0; display: flex; justify-content: space-between; align-items: center; }
+        .timeline-line { position: absolute; top: 50%; left: 0; right: 0; height: 2px; border-top: 2px dashed #6b6b6b; z-index: 0; transform: translateY(-50%); }
+        .timeline-step { background: var(--bg-main); border: 2px solid #6b6b6b; border-radius: 30px; padding: 8px 20px; z-index: 1; font-size: 0.85rem; font-weight: 700; color: #6b6b6b; white-space: nowrap; }
+        .timeline-step.active { border-color: var(--primary-green); color: var(--primary-green); }
+
+        .bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; opacity: 0.3; pointer-events: none; margin-bottom: 40px;}
+        .locked-card { background: var(--card-gray); border-radius: 12px; padding: 30px; display: flex; flex-direction: column; justify-content: center;}
+        .locked-card h3 { font-size: 1.3rem; font-weight: 800; text-transform: uppercase; margin-bottom: 20px; text-align: center; }
+        .valor-servico .valor { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 20px; color: #a0a0a0; }
+        .linha-separadora { width: 100%; height: 1px; background: #555; margin-bottom: 20px; }
+        .action-buttons { display: flex; gap: 15px; justify-content: center;}
+        .btn-outline { background: transparent; border: 2px solid #555; color: #777; padding: 8px 25px; border-radius: 20px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.8rem;}
+        .contrato-box { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px;}
+        .pdf-icon { width: 50px; height: 65px; background: #555; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 0.8rem; position: relative;}
+        .assinatura-area { flex: 1; text-align: center; color: #777;}
+        .assinatura-area span { display: block; border-bottom: 1px solid #555; padding-bottom: 5px; margin-bottom: 5px; font-size: 0.8rem; font-weight: 600;}
+        .assinatura-area small { font-size: 0.7rem; }
+        .btn-finalizar { background: transparent; border: 2px solid #555; color: #777; padding: 12px 20px; border-radius: 25px; font-weight: 800; width: 100%; text-transform: uppercase; font-size: 0.9rem;}
+
+        /* ESTILOS DA ABA DO CHEF (SOLICITAÇÕES) */
+        .lista-pedidos { display: flex; flex-direction: column; gap: 20px; }
+        .solicitacao-card { background: var(--card-gray); border-radius: 12px; border: 1px solid #444; padding: 25px; display: flex; flex-direction: column; gap: 15px; }
+        .solicitacao-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #555; padding-bottom: 10px; }
+        .solicitacao-header h3 { font-size: 1.2rem; font-weight: 800; color: var(--primary-green); }
+        .badge { padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; }
+        .badge.nova { background: #f39c12; color: #fff; }
+        .badge.orcamento { background: #3498db; color: #fff; }
+        .badge.recusado { background: var(--red-danger); color: #fff; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 0.9rem; }
+        .info-grid strong { color: #aaa; display: block; margin-bottom: 3px; }
+        .fotos-cliente { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .fotos-cliente img { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; border: 2px solid #555; transition: 0.2s; cursor: pointer;}
+        .fotos-cliente img:hover { border-color: var(--primary-green); transform: scale(1.05); }
+        .chef-actions { background: rgba(0,0,0,0.3); border-left: 4px solid var(--primary-green); padding: 20px; border-radius: 8px; margin-top: 10px; display: flex; flex-direction: column; gap: 15px; }
+        .chef-actions textarea { background: var(--bg-main); border: 1px solid #555; color: white; padding: 15px; border-radius: 8px; resize: vertical; min-height: 80px; width: 100%; outline: none;}
+        .chef-actions textarea:focus { border-color: var(--primary-green); }
+        .row-botoes-chef { display: flex; gap: 15px; align-items: center; flex-wrap: wrap;}
+        .input-valor { background: var(--bg-main); border: 1px solid #555; color: white; padding: 12px; border-radius: 8px; width: 150px; outline: none;}
+        .input-valor:focus { border-color: var(--primary-green); }
+        .btn-enviar-orc { background: var(--primary-green); color: black; border: none; padding: 12px 25px; border-radius: 25px; font-weight: 800; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
+        .btn-enviar-orc:hover { background: #b8db40; }
+        .btn-recusar-orc { background: transparent; border: 2px solid var(--red-danger); color: var(--red-danger); padding: 10px 25px; border-radius: 25px; font-weight: 700; cursor: pointer; transition: 0.2s;}
+        .btn-recusar-orc:hover { background: var(--red-danger); color: white; }
+
+        /* TOAST */
+        .custom-toast { position: fixed; bottom: 30px; right: -400px; background-color: var(--card-gray); color: var(--text-light); border-left: 5px solid var(--primary-green); padding: 16px 24px; border-radius: 8px; z-index: 9999; transition: right 0.4s; display: flex; align-items: center; gap: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .custom-toast.show { right: 30px; }
+        .custom-toast.error { border-left-color: var(--red-danger); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo-wrapper" style="cursor: pointer;" onclick="location.href='../index.html'">
+            <img src="../assets/personalFood/PersonalFoodIcon.png" alt="Personal Food">
+            <div class="logo-text">PERSONAL<span>FOOD</span></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="chefs.html" style="color: var(--primary-green);">Chef 's</a></li>
+            <li><a href="cursos.html">Cursos</a></li>
+            <li><a href="receitas.html">Receitas</a></li>
+            <li><a href="sobre.html">Sobre nós</a></li>
+            <li><button class="btn-entrar" id="btn-nav-login" onclick="location.href='registerLogin.html'">Entrar</button></li>
+        </ul>
+    </nav>
+
+    <div class="page-container">
+        
+        <div class="dash-tabs" id="chef-tabs">
+            <button class="tab-btn active" onclick="switchTab('perfil', this)">Meu Perfil Público</button>
+            <button class="tab-btn" onclick="switchTab('solicitacoes', this)">Solicitações de Clientes</button>
+        </div>
+
+        <div id="tab-perfil" class="tab-content active">
+            <div class="top-grid">
+                <div class="chef-profile-card">
+                    <div class="chef-img-container">
+                        <img id="chef-foto" src="" alt="Foto do Chef" onerror="this.src='https://via.placeholder.com/150?text=Chef'">
+                    </div>
+                    <h2 id="chef-nome">Carregando...</h2>
+                    <div class="stars" id="chef-estrelas">★★★★★</div>
+                    <p class="chef-bio" id="chef-bio">Carregando apresentação...</p>
+                </div>
+
+                <div class="form-section">
+                    <h1>DETALHES DO EVENTO</h1>
+                    <form id="form-pedido" onsubmit="enviarSolicitacao(event)">
+                        
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label>Data do evento</label>
+                                <input type="date" id="ped-data" required>
+                            </div>
+                            <div class="input-group">
+                                <label>Número de pessoas</label>
+                                <input type="number" id="ped-pax" min="1" placeholder="Ex: 10" required>
+                            </div>
+                            <div class="input-group">
+                                <label>Tipo de serviço</label>
+                                <select id="ped-tipo" required>
+                                    <option value="" disabled selected>Selecione...</option>
+                                    <option value="Jantar">Jantar Completo</option>
+                                    <option value="Churrasco">Churrasco</option>
+                                    <option value="Buffet">Buffet</option>
+                                    <option value="Finger Food">Finger Food</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="input-group full-width">
+                            <label>Endereço completo do local</label>
+                            <input type="text" id="ped-local" placeholder="Ex: Rua das Flores, 123 - Apto 45, São Paulo - SP" required>
+                        </div>
+
+                        <div class="cozinha-section">
+                            <h2>COZINHA</h2>
+                            <div class="photo-upload-row">
+                                <div>
+                                    <p>Adicione fotos da cozinha (Mínimo 1, Máximo 4)</p>
+                                    <input type="file" id="input-cozinha" accept="image/*" multiple style="display: none;" onchange="gerenciarFotosCozinha(event)">
+                                    <div class="photo-boxes" id="container-fotos-cozinha">
+                                        <div class="photo-box" onclick="acionarInputFile()">+</div>
+                                        <div class="photo-box" onclick="acionarInputFile()">+</div>
+                                        <div class="photo-box" onclick="acionarInputFile()">+</div>
+                                        <div class="photo-box" onclick="acionarInputFile()">+</div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-enviar-solicitacao" id="btn-submeter" disabled>ENVIAR SOLICITAÇÃO</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                <div class="timeline-step active">Escolha o chef</div>
+                <div class="timeline-step" id="step-orcamento">Envio do orçamento</div>
+                <div class="timeline-step">Aprovação do orçamento</div>
+                <div class="timeline-step">Assinar contrato</div>
+                <div class="timeline-step">Aproveite seu evento</div>
+            </div>
+
+            <div class="bottom-grid">
+                <div class="locked-card valor-servico">
+                    <h3>VALOR DO SERVIÇO</h3>
+                    <div class="valor">R$ --,--</div>
+                    <div class="linha-separadora"></div>
+                    <div class="action-buttons">
+                        <button class="btn-outline">Aceitar</button>
+                        <button class="btn-outline">Recusar</button>
+                    </div>
+                </div>
+
+                <div class="locked-card">
+                    <h3>CONTRATO DE SERVIÇO</h3>
+                    <div class="contrato-box">
+                        <div class="pdf-icon">PDF</div>
+                        <div class="assinatura-area">
+                            <span>ASSINATURA DIGITAL</span>
+                            <small>Aguardando orçamento</small>
+                        </div>
+                    </div>
+                    <button class="btn-finalizar">FINALIZAR CONTRATO</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-solicitacoes" class="tab-content">
+            <h1 style="font-size: 2rem; font-weight: 900; margin-bottom: 25px; text-transform: uppercase;">Solicitações Recebidas</h1>
+            <div class="lista-pedidos" id="container-pedidos-chef">
+                </div>
+        </div>
+
+    </div>
+
+    <div id="custom-toast" class="custom-toast"><span id="toast-icon">✅</span><span id="toast-message">Mensagem</span></div>
+
+    <script>
+        let idChefeAtual = null;
+        let fotosCozinhaBase64 = []; 
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const usuarioJSON = localStorage.getItem('usuarioLogado');
+            let usuario = null;
+            
+            if (usuarioJSON) {
+                usuario = JSON.parse(usuarioJSON);
+                const btnNav = document.getElementById('btn-nav-login');
+                btnNav.innerText = "Meu Painel";
+                btnNav.onclick = () => {
+                    if(usuario.tipo === 'CLIENTE') location.href = 'painel-cliente.html';
+                    else if(usuario.tipo === 'CHEFE') location.href = 'painel-chefe.html';
+                    else location.href = 'painel-admin.html';
+                };
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            idChefeAtual = urlParams.get('id');
+
+            if (idChefeAtual) {
+                carregarDadosDoChefe(idChefeAtual);
+                configurarDataMinima();
+                
+                // VERIFICA SE QUEM ACESSOU É O PRÓPRIO CHEF DA PÁGINA
+                if (usuario && usuario.tipo === 'CHEFE' && usuario.id == idChefeAtual) {
+                    document.getElementById('chef-tabs').style.display = 'flex';
+                    carregarSolicitacoesParaChef();
+                }
+            } else {
+                mostrarNotificacao("Erro: Nenhum chef selecionado.", "erro");
+                setTimeout(() => window.location.href = 'chefs.html', 2000);
+            }
+        });
+
+        // ==========================================
+        // LÓGICA DE ABAS
+        // ==========================================
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function configurarDataMinima() {
+            const inputData = document.getElementById('ped-data');
+            const hoje = new Date().toISOString().split('T')[0];
+            inputData.min = hoje;
+        }
+
+        async function carregarDadosDoChefe(id) {
+            try {
+                const resposta = await fetch(`http://localhost:8080/api/chefes/perfil/${id}`);
+                if (resposta.ok) {
+                    const chefe = await resposta.json();
+                    const nomeCompleto = chefe.usuario ? chefe.usuario.nome : "Chef Parceiro";
+                    document.getElementById('chef-nome').innerText = `Chef ${nomeCompleto}`;
+                    
+                    if(chefe.fotoPerfil) document.getElementById('chef-foto').src = chefe.fotoPerfil;
+                    if(chefe.apresentacao) document.getElementById('chef-bio').innerText = chefe.apresentacao;
+                    
+                    const nota = chefe.notaReputacao ? chefe.notaReputacao.toFixed(1) : '5.0';
+                    let estrelasHtml = '★★★★★';
+                    if (nota < 5.0) estrelasHtml = '★★★★☆';
+                    if (nota < 4.0) estrelasHtml = '★★★☆☆';
+                    document.getElementById('chef-estrelas').innerText = estrelasHtml;
+                }
+            } catch (e) {
+                console.error("Erro", e);
+            }
+        }
+
+        // ==========================================
+        // LÓGICA DO CLIENTE (ENVIAR FOTOS E PEDIDO)
+        // ==========================================
+        function acionarInputFile() {
+            if (fotosCozinhaBase64.length >= 4) {
+                mostrarNotificacao("Limite de 4 fotos atingido.", "erro");
+                return;
+            }
+            document.getElementById('input-cozinha').click();
+        }
+
+        function gerenciarFotosCozinha(event) {
+            const arquivos = event.target.files;
+            const totalAtual = fotosCozinhaBase64.length;
+            const novosArquivos = arquivos.length;
+
+            if (totalAtual + novosArquivos > 4) {
+                mostrarNotificacao(`Você só pode adicionar mais ${4 - totalAtual} foto(s).`, "erro");
+                event.target.value = ''; 
+                return;
+            }
+
+            for (let i = 0; i < novosArquivos; i++) {
+                const leitor = new FileReader();
+                leitor.onload = (e) => {
+                    fotosCozinhaBase64.push(e.target.result);
+                    atualizarContainerFotos();
+                };
+                leitor.readAsDataURL(arquivos[i]);
+            }
+            event.target.value = ''; 
+        }
+
+        function removerFoto(index) {
+            fotosCozinhaBase64.splice(index, 1);
+            atualizarContainerFotos();
+        }
+
+        function atualizarContainerFotos() {
+            const container = document.getElementById('container-fotos-cozinha');
+            const btnSubmeter = document.getElementById('btn-submeter');
+            container.innerHTML = '';
+
+            fotosCozinhaBase64.forEach((fotoBase64, index) => {
+                const box = document.createElement('div');
+                box.className = 'photo-box has-image';
+                box.innerHTML = `
+                    <img src="${fotoBase64}" alt="Cozinha ${index + 1}">
+                    <button type="button" class="btn-remove" onclick="removerFoto(${index})">×</button>
+                `;
+                container.appendChild(box);
+            });
+
+            const vazias = 4 - fotosCozinhaBase64.length;
+            for (let i = 0; i < vazias; i++) {
+                const boxVazia = document.createElement('div');
+                boxVazia.className = 'photo-box';
+                boxVazia.innerText = '+';
+                boxVazia.onclick = acionarInputFile;
+                container.appendChild(boxVazia);
+            }
+
+            btnSubmeter.disabled = fotosCozinhaBase64.length < 1;
+        }
+
+        async function enviarSolicitacao(e) {
+            e.preventDefault();
+            const usuarioJSON = localStorage.getItem('usuarioLogado');
+            if (!usuarioJSON) {
+                mostrarNotificacao("Faça login como Cliente para enviar solicitações!", "erro");
+                return;
+            }
+            const usuario = JSON.parse(usuarioJSON);
+            if(usuario.tipo !== 'CLIENTE') {
+                mostrarNotificacao("Apenas contas de Cliente podem contratar Chefs.", "erro");
+                return;
+            }
+
+            const dadosPedido = {
+                clienteId: usuario.id,
+                chefeId: idChefeAtual,
+                dataEvento: document.getElementById('ped-data').value,
+                quantidadePessoas: document.getElementById('ped-pax').value,
+                tipoServico: document.getElementById('ped-tipo').value,
+                localEvento: document.getElementById('ped-local').value,
+                fotosCozinha: JSON.stringify(fotosCozinhaBase64) 
+            };
+
+            const btnSubmeter = document.getElementById('btn-submeter');
+            btnSubmeter.innerText = "ENVIANDO...";
+            btnSubmeter.disabled = true;
+
+            try {
+                const resposta = await fetch('http://localhost:8080/api/pedidos/novo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dadosPedido)
+                });
+
+                if (resposta.ok) {
+                    mostrarNotificacao("Solicitação enviada com sucesso!");
+                    document.getElementById('step-orcamento').classList.add('active');
+                    document.getElementById('form-pedido').reset();
+                    fotosCozinhaBase64 = [];
+                    atualizarContainerFotos();
+                } else {
+                    mostrarNotificacao("Erro ao enviar pedido.", "erro");
+                    btnSubmeter.innerText = "ENVIAR SOLICITAÇÃO";
+                    btnSubmeter.disabled = false;
+                }
+            } catch (erro) {
+                mostrarNotificacao("Erro de conexão com o servidor.", "erro");
+                btnSubmeter.innerText = "ENVIAR SOLICITAÇÃO";
+                btnSubmeter.disabled = false;
+            }
+        }
+
+        // ==========================================
+        // LÓGICA DO CHEF (VISUALIZAR E RESPONDER PEDIDOS)
+        // ==========================================
+        async function carregarSolicitacoesParaChef() {
+            try {
+                const res = await fetch(`http://localhost:8080/api/pedidos/chefe/${idChefeAtual}`);
+                if (res.ok) {
+                    const pedidos = await res.json();
+                    const container = document.getElementById('container-pedidos-chef');
+                    container.innerHTML = '';
+
+                    if (pedidos.length === 0) {
+                        container.innerHTML = '<p style="color:#aaa;">Você ainda não tem novas solicitações.</p>';
+                        return;
+                    }
+
+                    pedidos.reverse().forEach(p => {
+                        let fotosHtml = '';
+                        if(p.fotosCozinha) {
+                            try {
+                                const fotosArray = JSON.parse(p.fotosCozinha);
+                                fotosArray.forEach(f => {
+                                    fotosHtml += `<img src="${f}" onclick="window.open('${f}', '_blank')" title="Clique para ampliar">`;
+                                });
+                            } catch(e) { console.error("Erro ao ler fotos", e); }
+                        }
+
+                        let acoesOuStatus = '';
+                    if (p.status === 'NOVA_SOLICITACAO') {
+                        acoesOuStatus = `
+                            <div class="chef-actions">
+                                <textarea id="prop-${p.id}" placeholder="Escreva sua proposta e cardápio para o cliente..."></textarea>
+                                <div class="row-botoes-chef">
+                                    <input type="number" id="valor-${p.id}" class="input-valor" placeholder="Valor (R$)" min="0" step="0.01">
+                                    
+                                    <button type="button" class="btn-enviar-orc" onclick="enviarPropostaChef(${p.id}, this)">Enviar Proposta</button>
+                                    <button type="button" class="btn-recusar-orc" onclick="recusarPedidoChef(${p.id})">Recusar Evento</button>
+                                </div>
+                            </div>
+                        `;
+                        } else {
+                            acoesOuStatus = `<div style="margin-top:15px; padding:10px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                                Status do Pedido: <strong style="color:var(--primary-green);">${p.status.replace('_', ' ')}</strong>
+                            </div>`;
+                        }
+
+                        let badgeStatus = p.status === 'NOVA_SOLICITACAO' ? '<span class="badge nova">Aguardando Você</span>' : 
+                                          p.status === 'RECUSADO' ? '<span class="badge recusado">Recusado</span>' : 
+                                          '<span class="badge orcamento">Orçamento Enviado</span>';
+
+                        container.innerHTML += `
+                            <div class="solicitacao-card">
+                                <div class="solicitacao-header">
+                                    <h3>Pedido #${p.id} - Cliente ID: ${p.clienteId}</h3>
+                                    ${badgeStatus}
+                                </div>
+                                <div class="info-grid">
+                                    <div><strong>Data Sugerida:</strong> ${p.dataEvento}</div>
+                                    <div><strong>Convidados:</strong> ${p.quantidadePessoas} pessoas</div>
+                                    <div><strong>Serviço:</strong> ${p.tipoServico}</div>
+                                    <div style="grid-column: 1 / -1;"><strong>Local:</strong> ${p.localEvento}</div>
+                                </div>
+                                <div>
+                                    <strong>Fotos da Cozinha:</strong>
+                                    <div class="fotos-cliente">${fotosHtml || '<span style="color:#777; font-size: 0.8rem;">Sem fotos anexadas</span>'}</div>
+                                </div>
+                                ${acoesOuStatus}
+                            </div>
+                        `;
+                    });
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function enviarPropostaChef(pedidoId) {
+            const proposta = document.getElementById(`prop-${pedidoId}`).value;
+            let valor = document.getElementById(`valor-${pedidoId}`).value;
+
+            if(!proposta || !valor) {
+                mostrarNotificacao("Preencha a proposta e o valor!", "erro");
+                return;
+            }
+
+            // Prevenção: Garante que o valor numérico use ponto ao invés de vírgula (O Java exige ponto)
+            valor = valor.replace(',', '.');
+
+            try {
+                const res = await fetch(`http://localhost:8080/api/pedidos/${pedidoId}/orcamento`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        propostaOrcamento: proposta, 
+                        valorOrcamento: parseFloat(valor),
+                        status: 'ORCAMENTO_ENVIADO'
+                    })
+                });
+
+                if(res.ok) {
+                    mostrarNotificacao("Proposta enviada ao cliente!");
+                    carregarSolicitacoesParaChef(); // Atualiza a lista na tela
+                } else {
+                    // Se o Java retornar erro (400, 500, etc), pegamos a mensagem exata
+                    const erroTexto = await res.text();
+                    console.error("Erro do Backend:", erroTexto);
+                    mostrarNotificacao("Erro: " + erroTexto, "erro");
+                }
+            } catch(e) { 
+                console.error("Erro de conexão/Fetch:", e);
+                mostrarNotificacao("Erro de conexão. O servidor está rodando?", "erro"); 
+            }
+        }
+
+        async function recusarPedidoChef(pedidoId) {
+            if(!confirm("Deseja realmente recusar este evento?")) return;
+
+            try {
+                // Rota sugerida PUT /api/pedidos/{id}/responder
+                const res = await fetch(`http://localhost:8080/api/pedidos/${pedidoId}/responder`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ resposta: 'RECUSADO' })
+                });
+
+                if(res.ok) {
+                    mostrarNotificacao("Pedido recusado.");
+                    carregarSolicitacoesParaChef();
+                }
+            } catch(e) { mostrarNotificacao("Erro ao recusar.", "erro"); }
+        }
+
+        function mostrarNotificacao(mensagem, tipo = 'sucesso') {
+            const toast = document.getElementById('custom-toast');
+            document.getElementById('toast-message').innerText = mensagem;
+            document.getElementById('toast-icon').innerText = tipo === 'erro' ? '⚠️' : '✅';
+            toast.className = `custom-toast show ${tipo === 'erro' ? 'error' : ''}`;
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+    </script>
+</body>
+</html>

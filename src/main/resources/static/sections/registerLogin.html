@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Food | Login e Cadastro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/personalFood/PersonalFoodFavIcon32x32-removebg-preview.png">
+    <style>
+        /* =========================================
+           VARIÁVEIS DE COR E ESTILOS GLOBAIS
+        ========================================= */
+        :root {
+            --bg-main: #000000;
+            --nav-bg: #113c0b;
+            --logo-bg: #d1c115;
+            --card-bg: #0e290a;
+            --btn-green: #a7c938;
+            --btn-green-hover: #b8db40;
+            --red-cta: #d30018;
+            --text-white: #FFFFFF;
+            --font-main: 'Poppins', sans-serif;
+            --input-bg: rgba(0, 0, 0, 0.4);
+            --border-color: #2a5a22;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Imagens de fundo laterais simuladas */
+        .bg-side {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 25vw;
+            z-index: -1;
+            opacity: 0.3;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .bg-left {
+            left: 0;
+            background-image: url('https://images.unsplash.com/photo-1490818387583-1b5f2dd061b1?q=80&w=600&auto=format&fit=crop');
+            -webkit-mask-image: linear-gradient(to right, black 10%, transparent 100%);
+            mask-image: linear-gradient(to right, black 10%, transparent 100%);
+        }
+
+        .bg-right {
+            right: 0;
+            background-image: url('https://images.unsplash.com/photo-1596683839213-9f864bc39294?q=80&w=600&auto=format&fit=crop');
+            -webkit-mask-image: linear-gradient(to left, black 10%, transparent 100%);
+            mask-image: linear-gradient(to left, black 10%, transparent 100%);
+        }
+
+        /* =========================================
+           NAVBAR
+        ========================================= */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background-color: var(--nav-bg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            padding-right: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-wrapper {
+            height: 100%;
+            background-color: var(--logo-bg);
+            padding: 10px 40px 10px 20px;
+            border-radius: 0 50px 50px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-wrapper img {
+            height: 100%;
+            width: 165px;
+            object-fit: contain;
+            margin-right: 12px;
+        }
+
+        .logo-text {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            line-height: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo-text span {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--btn-green);
+        }
+
+        .btn-entrar {
+            background-color: var(--btn-green);
+            color: #113c0b;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: var(--font-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-entrar:hover {
+            background-color: var(--btn-green-hover);
+            transform: scale(1.05);
+        }
+
+        /* Elementos exclusivos do Mobile */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background-color: var(--text-white);
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        .mobile-only {
+            display: none;
+        }
+
+        /* =========================================
+           AUTH SECTION
+        ========================================= */
+        .auth-section {
+            padding-top: 120px;
+            padding-bottom: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            z-index: 10;
+        }
+
+        .auth-container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #88a483;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .auth-tab.active {
+            color: var(--btn-green);
+        }
+
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--btn-green);
+            border-radius: 3px 3px 0 0;
+        }
+
+        .auth-form {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-form h2 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #e0e0e0;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-white);
+            font-family: var(--font-main);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            border-color: var(--btn-green);
+            box-shadow: 0 0 8px rgba(167, 201, 56, 0.3);
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .input-group select option {
+            background-color: var(--card-bg);
+            color: var(--text-white);
+        }
+
+        .checkbox-group {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: rgba(167, 201, 56, 0.05);
+            border: 1px dashed var(--btn-green);
+            border-radius: 10px;
+        }
+
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #e0e0e0;
+            font-weight: 600;
+            user-select: none;
+        }
+
+        .custom-checkbox input {
+            display: none;
+        }
+
+        .checkmark {
+            width: 24px;
+            height: 24px;
+            background-color: var(--input-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            margin-right: 12px;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .custom-checkbox input:checked + .checkmark {
+            background-color: var(--btn-green);
+            border-color: var(--btn-green);
+        }
+
+        .custom-checkbox input:checked + .checkmark::after {
+            content: "✓";
+            position: absolute;
+            color: #113c0b;
+            font-size: 16px;
+            font-weight: 900;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #chef-extra-fields {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+            height: 100%;
+        }
+
+        .btn-file {
+            display: block;
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--input-bg);
+            border: 1px dashed var(--btn-green);
+            border-radius: 10px;
+            color: var(--text-white);
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-file:hover {
+            background-color: rgba(167, 201, 56, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--btn-green);
+            color: #113c0b;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            font-family: var(--font-main);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--btn-green-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(167, 201, 56, 0.3);
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 15px;
+            display: block;
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .forgot-password:hover {
+            color: var(--btn-green);
+            text-decoration: underline;
+        }
+
+        /* =========================================
+           TOAST NOTIFICATION (POPUP CUSTOMIZADO)
+        ========================================= */
+        .custom-toast {
+            position: fixed;
+            bottom: 30px;
+            right: -400px; /* Escondido por padrão fora da tela */
+            background-color: var(--card-bg);
+            color: var(--text-white);
+            border-left: 5px solid var(--btn-green); /* Verde por padrão (Sucesso) */
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-family: var(--font-main);
+            font-weight: 500;
+            z-index: 9999;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .custom-toast.show {
+            right: 30px; /* Desliza para dentro da tela */
+        }
+
+        .custom-toast.error {
+            border-left-color: var(--red-cta); /* Muda detalhe para vermelho */
+        }
+
+        .toast-icon {
+            font-size: 1.5rem;
+        }
+
+        /* =========================================
+           MODAL DE RECUPERAÇÃO DE SENHA
+        ========================================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 450px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
+            text-align: center;
+        }
+
+        .btn-fechar-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .btn-fechar-modal:hover {
+            color: var(--red-cta);
+        }
+
+        .modal-content h3 {
+            color: var(--btn-green);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .modal-content p {
+            color: #ccc;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .modal-content .input-group input {
+            text-align: center;
+        }
+
+        .btn-recuperar {
+            width: 100%;
+            background-color: var(--btn-green);
+            color: #113c0b;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            font-family: var(--font-main);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-recuperar:hover {
+            background-color: var(--btn-green-hover);
+        }
+
+        /* =========================================
+           RESPONSIVIDADE E BOTÃO GOOGLE
+        ========================================= */
+        @media (max-width: 1024px) {
+            .nav-links { gap: 20px; }
+            .logo-wrapper img { width: 140px; }
+        }
+
+        @media (max-width: 900px) {
+            .bg-side { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding-right: 20px; }
+            .logo-wrapper { padding: 10px 20px 10px 10px; border-radius: 0 35px 35px 0; }
+            .logo-wrapper img { width: 110px; }
+            .logo-text { font-size: 1rem; }
+            .logo-text span { font-size: 0.8rem; }
+            .menu-toggle { display: flex; }
+            .navbar > .btn-entrar { display: none; }
+            .nav-links {
+                position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
+                background-color: var(--nav-bg); flex-direction: column; align-items: center;
+                justify-content: flex-start; padding-top: 40px; gap: 30px; transition: left 0.3s ease-in-out;
+            }
+            .nav-links.active { left: 0; }
+            .nav-links a { font-size: 1.2rem; }
+            .mobile-only { display: block; margin-top: 20px; }
+            .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+            .custom-toast { right: 0; bottom: -100px; width: 90%; left: 5%; border-radius: 10px; transition: bottom 0.4s; }
+            .custom-toast.show { bottom: 20px; right: 0; }
+        }
+        
+        @media (max-width: 550px) {
+            .auth-section { padding-top: 100px; padding-bottom: 0; align-items: flex-start; }
+            .auth-container { border-radius: 0; box-shadow: none; padding: 30px 20px; }
+        }
+
+        .btn-google {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #fff;
+            color: #757575;
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 10px; /* Ajustado para combinar com os outros inputs */
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        .btn-google:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-2px);
+        }
+        .btn-google img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 15px 0;
+            color: #888;
+        }
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .divider span {
+            padding: 0 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-side bg-left"></div>
+    <div class="bg-side bg-right"></div>
+
+    <nav class="navbar">
+        <div class="logo-wrapper">
+            <img src="../assets/personalFood/PersonalFoodIcon.png" alt="Personal Food Icon" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Chef_icon.svg/1024px-Chef_icon.svg.png'">
+            <div class="logo-text">
+                PERSONAL<span>FOOD</span>
+            </div>
+        </div>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <ul class="nav-links" id="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="chefs.html">Chef 's</a></li>
+            <li><a href="cursos.html">Cursos</a></li>
+            <li><a href="receitas.html">Receitas</a></li>
+            <li><a href="impacta.html">PF Impacta</a></li>
+            <li><a href="sobre.html">Sobre nós</a></li>
+            <li class="mobile-only">
+                <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
+            </li>
+        </ul>
+
+        <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
+    </nav>
+
+    <main class="auth-section">
+        <div class="auth-container">
+            
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="tab-login" onclick="toggleAuth('login')">Entrar</div>
+                <div class="auth-tab" id="tab-register" onclick="toggleAuth('register')">Cadastrar</div>
+            </div>
+
+            <form id="form-login" class="auth-form active" onsubmit="fazerLogin(event)">
+                <h2>Bem-vindo de volta!</h2>
+                
+                <div class="input-group">
+                    <label for="login-email">E-mail</label>
+                    <input type="email" id="login-email" placeholder="Digite seu e-mail" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="login-password">Senha</label>
+                    <input type="password" id="login-password" placeholder="Digite sua senha" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Acessar Conta</button>
+                
+                <div class="divider">
+                    <span>ou</span>
+                </div>
+
+                <div class="login-google-container">
+                    <a href="/oauth2/authorization/google" class="btn btn-google">
+                        <img src="../assets/img/GoogleLogo.png" alt="Google Logo">
+                        Entrar com Google
+                    </a>
+                </div>
+
+                <a href="#" class="forgot-password" onclick="abrirModalRecuperar(event)">Esqueceu sua senha?</a>
+            </form>
+
+            <form id="form-register" class="auth-form" onsubmit="enviarCadastro(event)">
+                <h2>Junte-se a nós!</h2>
+                
+                <div class="input-group">
+                    <label for="reg-name">Nome Completo</label>
+                    <input type="text" id="reg-name" placeholder="Como devemos te chamar?" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="reg-email">E-mail</label>
+                    <input type="email" id="reg-email" placeholder="seu.melhor@email.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="reg-cpf">CPF</label>
+                    <input type="text" id="reg-cpf" placeholder="000.000.000-00" maxlength="14" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="reg-password">Senha</label>
+                    <input type="password" id="reg-password" placeholder="Crie uma senha forte" required>
+                </div>
+
+                <div class="checkbox-group">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="reg-is-chef" onchange="toggleChefFields()">
+                        <span class="checkmark"></span>
+                        Quero ser Chef (Sujeito a aprovação)
+                    </label>
+                </div>
+
+                <div id="chef-extra-fields">
+                    <div class="input-group">
+                        <label for="reg-specialty">Especialidade Principal</label>
+                        <select id="reg-specialty">
+                            <option value="" disabled selected>Selecione sua especialidade</option>
+                            <option value="confeitaria">Confeitaria & Doces</option>
+                            <option value="brasileira">Cozinha Brasileira</option>
+                            <option value="churrasco">Churrasco & Carnes</option>
+                            <option value="vegana">Comida Vegana / Vegetariana</option>
+                            <option value="massas">Massas & Cozinha Italiana</option>
+                            <option value="oriental">Cozinha Oriental</option>
+                            <option value="fit">Cozinha Fit / Saudável</option>
+                            <option value="outro">Outro (Geral)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="reg-bio">Apresentação</label>
+                        <textarea id="reg-bio" placeholder="Conte-nos um pouco sobre você e sua paixão pela culinária..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Foto de Perfil (Opcional por enquanto)</label>
+                        <div class="file-input-wrapper">
+                            <button type="button" class="btn-file" id="fileNameDisplay">📸 Escolher Foto...</button>
+                            <input type="file" id="reg-photo" accept="image/*" onchange="updateFileName(this)">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Criar Conta</button>
+            </form>
+
+        </div>
+
+        <div id="modal-recuperar" class="modal-overlay">
+            <div class="modal-content">
+                <button class="btn-fechar-modal" onclick="fecharModalRecuperar()">×</button>
+                <h3>Recuperar Senha</h3>
+                <p>Esqueceu a senha? Digite o e-mail cadastrado na sua conta e nós enviaremos uma senha temporária para você acessar o painel.</p>
+                
+                <div class="input-group">
+                    <input type="email" id="email-recuperacao" placeholder="seu.email@exemplo.com" required>
+                </div>
+                
+                <button class="btn-recuperar" onclick="enviarEmailRecuperacao()">Enviar Nova Senha</button>
+            </div>
+        </div>
+    </main>
+
+    <div id="custom-toast" class="custom-toast">
+        <span id="toast-icon" class="toast-icon">✅</span>
+        <span id="toast-message">Mensagem de teste aqui</span>
+    </div>
+
+    <script>
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        function toggleAuth(type) {
+            const formLogin = document.getElementById('form-login');
+            const formRegister = document.getElementById('form-register');
+            const tabLogin = document.getElementById('tab-login');
+            const tabRegister = document.getElementById('tab-register');
+
+            if (type === 'login') {
+                formLogin.classList.add('active');
+                formRegister.classList.remove('active');
+                tabLogin.classList.add('active');
+                tabRegister.classList.remove('active');
+            } else {
+                formRegister.classList.add('active');
+                formLogin.classList.remove('active');
+                tabRegister.classList.add('active');
+                tabLogin.classList.remove('active');
+            }
+        }
+
+        function toggleChefFields() {
+            const isChefChecked = document.getElementById('reg-is-chef').checked;
+            const extraFieldsContainer = document.getElementById('chef-extra-fields');
+            
+            const specialtyInput = document.getElementById('reg-specialty');
+            const bioInput = document.getElementById('reg-bio');
+
+            if (isChefChecked) {
+                extraFieldsContainer.style.display = 'block';
+                specialtyInput.setAttribute('required', 'true');
+                bioInput.setAttribute('required', 'true');
+            } else {
+                extraFieldsContainer.style.display = 'none';
+                specialtyInput.removeAttribute('required');
+                bioInput.removeAttribute('required');
+            }
+        }
+
+        document.getElementById('reg-cpf').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); 
+            
+            if (value.length > 11) value = value.slice(0, 11); 
+            
+            if (value.length > 9) {
+                value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, "$1.$2.$3-$4");
+            } else if (value.length > 6) {
+                value = value.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3");
+            } else if (value.length > 3) {
+                value = value.replace(/(\d{3})(\d{1,3})/, "$1.$2");
+            }
+            
+            e.target.value = value;
+        });
+
+        function updateFileName(input) {
+            const displayBtn = document.getElementById('fileNameDisplay');
+            if (input.files && input.files[0]) {
+                displayBtn.innerText = "✅ " + input.files[0].name;
+                displayBtn.style.borderColor = "var(--btn-green)";
+                displayBtn.style.color = "var(--btn-green)";
+            } else {
+                displayBtn.innerText = "📸 Escolher Foto...";
+                displayBtn.style.borderColor = "var(--btn-green)";
+                displayBtn.style.color = "var(--text-white)";
+            }
+        }
+
+        // ==========================================
+        // LÓGICA DO POPUP CUSTOMIZADO (TOAST)
+        // ==========================================
+        function mostrarNotificacao(mensagem, tipo = 'sucesso') {
+            const toast = document.getElementById('custom-toast');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.innerText = mensagem;
+
+            if (tipo === 'erro') {
+                toast.classList.add('error');
+                toastIcon.innerText = '⚠️';
+            } else {
+                toast.classList.remove('error');
+                toastIcon.innerText = '✅';
+            }
+
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // ==========================================
+        // INTEGRAÇÃO COM A API (Cadastro e Login)
+        // ==========================================
+        async function enviarCadastro(event) {
+            event.preventDefault(); 
+
+            const isChefAtivo = document.getElementById('reg-is-chef').checked;
+            
+            const dadosFormulario = {
+                nome: document.getElementById('reg-name').value,
+                email: document.getElementById('reg-email').value,
+                cpf: document.getElementById('reg-cpf').value,
+                senha: document.getElementById('reg-password').value,
+                isChef: isChefAtivo, 
+                especialidade: isChefAtivo ? document.getElementById('reg-specialty').value : null,
+                bio: isChefAtivo ? document.getElementById('reg-bio').value : null
+            };
+
+            try {
+                // Caminho relativo para funcionar perfeitamente com o Spring Boot rodando na mesma porta
+                const resposta = await fetch('/api/usuarios/registrar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dadosFormulario)
+                });
+
+                const mensagemServidor = await resposta.text();
+
+                if (resposta.ok) {
+                    mostrarNotificacao(mensagemServidor, 'sucesso');
+                    document.getElementById('form-register').reset();
+                    // Reseta os campos extras do chef visualmente
+                    toggleChefFields();
+                    updateFileName(document.getElementById('reg-photo'));
+                    
+                    setTimeout(() => toggleAuth('login'), 2500); 
+                } else {
+                    mostrarNotificacao('Erro: ' + mensagemServidor, 'erro');
+                }
+            } catch (erro) {
+                console.error('Erro de conexão:', erro);
+                mostrarNotificacao('Servidor offline. Verifique o Spring Boot.', 'erro');
+            }
+        }
+
+        async function fazerLogin(event) {
+            event.preventDefault(); 
+
+            const dadosLogin = {
+                email: document.getElementById('login-email').value,
+                senha: document.getElementById('login-password').value
+            };
+
+            try {
+                const resposta = await fetch('/api/usuarios/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dadosLogin)
+                });
+
+                if (resposta.ok) {
+                    const usuarioLogado = await resposta.json();
+                    localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+                    
+                    if (usuarioLogado.tipo === 'CHEFE') {
+                        window.location.href = 'painel-chefe.html';
+                    } else if (usuarioLogado.tipo === 'ADMIN') {
+                        window.location.href = 'painel-admin.html';
+                    } else {
+                        window.location.href = 'painel-cliente.html';
+                    }
+
+                } else {
+                    const mensagemErro = await resposta.text();
+                    mostrarNotificacao(mensagemErro, 'erro'); 
+                }
+            } catch (erro) {
+                console.error('Erro:', erro);
+                mostrarNotificacao('Servidor offline. Verifique o Spring Boot.', 'erro');
+            }
+        }
+
+        async function solicitarRecuperacao() {
+            const email = prompt("Digite o e-mail cadastrado na sua conta:");
+            
+            if (email && email.trim() !== "") {
+                try {
+                    // Feedback visual
+                    mostrarNotificacao("Processando envio do e-mail...", "sucesso");
+                    
+                    const resposta = await fetch('/api/usuarios/recuperar-senha', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email })
+                    });
+
+                    const mensagem = await resposta.text();
+
+                    if (resposta.ok) {
+                        mostrarNotificacao(mensagem, 'sucesso');
+                    } else {
+                        mostrarNotificacao(mensagem, 'erro');
+                    }
+                } catch (erro) {
+                    mostrarNotificacao('Erro ao conectar com o servidor.', 'erro');
+                }
+            }
+        }
+
+        // ==========================================
+        // LÓGICA DE RECUPERAÇÃO DE SENHA
+        // ==========================================
+        function abrirModalRecuperar(event) {
+            event.preventDefault();
+            document.getElementById('modal-recuperar').style.display = 'flex';
+        }
+
+        function fecharModalRecuperar() {
+            document.getElementById('modal-recuperar').style.display = 'none';
+            document.getElementById('email-recuperacao').value = '';
+        }
+
+        async function enviarEmailRecuperacao() {
+            const emailInput = document.getElementById('email-recuperacao').value;
+            
+            if (!emailInput || emailInput.trim() === "") {
+                mostrarNotificacao("Por favor, digite um e-mail válido.", "erro");
+                return;
+            }
+
+            try {
+                // Feedback visual de carregamento
+                fecharModalRecuperar();
+                mostrarNotificacao("Enviando e-mail... aguarde.", "sucesso");
+                
+                const resposta = await fetch('/api/usuarios/recuperar-senha', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: emailInput })
+                });
+
+                const mensagem = await resposta.text();
+
+                if (resposta.ok) {
+                    mostrarNotificacao(mensagem, 'sucesso'); // Ex: "Uma nova senha foi enviada..."
+                } else {
+                    mostrarNotificacao(mensagem, 'erro');
+                }
+            } catch (erro) {
+                console.error("Erro na recuperação:", erro);
+                mostrarNotificacao('Erro ao conectar com o servidor.', 'erro');
+            }
+        }
+    </script> 
+</body>
+</html>

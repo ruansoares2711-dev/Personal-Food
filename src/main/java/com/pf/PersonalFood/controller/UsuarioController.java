@@ -130,7 +130,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado no banco.");
     }
 
-    @PostMapping("/solicitar-recuperacao")
+    @PostMapping("/recuperar-senha")
     public ResponseEntity<String> solicitarRecuperacao(@RequestBody Map<String, String> body) {
         try {
             String email = body.get("email");

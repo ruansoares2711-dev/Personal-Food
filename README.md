@@ -30,30 +30,6 @@ JavaScript (Vanilla): Lógica de interface (filtros de categorias, modais custom
 
 Google Fonts: Tipografia moderna utilizando as fontes Poppins e Montserrat.
 
-📁 Estrutura de Ficheiros
-
-O projeto está organizado da seguinte forma para facilitar a manutenção e escalabilidade:
-
-personal-food/
-│
-├── index.html                 # Página inicial (Home)
-│
-├── sections/                  # Páginas internas da plataforma
-│   ├── chefs.html             # Catálogo de Chefs
-│   ├── cursos.html            # Cursos de culinária
-│   ├── receitas.html          # Lista de receitas
-│   ├── impacta.html           # Ações sociais (PF Impacta)
-│   └── sobre.html             # Página Sobre Nós
-│
-├── assets/                    # Recursos estáticos (Imagens, Ícones, etc.)
-│   ├── personalFood/          # Logos e identidade visual
-│   │   ├── PersonalFoodIcon.png
-│   │   └── PersonalFoodLogo.png
-│   └── tomatito/              # Ícones do mascote e categorias
-│
-└── README.md                  # Documentação do projeto
-
-
 🎨 Design System e Padrões Visuais
 
 Foi criada uma identidade visual coesa para toda a plataforma, garantindo uma navegação intuitiva:
@@ -78,7 +54,7 @@ Como o projeto é constituído por ficheiros estáticos (HTML/CSS/JS), não é n
 
 Faça o clone do repositório:
 
-git clone [https://github.com/seu-usuario/personal-food.git](https://github.com/seu-usuario/personal-food.git)
+git clone [https://github.com/ruansoares2711-dev/Personal-Food.git]
 
 
 Navegue até à pasta do projeto:

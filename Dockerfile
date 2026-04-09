@@ -1,10 +1,10 @@
-# Estágio 1: Build com Maven
-FROM maven:3.8.5-openjdk-17 AS build
+# Estágio 1: Build com Maven e Java 21
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 COPY . .
 RUN mvn clean package -DskipTests
 
-# Estágio 2: Execução
-FROM openjdk:17-jdk-slim
-COPY --from=build /target/*.jar app.jar
+# Estágio 2: Execução com Java 21
+FROM eclipse-temurin:21-jre-jammy
+COPY --from=build /target/PersonalFood-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]

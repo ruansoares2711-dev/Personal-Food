@@ -1,12 +1,37 @@
-# Estágio 1: Build
-FROM maven:3.9.6-eclipse-temurin-21 AS build
-COPY . .
-# O parâmetro -U força o Maven a baixar dependências atualizadas
-RUN mvn clean package -DskipTests -U
+# Multi-stage build para otimizar a imagem Docker
+FROM maven:3.9-eclipse-temurin-21 as builder
 
-# Estágio 2: Execução
-FROM eclipse-temurin:21-jre-jammy
-# Usar o curinga * evita erro se o nome do JAR mudar um pouquinho
-COPY --from=build /target/*.jar app.jar
+WORKDIR /app
+
+# Copiar pom.xml e arquivos de build
+COPY pom.xml .
+COPY mvnw .
+COPY mvnw.cmd .
+COPY .mvn .mvn
+
+# Copiar código-fonte
+COPY src src
+
+# Build do aplicativo
+RUN mvn clean package -DskipTests -q
+
+# Stage 2: Runtime
+FROM eclipse-temurin:21-jdk-alpine
+
+WORKDIR /app
+
+# Copiar JAR da stage anterior
+COPY --from=builder /app/target/PersonalFood-0.0.1-SNAPSHOT.jar app.jar
+
+# Expor porta
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+# Variáveis de ambiente para PostgreSQL (padrão)
+ENV SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/personal_food \
+    SPRING_DATASOURCE_USERNAME=postgres \
+    SPRING_DATASOURCE_PASSWORD=password \
+    SPRING_JPA_HIBERNATE_DDL_AUTO=update \
+    SPRING_PROFILES_ACTIVE=prod
+
+# Executar aplicação
+ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -2,31 +2,76 @@
 
 A Personal Food (PF) é uma plataforma web inovadora que conecta clientes a chefs profissionais especializados em alimentação personalizada. Funcionando como um "iFood de Chefs", o nosso objetivo é proporcionar uma experiência culinária sob medida no conforto de casa, combinando praticidade com um toque humano.
 
-Seja para atletas com metas nutricionais, famílias com restrições alimentares ou pessoas que procuram reeducação alimentar sem ter de cozinhar: Nós temos o chef certo para si.
+---
 
-🚀 Funcionalidades da Plataforma
+## 🚀 Quick Start
 
-A plataforma está dividida em várias secções desenhadas para oferecer uma experiência completa de gastronomia e aprendizagem:
+### Opção 1: Docker Compose (Recomendado)
+```bash
+docker-compose up -d
+# Acesse: http://localhost:8080
+```
 
-👨‍🍳 Chef's: Catálogo de chefs profissionais categorizados por especialidade (Eventos, Particular, Vegano, Corporativo). Permite visualizar perfis, avaliações e solicitar serviços.
+### Opção 2: Maven Wrapper + Docker
+```bash
+# Terminal 1 - Inicie PostgreSQL
+docker run --name personalfood-db -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres:15-alpine
 
-📚 Cursos: Aulas de culinária para diversos níveis (Iniciante, Intermédio, Avançado) abrangendo várias categorias como doces, comidas saudáveis e nacionalidades.
+# Terminal 2 - Rode a aplicação
+.\mvnw.cmd spring-boot:run
+# Acesse: http://localhost:8080
+```
 
-📖 Receitas: Uma área dedicada a "Cozinha sem mistérios", com receitas categorizadas por dificuldade e tempo de preparação.
+### Opção 3: JAR Direto
+```bash
+java -jar .\target\PersonalFood-0.0.1-SNAPSHOT.jar
+# Acesse: http://localhost:8080
+```
 
-🤝 PF Impacta: A nossa missão de responsabilidade social. Projetos de formação, inclusão e geração de conhecimento através da gastronomia em comunidades (ex: Paraisópolis, Heliópolis, Jardim Peri).
+---
 
-ℹ️ Sobre Nós: Informações sobre a visão da empresa e os benefícios da plataforma.
+## 📚 Documentação
 
-🛠️ Tecnologias Utilizadas
+- **[SETUP_FINAL.md](SETUP_FINAL.md)** - Resumo completo de todas as correções
+- **[LOCAL_SETUP.md](LOCAL_SETUP.md)** - Guia de configuração local
+- **[AWS_DEPLOYMENT.md](AWS_DEPLOYMENT.md)** - Deploy na AWS (EC2, ECS, RDS)
+- **[TESTING.md](TESTING.md)** - Testes da API e endpoints
 
-O front-end foi desenvolvido utilizando tecnologias web padrão, com foco em performance e responsividade:
+---
 
-HTML5: Estruturação semântica de todas as páginas.
+## ✅ Status
 
-CSS3: Estilização com Flexbox, CSS Grid e variáveis globais (:root) para um design system consistente (Dark Theme).
+- ✅ Migração MySQL → PostgreSQL completa
+- ✅ Hibernate configurado corretamente
+- ✅ Lombok removido (getters/setters manuais)
+- ✅ Build compilado com sucesso
+- ✅ Docker Compose pronto
+- ✅ Pronto para produção
 
-JavaScript (Vanilla): Lógica de interface (filtros de categorias, modais customizados, interatividade nos menus).
+---
+
+## 🛠️ Stack Tecnológico
+
+### Backend
+- **Java 21** (Eclipse Temurin)
+- **Spring Boot 3.2.4**
+- **Spring Data JPA & Hibernate**
+- **PostgreSQL 15**
+- **Spring Security + OAuth2 Google**
+
+### Frontend
+- **HTML5** - Estruturação semântica
+- **CSS3** - Flexbox, Grid, Dark Theme
+- **Vanilla JavaScript** - Interatividade
+
+### DevOps
+- **Docker** - Containerização
+- **Docker Compose** - Orquestração
+- **AWS** - Hospedagem (EC2, RDS, ECS)
+
+---
+
+## 📖 Funcionalidades
 
 Google Fonts: Tipografia moderna utilizando as fontes Poppins e Montserrat.
 

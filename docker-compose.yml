@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: personalfood-db
+    environment:
+      MYSQL_USER: personalfood
+      MYSQL_PASSWORD: personalfood123
+      MYSQL_DATABASE: personal_food
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - personalfood-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot Application
+  app:
+    build: .
+    container_name: personalfood-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/personal_food
+      SPRING_DATASOURCE_USERNAME: personalfood
+      SPRING_DATASOURCE_PASSWORD: personalfood123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_PROFILES_ACTIVE: prod
+      MP_TOKEN: ${MP_TOKEN}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - personalfood-network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  personalfood-network:
+    driver: bridge

@@ -11,14 +11,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-
 @Entity
-@Table(name = "usuarios") 
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id; // No seu SQL está como INT
+    private Integer id;
 
     @Column(unique = true, length = 14)
     private String cpf;
@@ -32,19 +31,17 @@ public class Usuario {
     @Column(nullable = false)
     private String senha;
 
-    @Enumerated(EnumType.STRING) 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TipoUsuario tipo;
 
-    // O banco já coloca a data padrão
-    @Column(name = "criado_em", insertable = false, updatable = false)
-    private LocalDateTime criadoEm; 
+    @Column(name = "criado_em", insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime criadoEm;
 
-    // Foto de perfil do usuário
-    @Column(name = "foto_perfil", columnDefinition = "LONGTEXT")
+    @Column(name = "foto_perfil", columnDefinition = "TEXT")
     private String fotoPerfil;
 
-    // Getters e Setters gerados manualmente
+    // Getters e Setters
     public Integer getId() {
         return id;
     }

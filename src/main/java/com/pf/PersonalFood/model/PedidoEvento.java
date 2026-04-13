@@ -13,23 +13,19 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import lombok.Data;
 
 @Entity
 @Table(name = "pedidos_evento")
-@Data
 public class PedidoEvento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // Quem pediu
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
     private Usuario cliente;
 
-    // Quem vai executar
     @ManyToOne
     @JoinColumn(name = "chefe_id", nullable = false)
     private Chefe chefe;
@@ -46,17 +42,16 @@ public class PedidoEvento {
     @Column(name = "valor_orcamento")
     private BigDecimal valorOrcamento;
 
-    @Column(name = "proposta_orcamento", columnDefinition = "LONGTEXT")
+    @Column(name = "proposta_orcamento", columnDefinition = "TEXT")
     private String propostaOrcamento;
 
-    // 👇 AQUI ESTÁ A COLUNA NOVA QUE VOCÊ CRIOU NO BANCO
-    @Column(name = "fotos_cozinha", columnDefinition = "LONGTEXT")
+    @Column(name = "fotos_cozinha", columnDefinition = "TEXT")
     private String fotosCozinha;
 
-    // Status: NOVA_SOLICITACAO, ORCAMENTO_ENVIADO, CONFIRMADO, RECUSADO
+    @Column(columnDefinition = "VARCHAR(50)")
     private String status = "NOVA_SOLICITACAO";
 
-    @Column(name = "data_criacao")
+    @Column(name = "data_criacao", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime dataCriacao;
 
     @PrePersist
@@ -152,5 +147,4 @@ public class PedidoEvento {
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
-
 }

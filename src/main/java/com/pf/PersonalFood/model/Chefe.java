@@ -24,52 +24,95 @@ public class Chefe {
     private Usuario usuario;
 
     private String especialidade;
-    
+
     @Column(columnDefinition = "TEXT")
     private String apresentacao;
-    
-    @Column(name = "foto_perfil", columnDefinition = "LONGTEXT")
+
+    @Column(name = "foto_perfil", columnDefinition = "TEXT")
     private String fotoPerfil;
 
-    // --- NOVOS CAMPOS DA VITRINE ---
-    
     @Column(name = "ativo_vitrine")
-    private boolean ativoVitrine = true; // Por padrão, o perfil nasce ativo
+    private boolean ativoVitrine = true;
 
     @Column(name = "tags_atendimento")
     private String tagsAtendimento = "todos";
 
-    @Column(name = "nota_reputacao")
-    private BigDecimal notaReputacao = new BigDecimal("5.00"); // Começa com 5 estrelas
+    @Column(name = "nota_reputacao", columnDefinition = "NUMERIC(3,2)")
+    private BigDecimal notaReputacao = new BigDecimal("5.00");
 
     @Column(name = "total_avaliacoes")
     private Integer totalAvaliacoes = 0;
 
     // Getters e Setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public Integer getId() {
+        return id;
+    }
 
-    public Usuario getUsuario() { return usuario; }
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    public String getEspecialidade() { return especialidade; }
-    public void setEspecialidade(String especialidade) { this.especialidade = especialidade; }
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-    public String getApresentacao() { return apresentacao; }
-    public void setApresentacao(String apresentacao) { this.apresentacao = apresentacao; }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
-    public String getFotoPerfil() { return fotoPerfil; }
-    public void setFotoPerfil(String fotoPerfil) { this.fotoPerfil = fotoPerfil; }
+    public String getEspecialidade() {
+        return especialidade;
+    }
 
-    public boolean isAtivoVitrine() { return ativoVitrine; }
-    public void setAtivoVitrine(boolean ativoVitrine) { this.ativoVitrine = ativoVitrine; }
+    public void setEspecialidade(String especialidade) {
+        this.especialidade = especialidade;
+    }
 
-    public String getTagsAtendimento() { return tagsAtendimento; }
-    public void setTagsAtendimento(String tagsAtendimento) { this.tagsAtendimento = tagsAtendimento; }
+    public String getApresentacao() {
+        return apresentacao;
+    }
 
-    public BigDecimal getNotaReputacao() { return notaReputacao; }
-    public void setNotaReputacao(BigDecimal notaReputacao) { this.notaReputacao = notaReputacao; }
+    public void setApresentacao(String apresentacao) {
+        this.apresentacao = apresentacao;
+    }
 
-    public Integer getTotalAvaliacoes() { return totalAvaliacoes; }
-    public void setTotalAvaliacoes(Integer totalAvaliacoes) { this.totalAvaliacoes = totalAvaliacoes; }
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
+
+    public boolean isAtivoVitrine() {
+        return ativoVitrine;
+    }
+
+    public void setAtivoVitrine(boolean ativoVitrine) {
+        this.ativoVitrine = ativoVitrine;
+    }
+
+    public String getTagsAtendimento() {
+        return tagsAtendimento;
+    }
+
+    public void setTagsAtendimento(String tagsAtendimento) {
+        this.tagsAtendimento = tagsAtendimento;
+    }
+
+    public BigDecimal getNotaReputacao() {
+        return notaReputacao;
+    }
+
+    public void setNotaReputacao(BigDecimal notaReputacao) {
+        this.notaReputacao = notaReputacao;
+    }
+
+    public Integer getTotalAvaliacoes() {
+        return totalAvaliacoes;
+    }
+
+    public void setTotalAvaliacoes(Integer totalAvaliacoes) {
+        this.totalAvaliacoes = totalAvaliacoes;
+    }
 }

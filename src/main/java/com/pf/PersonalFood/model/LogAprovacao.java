@@ -26,27 +26,52 @@ public class LogAprovacao {
 
     private String acao;
 
-    @Column(name = "data_acao")
+    @Column(name = "data_acao", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime dataAcao;
 
     @PrePersist
     protected void onCreate() {
-        this.dataAcao = LocalDateTime.now(); // Preenche a data automaticamente
+        this.dataAcao = LocalDateTime.now();
     }
 
     // Getters e Setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public Integer getId() {
+        return id;
+    }
 
-    public String getAdminNome() { return adminNome; }
-    public void setAdminNome(String adminNome) { this.adminNome = adminNome; }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    public String getCandidatoNome() { return candidatoNome; }
-    public void setCandidatoNome(String candidatoNome) { this.candidatoNome = candidatoNome; }
+    public String getAdminNome() {
+        return adminNome;
+    }
 
-    public String getAcao() { return acao; }
-    public void setAcao(String acao) { this.acao = acao; }
+    public void setAdminNome(String adminNome) {
+        this.adminNome = adminNome;
+    }
 
-    public LocalDateTime getDataAcao() { return dataAcao; }
-    public void setDataAcao(LocalDateTime dataAcao) { this.dataAcao = dataAcao; }
+    public String getCandidatoNome() {
+        return candidatoNome;
+    }
+
+    public void setCandidatoNome(String candidatoNome) {
+        this.candidatoNome = candidatoNome;
+    }
+
+    public String getAcao() {
+        return acao;
+    }
+
+    public void setAcao(String acao) {
+        this.acao = acao;
+    }
+
+    public LocalDateTime getDataAcao() {
+        return dataAcao;
+    }
+
+    public void setDataAcao(LocalDateTime dataAcao) {
+        this.dataAcao = dataAcao;
+    }
 }

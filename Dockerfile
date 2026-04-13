@@ -16,7 +16,7 @@ COPY src src
 RUN mvn clean package -DskipTests -q
 
 # Stage 2: Runtime
-FROM eclipse-temurin:21-jdk-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
@@ -26,12 +26,5 @@ COPY --from=builder /app/target/PersonalFood-0.0.1-SNAPSHOT.jar app.jar
 # Expor porta
 EXPOSE 8080
 
-# Variáveis de ambiente para PostgreSQL (padrão)
-ENV SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/personal_food \
-    SPRING_DATASOURCE_USERNAME=postgres \
-    SPRING_DATASOURCE_PASSWORD=password \
-    SPRING_JPA_HIBERNATE_DDL_AUTO=update \
-    SPRING_PROFILES_ACTIVE=prod
-
-# Executar aplicação
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Executar aplicação com perfil AWS
+ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=aws"]

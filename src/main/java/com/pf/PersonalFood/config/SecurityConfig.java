@@ -23,7 +23,8 @@ public class SecurityConfig {
                     "/api/usuarios/login", 
                     "/api/usuarios/registrar", 
                     "/api/usuarios/recuperar-senha", // Rota da recuperação de senha
-                    "/sections/reset-password.html"
+                    "/sections/reset-password.html",
+		    "/.well-known/**"
                 ).permitAll() 
                 
                 .anyRequest().authenticated()

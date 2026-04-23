@@ -400,7 +400,7 @@
 
         async function carregarPerfil() {
             try {
-                const res = await fetch(`http://localhost:8080/api/chefes/perfil/${usuarioId}`);
+                const res = await fetch(`https://personalfood.com.br/api/chefes/perfil/${usuarioId}`);
                 if (res.ok) {
                     const chefe = await res.json();
                     document.getElementById('status-vitrine').checked = chefe.ativoVitrine;
@@ -430,7 +430,7 @@
             };
 
             try {
-                const res = await fetch(`http://localhost:8080/api/chefes/perfil/${usuarioId}`, {
+                const res = await fetch(`http://personalfood.com.br/api/chefes/perfil/${usuarioId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dados)
@@ -451,7 +451,7 @@
         // ==========================================
         async function carregarPedidos() {
             try {
-                const res = await fetch(`http://localhost:8080/api/chefes/${usuarioId}/pedidos`);
+                const res = await fetch(`http://personalfood.com.br/api/chefes/${usuarioId}/pedidos`);
                 if (res.ok) {
                     pedidosGlobais = await res.json(); // Salva na variável global
                     const container = document.getElementById('lista-solicitacoes');
@@ -600,7 +600,7 @@
 
             try {
                 // Aponta para a rota correta que fizemos no PedidoController
-                const res = await fetch(`http://localhost:8080/api/pedidos/${pedidoAtualId}/orcamento`, {
+                const res = await fetch(`http://personalfood.com.br/api/pedidos/${pedidoAtualId}/orcamento`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dados)
@@ -629,7 +629,7 @@
             if(!confirm("Tem certeza que deseja recusar este evento? O cliente será notificado.")) return;
             
             try {
-                const res = await fetch(`http://localhost:8080/api/chefes/pedidos/${id}/recusar`, { method: 'PUT' });
+                const res = await fetch(`http://personalfood.com.br/api/chefes/pedidos/${id}/recusar`, { method: 'PUT' });
                 if(res.ok) {
                     mostrarNotificacao("Evento recusado.");
                     carregarPedidos(); 

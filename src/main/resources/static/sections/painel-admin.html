@@ -380,7 +380,7 @@
         // INTEGRAÇÃO API
         async function carregarMetricas() {
             try {
-                const resposta = await fetch('http://localhost:8080/api/admin/metricas-dashboard');
+                const resposta = await fetch('https://personalfood.com.br/api/admin/metricas-dashboard');
                 const metricas = await resposta.json();
                 
                 document.getElementById('count-aprovados-total').innerText = metricas.aprovados;
@@ -392,7 +392,7 @@
 
         async function carregarSolicitacoes() {
             try {
-                const resposta = await fetch('http://localhost:8080/api/admin/usuarios-pendentes');
+                const resposta = await fetch('https://personalfood.com.br/api/admin/usuarios-pendentes');
                 const usuarios = await resposta.json();
                 
                 const tabela = document.getElementById('tabela-solicitacoes');
@@ -434,7 +434,7 @@
             const adminNome = JSON.parse(localStorage.getItem('usuarioLogado')).nome;
 
             try {
-                const res = await fetch(`http://localhost:8080/api/admin/aprovar-chefe/${id}?adminNome=${encodeURIComponent(adminNome)}`, { method: 'PUT' });
+                const res = await fetch(`https://personalfood.com.br/api/admin/aprovar-chefe/${id}?adminNome=${encodeURIComponent(adminNome)}`, { method: 'PUT' });
                 if (res.ok) {
                     mostrarNotificacao("Chefe aprovado com sucesso!");
                     carregarSolicitacoes();
@@ -451,7 +451,7 @@
             const adminNome = JSON.parse(localStorage.getItem('usuarioLogado')).nome;
 
             try {
-                const res = await fetch(`http://localhost:8080/api/admin/recusar-usuario/${id}?adminNome=${encodeURIComponent(adminNome)}`, { method: 'DELETE' });
+                const res = await fetch(`https://personalfood.com.br/api/admin/recusar-usuario/${id}?adminNome=${encodeURIComponent(adminNome)}`, { method: 'DELETE' });
                 if (res.ok) {
                     mostrarNotificacao("Solicitação recusada e removida.");
                     carregarSolicitacoes();

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Food | PF Impacta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/personalFood/PersonalFoodFavIcon32x32-removebg-preview.png">
+    <style>
+        /* =========================================
+           VARIÁVEIS DE COR E ESTILOS GLOBAIS
+        ========================================= */
+        :root {
+            --bg-main: #000000; /* Fundo geral preto */
+            --nav-bg: #113c0b; /* Verde escuro da navbar */
+            --logo-bg: #d1c115; /* Amarelo do fundo do logo */
+            --btn-green: #a7c938; /* Verde claro dos botões */
+            --btn-green-hover: #b8db40;
+            --btn-red: #cc0000; /* Vermelho do botão inscrever */
+            --btn-red-hover: #e60000;
+            --text-white: #FFFFFF;
+            --font-main: 'Poppins', sans-serif;
+            
+            /* Cinza utilizado no header e nos cards desta página */
+            --impacta-card-bg: #4a4a4a; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* =========================================
+           NAVBAR (PADRÃO CONSOLIDADO)
+        ========================================= */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background-color: var(--nav-bg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            padding-right: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-wrapper {
+            height: 100%;
+            background-color: var(--logo-bg);
+            padding: 10px 40px 10px 20px;
+            border-radius: 0 50px 50px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-wrapper img {
+            height: 100%;
+            width: 165px;
+            object-fit: contain;
+            margin-right: 12px;
+        }
+
+        .logo-text {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            line-height: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo-text span {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--btn-green);
+        }
+
+        .btn-entrar {
+            background-color: var(--btn-green);
+            color: #113c0b;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: var(--font-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-entrar:hover {
+            background-color: var(--btn-green-hover);
+            transform: scale(1.05);
+        }
+
+        /* Elementos exclusivos do Mobile */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background-color: var(--text-white);
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        .mobile-only {
+            display: none;
+        }
+
+        /* =========================================
+           CONTEÚDO PRINCIPAL - PF IMPACTA
+        ========================================= */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 20px 60px 20px; /* Padding para compensar navbar fixa */
+        }
+
+        /* HEADER IMPACTA (BANNER TOPO) */
+        .impacta-header {
+            background-color: var(--impacta-card-bg);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            margin-bottom: 50px;
+            height: 160px;
+        }
+
+        .impacta-header img {
+            height: 100%;
+            width: 350px;
+            object-fit: cover;
+        }
+
+        .impacta-header-text {
+            padding: 30px 40px;
+            flex: 1;
+        }
+
+        .impacta-header h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .impacta-header p {
+            color: #e0e0e0;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        /* GRID DE CARDS IMPACTA */
+        .grid-impacta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            justify-items: center;
+        }
+
+        .impacta-card {
+            background-color: var(--impacta-card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            width: 100%;
+            max-width: 360px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .impacta-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+        .impacta-card > img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 25px;
+        }
+
+        .impacta-card h4 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .impacta-card p {
+            font-size: 0.9rem;
+            color: #f1f1f1;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            min-height: 40px; /* Mantém alinhamento mesmo com textos curtos/longos */
+        }
+
+        .impacta-card .chef-name {
+            font-size: 0.9rem;
+            color: #cccccc;
+            margin-bottom: 25px;
+        }
+
+        .impacta-card .gratuito {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            margin-top: auto; /* Empurra o preço para baixo caso o card estique */
+        }
+
+        .impacta-card .event-date {
+            color: #aaaaaa;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .btn-red {
+            background-color: var(--btn-red);
+            color: #ffffff;
+            border: none;
+            padding: 12px 0;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: var(--font-main);
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .btn-red:hover {
+            background-color: var(--btn-red-hover);
+            transform: scale(1.02);
+        }
+
+        /* =========================================
+           RESPONSIVIDADE (MOBILE & TABLETS)
+        ========================================= */
+        @media (max-width: 1024px) {
+            .nav-links { gap: 20px; }
+            .logo-wrapper img { width: 140px; }
+        }
+
+        @media (max-width: 900px) {
+            .impacta-header {
+                flex-direction: column;
+                height: auto;
+                text-align: center;
+            }
+            .impacta-header img {
+                width: 100%;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Ajustes Navbar */
+            .navbar { padding-right: 20px; }
+            .logo-wrapper { padding: 10px 20px 10px 10px; border-radius: 0 35px 35px 0; }
+            .logo-wrapper img { width: 110px; }
+            .logo-text { font-size: 1rem; }
+            .logo-text span { font-size: 0.8rem; }
+
+            /* Mostrar Menu Hambúrguer e Esconder Navbar Padrão */
+            .menu-toggle { display: flex; }
+            .navbar > .btn-entrar { display: none; }
+            .nav-links {
+                position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
+                background-color: var(--nav-bg); flex-direction: column; align-items: center;
+                justify-content: flex-start; padding-top: 40px; gap: 30px; transition: left 0.3s ease-in-out;
+            }
+            .nav-links.active { left: 0; }
+            .nav-links a { font-size: 1.2rem; }
+            .mobile-only { display: block; margin-top: 20px; }
+
+            /* Animação do Ícone de Hambúrguer */
+            .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+        }
+
+        @media (max-width: 480px) {
+            .grid-impacta {
+                grid-template-columns: 1fr;
+            }
+            .navbar {
+                padding-right: 15px;
+            }
+            .impacta-header h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Botão Admin */
+        .btn-admin {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--btn-green);
+            color: #000;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            transition: transform 0.2s;
+            display: none;
+            z-index: 500;
+        }
+
+        .btn-admin:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-admin.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Modal Admin */
+        .modal-admin { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-admin.active { display: flex; }
+        .modal-admin-content { background-color: #1a1a1a; border-radius: 12px; padding: 30px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; }
+        .modal-admin-content h2 { margin-bottom: 20px; color: var(--btn-green); }
+        .modal-admin-content button { background-color: var(--btn-green); color: #000; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-right: 10px; }
+        .modal-admin-content button:hover { opacity: 0.8; }
+        .close-modal-admin { background-color: #cc0000 !important; color: white !important; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR Fiel ao Novo Padrão -->
+    <nav class="navbar">
+        <div class="logo-wrapper">
+            <img src="../assets/personalFood/PersonalFoodIcon.png" alt="Personal Food Icon" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Chef_icon.svg/1024px-Chef_icon.svg.png'">
+            <div class="logo-text">
+                PERSONAL<span>FOOD</span>
+            </div>
+        </div>
+        
+        <!-- Botão Menu Hambúrguer (Mobile) -->
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <ul class="nav-links" id="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="chefs.html">Chef 's</a></li>
+            <li><a href="cursos.html">Cursos</a></li>
+            <li><a href="receitas.html" >Receitas</a></li>
+            <li><a href="impacta.html" style="color: var(--btn-green);">PF Impacta</a></li>
+            <li><a href="sobre.html">Sobre nós</a></li>
+            <!-- Botão Entrar apenas para Menu Mobile -->
+            <li class="mobile-only">
+                <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
+            </li>
+        </ul>
+
+        <!-- Botão Entrar Desktop -->
+        <button class="btn-entrar" onclick="location.href='registerLogin.html'">Entrar</button>
+    </nav>
+
+    <!-- CONTEÚDO PRINCIPAL - PF IMPACTA -->
+    <main class="main-container">
+        <section id="impacta" class="page-section">
+            
+            <div class="impacta-header">
+                <!-- Imagem do Header atualizada para uma comunidade interagindo -->
+                <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Ação Social na Comunidade">
+                <div class="impacta-header-text">
+                    <h2>MISSÃO PF IMPACTA</h2>
+                    <p>FORMAR, INCLUIR E GERAR CONHECIMENTO ATRAVÉS DA GASTRONOMIA</p>
+                </div>
+            </div>
+
+            <div class="grid-impacta">
+                
+                <div class="impacta-card">
+                    <!-- Imagem Paraisópolis (Comunidade ao entardecer) -->
+                    <img src="https://images.unsplash.com/photo-1518005068251-37900150dfca?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Paraisópolis">
+                    <h4>PF IMPACTA<br>PARAISÓPOLIS</h4>
+                    <p>Cozinha Verde: Alimentação<br>Saudável para o Dia a Dia</p>
+                    <span class="chef-name">Chef Renata Alves</span>
+                    <div class="gratuito">GRATUITO</div>
+                    <div class="event-date">04/08 - 12h</div>
+                    <button class="btn-red">Inscreva-se</button>
+                </div>
+                
+                <div class="impacta-card">
+                    <!-- Imagem Heliópolis (Casas Coloridas) -->
+                    <img src="https://images.unsplash.com/photo-1518005068251-37900150dfca?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Heliópolis">
+                    <h4>PF IMPACTA<br>HELIÓPOLIS</h4>
+                    <p>Aproveitamento integral de<br>alimentos populares</p>
+                    <span class="chef-name">Chef Diego Silva</span>
+                    <div class="gratuito">GRATUITO</div>
+                    <div class="event-date">29/10 - 16h</div>
+                    <button class="btn-red">Inscreva-se</button>
+                </div>
+                
+                <div class="impacta-card">
+                    <!-- Imagem Jardim Peri (Arte Urbana e Comunidade) -->
+                    <img src="https://images.unsplash.com/photo-1518005068251-37900150dfca?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Jardim Peri">
+                    <h4>PF IMPACTA<br>JARDIM PERI</h4>
+                    <p>Na ponta do lápis: economia, uso<br>consciente e criatividade na cozinha</p>
+                    <span class="chef-name">Chef Paula Santos</span>
+                    <div class="gratuito">GRATUITO</div>
+                    <div class="event-date">16/08 - 12h</div>
+                    <button class="btn-red">Inscreva-se</button>
+                </div>
+
+            </div>
+            
+        </section>
+    </main>
+
+    <!-- Botão Admin -->
+    <button id="btn-admin-impacta" class="btn-admin" onclick="abrirModalAdmin()">⚙️</button>
+
+    <!-- Modal Admin -->
+    <div id="modal-admin-impacta" class="modal-admin">
+        <div class="modal-admin-content">
+            <h2>Gerenciar Impacta</h2>
+            <form id="form-novo-evento">
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label>Nome do Projeto</label>
+                    <input type="text" id="novo-nome" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #444; background-color: #222; color: #fff;">
+                </div>
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label>Descrição</label>
+                    <textarea id="novo-descricao" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #444; background-color: #222; color: #fff; height: 80px;"></textarea>
+                </div>
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label>Chef Responsável</label>
+                    <input type="text" id="novo-chef" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #444; background-color: #222; color: #fff;">
+                </div>
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label>Data e Hora (ex: 29/10 - 16h)</label>
+                    <input type="text" id="novo-data" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #444; background-color: #222; color: #fff;">
+                </div>
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label>URL da Imagem</label>
+                    <input type="url" id="novo-url" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #444; background-color: #222; color: #fff;">
+                </div>
+                <button type="button" onclick="adicionarEvento()" style="margin-top: 20px;">Adicionar Evento</button>
+                <button type="button" class="close-modal-admin" onclick="fecharModalAdmin()" style="margin-top: 20px;">Fechar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT PARA O MENU MOBILE -->
+    <script>
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+        let isAdmin = false;
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Verifica se é admin ao carregar
+        function verificarAdmin() {
+            const usuarioStr = localStorage.getItem('usuarioLogado');
+            if (usuarioStr) {
+                const usuario = JSON.parse(usuarioStr);
+                if (usuario.tipo === 'ADMIN') {
+                    isAdmin = true;
+                    document.getElementById('btn-admin-impacta').classList.add('show');
+                }
+            }
+        }
+
+        function abrirModalAdmin() {
+            document.getElementById('modal-admin-impacta').classList.add('active');
+        }
+
+        function fecharModalAdmin() {
+            document.getElementById('modal-admin-impacta').classList.remove('active');
+        }
+
+        function adicionarEvento() {
+            const nome = document.getElementById('novo-nome').value;
+            const descricao = document.getElementById('novo-descricao').value;
+            const chef = document.getElementById('novo-chef').value;
+            const data = document.getElementById('novo-data').value;
+            const url = document.getElementById('novo-url').value;
+
+            if (!nome || !descricao || !chef || !data || !url) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+
+            const novoEvento = {
+                nome,
+                descricao,
+                chef,
+                data,
+                url,
+                timestamp: new Date().toISOString()
+            };
+
+            // Salva em localStorage
+            let eventos = JSON.parse(localStorage.getItem('impacta-eventos') || '[]');
+            eventos.push(novoEvento);
+            localStorage.setItem('impacta-eventos', JSON.stringify(eventos));
+
+            alert('Evento adicionado com sucesso!');
+            document.getElementById('form-novo-evento').reset();
+            carregarEventosPersonalizados();
+            fecharModalAdmin();
+        }
+
+        function carregarEventosPersonalizados() {
+            const eventos = JSON.parse(localStorage.getItem('impacta-eventos') || '[]');
+            const gridImpacta = document.querySelector('.grid-impacta');
+            
+            eventos.forEach(evento => {
+                const existente = document.querySelector(`[data-evento-id="${evento.timestamp}"]`);
+                if (!existente) {
+                    const card = document.createElement('div');
+                    card.className = 'impacta-card';
+                    card.setAttribute('data-evento-id', evento.timestamp);
+                    card.innerHTML = `
+                        <img src="${evento.url}" alt="${evento.nome}">
+                        <h4>${evento.nome}</h4>
+                        <p>${evento.descricao}</p>
+                        <span class="chef-name">${evento.chef}</span>
+                        <div class="gratuito">GRATUITO</div>
+                        <div class="event-date">${evento.data}</div>
+                        <button class="btn-red">Inscreva-se</button>
+                    `;
+                    gridImpacta.appendChild(card);
+                }
+            });
+        }
+
+        // Inicializar ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            verificarAdmin();
+            carregarEventosPersonalizados();
+        });
+
+        // Fechar modal ao clicar fora
+        document.getElementById('modal-admin-impacta').addEventListener('click', (e) => {
+            if (e.target.id === 'modal-admin-impacta') {
+                fecharModalAdmin();
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -35,21 +35,19 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/",
-                    "/index.html",
-                    "/sobre.html",
-                    "/assets/**",
-                    "/api/usuarios/login",
-                    "/api/usuarios/registrar",
-                    "/api/usuarios/recuperar-senha",
-                    "/api/usuarios/confirmar-nova-senha",
-                    "/sections/reset-password.html",
-                    "/.well-known/**"
-                ).permitAll()
+                "/",
+                "/index.html",
+                "/sobre.html",
+                "/assets/**",
+                "/css/**",
+                "/js/**",
+                "/favicon.ico",
+                "/.well-known/**"
+            ).permitAll()
                 .requestMatchers("/api/pagamentos/**").hasAnyRole("CLIENTE", "CHEFE", "ADMIN")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN") // Produção
                 //.requestMatchers("/**").permitAll() // Dev
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
             )
             .oauth2Login(oauth2 -> oauth2
                 .defaultSuccessUrl("/sections/painel-cliente.html", true)
